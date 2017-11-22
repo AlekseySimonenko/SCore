@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Control loading any services on game start

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Facebook.Unity;
 #endif
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Analytic class for Facebook events https://developers.facebook.com/docs/unity/reference/current/FB.LogAppEvent

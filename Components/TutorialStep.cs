@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Step of tutorial with start and complete events and another conditions.

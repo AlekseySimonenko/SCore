@@ -4,7 +4,7 @@ using GameAnalyticsSDK;
 using GameAnalyticsSDK.Wrapper;
 #endif
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Analytic class for Game Analytics (GA) https://go.gameanalytics.com

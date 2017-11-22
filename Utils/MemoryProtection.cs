@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Protected variables by key offset

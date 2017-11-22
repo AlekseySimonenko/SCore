@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Static class controlling work with server saves

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Rotate object by axes

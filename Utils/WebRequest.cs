@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Core
+namespace SCore
 {
 
     //// <summary>

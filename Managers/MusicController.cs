@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Audio;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Music mixer and control

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Destroy or recycle object by timer

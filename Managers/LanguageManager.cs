@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Singletone language and texts manager

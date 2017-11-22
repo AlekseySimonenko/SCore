@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Core
+namespace SCore
 {
     public sealed class ObjectPool : MonoBehaviour
     {

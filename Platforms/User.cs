@@ -1,5 +1,5 @@
 ﻿
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// User VO

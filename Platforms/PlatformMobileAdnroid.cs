@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Platform class for Mobile - offline/online platform parent class

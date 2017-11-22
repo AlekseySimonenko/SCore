@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Static class for recursive finding childs of objects by tag

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Core
+namespace SCore
 {
     [RequireComponent(typeof(Collider))]
     public class TriggerEvent : MonoBehaviour

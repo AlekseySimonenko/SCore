@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-
 using System.Collections.Generic;
 using System;
 using Facebook.Unity;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Platform class for Facebook social network (canvas)

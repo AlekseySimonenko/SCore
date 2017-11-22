@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-namespace Core
+namespace SCore
 {
     //// <summary>
-    /// Static class for hashing string to MD5 string
+    /// Static class for dictionary converter (from unknow to selected type)
     /// </summary>
     public class DictionaryConverter
     {

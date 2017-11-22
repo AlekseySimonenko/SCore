@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
- 
 
-namespace Core
+
+namespace SCore
 {
     //// <summary>
     /// Static class controlling saving and loading of game progress on local storage.

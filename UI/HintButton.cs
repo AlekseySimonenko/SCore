@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Hint text object based on unity UI system

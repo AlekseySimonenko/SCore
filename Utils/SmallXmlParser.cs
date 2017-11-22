@@ -36,9 +36,9 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace Core
+namespace SCore
 {
-	internal class DefaultHandler : SmallXmlParser.IContentHandler
+    internal class DefaultHandler : SmallXmlParser.IContentHandler
 	{
 		public void OnStartParsing (SmallXmlParser parser)
 		{

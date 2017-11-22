@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Core
+namespace SCore
 {
     public class ButtonFullscreen : MonoBehaviour
     {

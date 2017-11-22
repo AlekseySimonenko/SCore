@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Follow rotation to look target by time/speed

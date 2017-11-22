@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace Core
+namespace SCore
 {
     [RequireComponent(typeof(RectTransform))]
     public class HintArrow : MonoBehaviour

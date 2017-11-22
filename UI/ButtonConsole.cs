@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Core
+namespace SCore
 {
     public class ButtonConsole : MonoBehaviour
     {

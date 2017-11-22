@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Static class controlling analytic system choosing. 

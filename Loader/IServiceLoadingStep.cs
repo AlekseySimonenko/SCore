@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core
+namespace SCore
 {
     public class IServiceLoadingStep : MonoBehaviour
     {
 
-        public event Core.Callback.EventHandler OnCompleted;
+        public event Callback.EventHandler OnCompleted;
         public bool autoCompleteEventOnStart = false;
         private bool completed = false;
 

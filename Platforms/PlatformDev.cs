@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-
 using System.Collections.Generic;
 using System;
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Platform class for DEV - offline platform

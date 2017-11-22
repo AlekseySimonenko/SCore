@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Core
+namespace SCore
 {
     //// <summary>
     /// Static class for hashing string to MD5 string

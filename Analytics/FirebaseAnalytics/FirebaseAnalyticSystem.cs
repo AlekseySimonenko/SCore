@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Firebase.Analytics;
 #endif
 
-namespace Core
+namespace SCore
 {
     /// <summary>
     /// Analytic class for Firebase https://firebase.google.com/docs/analytics/
