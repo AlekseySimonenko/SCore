@@ -32,11 +32,11 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * Unknow basic
 
 # Compilation constants
-CORE_GPGS - use google play game services
-CORE_GA - use game analitycs
-CORE_STEAM - use Steam
-CORE_FB - use Facebook SDK
-CORE_FIREBASE - use Firebase SDK
+* CORE_GPGS - use google play game services
+* CORE_GA - use game analitycs
+* CORE_STEAM - use Steam
+* CORE_FB - use Facebook SDK
+* CORE_FIREBASE - use Firebase SDK
 
 #Additional
 * Collection of components for fast development in Components folder
