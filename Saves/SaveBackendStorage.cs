@@ -107,7 +107,7 @@ namespace SCore
                         {
                             if (Convert.ToString(dataRequest["savedata"]) != "")
                             {
-                                saveObject = SaveData.LoadDataFromString(Convert.ToString(dataRequest["savedata"]));
+                                saveObject = DictionaryConverter.ConvertStringToStrObj(Convert.ToString(dataRequest["savedata"]));
                                 if (gameLoadSuccessCallbackFunction != null)
                                     gameLoadSuccessCallbackFunction(saveObject);
                             }
@@ -163,7 +163,7 @@ namespace SCore
             if (!CheckExceptions())
                 return;
 
-            string data = SaveData.SaveDataToString(_saveVO);
+            string data = DictionaryConverter.ConvertStrObjToString(_saveVO);
             string metastring = MiniJSON.Json.Serialize(_meta);
 
             //Create request

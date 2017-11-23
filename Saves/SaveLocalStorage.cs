@@ -23,7 +23,7 @@ namespace SCore
 
         static public void Save(Dictionary<string, object> _saveVO)
         {
-            string saveString = SaveData.SaveDataToString(_saveVO);
+            string saveString = DictionaryConverter.ConvertStrObjToString(_saveVO);
 
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Create(Application.persistentDataPath + fileSavePath);
@@ -42,7 +42,7 @@ namespace SCore
                 try
                 {
                     string _deserealizedObject = bf.Deserialize(file) as string;
-                    _saveVO = SaveData.LoadDataFromString(_deserealizedObject);
+                    _saveVO = DictionaryConverter.ConvertStringToStrObj(_deserealizedObject);
                 }
                 catch
                 {
