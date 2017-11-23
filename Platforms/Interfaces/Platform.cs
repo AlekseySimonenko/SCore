@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SCore
 {
-
     /// <summary>
     /// Base abstract class for platforms. By standart most of the features are disabled.
     /// </summary>

@@ -22,6 +22,7 @@ namespace SCore
                 if (component == null)
                 {
                     instance = new GameObject(typeof(T).ToString()).AddComponent<T>();
+                    Debug.LogWarning("No instance of " + typeof(T) + " add new on scene!");
                 }
                 else
                 {

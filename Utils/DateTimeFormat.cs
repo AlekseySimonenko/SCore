@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SCore
 {
-    public class DateTime
+    public class DateTimeFormat
     {
         static public string SecondsToTime(int _seconds)
         {

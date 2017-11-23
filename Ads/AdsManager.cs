@@ -4,38 +4,49 @@ using UnityEngine;
 
 namespace SCore
 {
-    public class AdsManager : MonoBehaviour
+    //// <summary>
+    /// Static class controlling all ads platforms
+    /// </summary>
+    public class AdsManager : MonoBehaviourSingleton<AdsManager>
     {
-
+        #region Public var
+        public bool isEnabled = true;
         public IAdsPlatform[] AdsPlatforms;
-        public bool autoRun = false;
-        public float autoRunTimer = 10.0F;
+        #endregion
 
-        private int TargetAdsPlatformID;
-        private float timeLimit;
+        #region Public const
+        public enum ADSTYPES { INTERSTITIAL, REWARDED };
+        #endregion
 
-        static public AdsManager instance;
+        #region Private const
+        #endregion
 
-        // Use this for initialization
-        void Start()
+        #region Private var
+        static private int TargetAdsPlatformID;
+        static private ADSTYPES TargetAdsType;
+        static private float timeLimit;
+        static private Callback.EventHandler callbackCompletedMain;
+        static private Callback.EventHandler callbackErrorMain;
+        #endregion
+
+        private void Start()
         {
-            instance = this;
+            foreach (IAdsPlatform adsPlatform in AdsPlatforms)
+            {
+                if(adsPlatform != null)
+                {
+                    adsPlatform.StartEvent += OnStarted;
+                    adsPlatform.CompletedEvent += OnCompleted;
+                    adsPlatform.ErrorEvent += OnError;
+                }
+            }
         }
+
+
 
         // Update is called once per frame
         void Update()
         {
-            //AutoRunner
-            if (autoRun)
-            {
-                if (autoRunTimer > 0)
-                {
-                    autoRunTimer -= Time.deltaTime;
-                    if (autoRunTimer < 0)
-                        ShowAds();
-                }
-            }
-
             //Timelimit
             if (timeLimit > 0)
             {
@@ -43,33 +54,39 @@ namespace SCore
                 if (timeLimit <= 0)
                 {
                     Debug.Log("AdsManager: timeLimit");
-                    callbackCompletedMain();
+                    callbackErrorMain();
                 }
             }
         }
 
-        Callback.EventHandler callbackCompletedMain;
-        Callback.EventHandler callbackErrorMain;
 
-        public void ShowAds(Callback.EventHandler callbackCompleted = null, Callback.EventHandler callbackError = null, float _timeLimit = 0)
+        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Callback.EventHandler callbackCompleted = null, Callback.EventHandler callbackError = null, float _timeLimit = 0)
         {
             Debug.Log("AdsManager: ShowAds");
             TargetAdsPlatformID = -1;
+            TargetAdsType = adstype;
             callbackCompletedMain = callbackCompleted;
             callbackErrorMain = callbackError;
             timeLimit = _timeLimit;
             TryShowAds();
         }
 
-
-        public void TryShowAds()
+        static public void TryShowAds()
         {
             Debug.Log("AdsManager: TryShowAds");
             TargetAdsPlatformID++;
-            if (TargetAdsPlatformID < AdsPlatforms.Length)
+            if (TargetAdsPlatformID < Instance.AdsPlatforms.Length)
             {
-                IAdsPlatform AdsPlatform = AdsPlatforms[TargetAdsPlatformID];
-                AdsPlatform.ShowAds(OnStarted, callbackCompletedMain, TryShowAds);
+                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[TargetAdsPlatformID];
+                switch (TargetAdsType)
+                {
+                    case ADSTYPES.INTERSTITIAL:
+                        AdsPlatform.ShowInterstitial();
+                        break;
+                    case ADSTYPES.REWARDED:
+                        AdsPlatform.ShowRewarded();
+                        break;
+                }
             }
             else
             {
@@ -79,10 +96,23 @@ namespace SCore
             }
         }
 
-        public void OnStarted()
+        static public void OnStarted()
         {
             Debug.Log("AdsManager OnStarted");
-            timeLimit = 0;
+        }
+
+        static public void OnCompleted()
+        {
+            Debug.Log("AdsManager OnCompleted");
+            if (callbackCompletedMain != null)
+                callbackCompletedMain();
+        }
+
+        static public void OnError()
+        {
+            Debug.Log("AdsManager OnError");
+            if (callbackErrorMain != null)
+                callbackErrorMain();
         }
 
 
