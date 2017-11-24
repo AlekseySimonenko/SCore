@@ -8,6 +8,7 @@ namespace SCore
     /// <summary>
     /// Singletone language and texts manager
     /// </summary>
+    [RequireComponent(typeof(IServiceLoadingStep))]
     public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
         #region Public variables

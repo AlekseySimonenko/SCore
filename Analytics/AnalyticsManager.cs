@@ -7,6 +7,7 @@ namespace SCore
     /// Static class controlling analytic system choosing. 
     /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
     /// </summary>
+    [RequireComponent(typeof(IServiceLoadingStep))]
     public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
         #region Public var
