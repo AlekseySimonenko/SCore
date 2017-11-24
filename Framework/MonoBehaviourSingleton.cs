@@ -10,7 +10,7 @@ namespace SCore
         /// <summary>
         /// Instance of this object.
         /// </summary>
-        protected static T instance;
+        private static T instance;
 
         public static T Instance
         {

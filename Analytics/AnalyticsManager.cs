@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace SCore
 {
@@ -6,9 +7,25 @@ namespace SCore
     /// Static class controlling analytic system choosing. 
     /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
     /// </summary>
-    public class AnalyticsManager : MonoBehaviour
+    public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
         #region Public var
+        [Header("Android platform Analytics")]
+        public IAnalyticSystem[] androidSystems;
+
+        [Header("iOS platform Analytics")]
+        public IAnalyticSystem[] iosSystems;
+
+        [Header("WebGL platform Analytics")]
+        public IAnalyticSystem[] webglSystems;
+
+        [Header("Editor platform Analytics")]
+        public IAnalyticSystem[] editorSystems;
+
+        [Header("Default platform Analytics")]
+        public IAnalyticSystem[] defaultSystems;
+
+        public UnityEvent OnInitActions;
         #endregion
 
         #region Public const
@@ -21,24 +38,44 @@ namespace SCore
         private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
         private static int systemInitedCount = 0;
 
-
         // Only one init calling protect variables
         private static bool isInitComplete = false;
-        private static Callback.EventHandler initCallbackFunction;
         #endregion
 
 
+        private void Start()
+        {
+            IAnalyticSystem[] initSystems = new IAnalyticSystem[0];
+
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsEditor:
+                    initSystems = editorSystems;
+                    break;
+                case RuntimePlatform.IPhonePlayer:
+                    initSystems = iosSystems;
+                    break;
+                case RuntimePlatform.Android:
+                    initSystems = androidSystems;
+                    break;
+                case RuntimePlatform.WebGLPlayer:
+                    initSystems = webglSystems;
+                    break;
+                default:
+                    break;
+            }
+
+            Init(initSystems);
+        }
 
         /// <summary>
         /// Only one init can will be called
         /// </summary>
-        public static void Init(Callback.EventHandler _callbackFunction, IAnalyticSystem[] _asystems)
+        public static void Init(IAnalyticSystem[] _asystems)
         {
             if (!isInitComplete)
             {
                 Debug.Log("AnalyticsManager:init");
-                initCallbackFunction = _callbackFunction;
-
                 if(_asystems != null && _asystems.Length > 0)
                 {
                     asystems = _asystems;
@@ -75,8 +112,8 @@ namespace SCore
                 {
                     Debug.Log("AnalyticsManager.AllSystemsInitComplete");
                     isInitComplete = true;
-                    if (initCallbackFunction != null)
-                        initCallbackFunction();
+                    if (Instance.OnInitActions != null)
+                        Instance.OnInitActions.Invoke();
                 }
             }
             else

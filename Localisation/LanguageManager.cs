@@ -1,15 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SCore
 {
     /// <summary>
     /// Singletone language and texts manager
     /// </summary>
-    public class LanguageManager
+    public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
         #region Public variables
+        [Header("Manual Language")]
+        public string languageManual;
+        [Header("After inited")]
+        public UnityEvent OnInitActions;
+
         public static string language;
         #endregion
 
@@ -23,53 +29,70 @@ namespace SCore
         private static TextAsset xmlAsset;
         private static SmallXmlParser xmlParser = new SmallXmlParser();
         private static Handler xmlDoc = new Handler();
+
+        // Only one init calling protect variables
+        private static bool isInitComplete = false;
         #endregion
 
-
-        public static void Init(Callback.EventHandler callbackFunction, string _language)
+        private void Start()
         {
-            Debug.Log("LanguageManager:init " + _language);
+            Init();
+        }
 
-            //Manual laguage choise
-            language = _language;
-
-            //Auto system language choise
-            if (language == "")
+        public static void Init()
+        {
+            if (!isInitComplete)
             {
-                language = "en";
-                if (Application.systemLanguage == SystemLanguage.Russian || Application.systemLanguage == SystemLanguage.Ukrainian || Application.systemLanguage == SystemLanguage.Belarusian || Application.systemLanguage == SystemLanguage.Bulgarian)
-                    language = "ru";
-                if (Application.systemLanguage == SystemLanguage.German)
-                    language = "de";
-                if (Application.systemLanguage == SystemLanguage.French)
-                    language = "fr";
-                if (Application.systemLanguage == SystemLanguage.Spanish)
-                    language = "es";
-                if (Application.systemLanguage == SystemLanguage.Portuguese)
-                    language = "pt";
-                if (Application.systemLanguage == SystemLanguage.Turkish)
-                    language = "tk";
-                if (Application.systemLanguage == SystemLanguage.Japanese)
-                    language = "jp";
-                if (Application.systemLanguage == SystemLanguage.Korean)
-                    language = "ko";
-                if (Application.systemLanguage == SystemLanguage.ChineseSimplified)
-                    language = "sc";
-                if (Application.systemLanguage == SystemLanguage.ChineseTraditional)
-                    language = "tc";
-            }
+                Debug.Log("LanguageManager:init");
 
-            if (!LoadFile(language))
-            {
-                Debug.LogWarning("Language xml not found " + language);
-                language = "en";
+                language = Instance.languageManual;
+
+                //Auto system language choise
+                if (language == "")
+                {
+                    language = "en";
+                    if (Application.systemLanguage == SystemLanguage.Russian || Application.systemLanguage == SystemLanguage.Ukrainian || Application.systemLanguage == SystemLanguage.Belarusian || Application.systemLanguage == SystemLanguage.Bulgarian)
+                        language = "ru";
+                    if (Application.systemLanguage == SystemLanguage.German)
+                        language = "de";
+                    if (Application.systemLanguage == SystemLanguage.French)
+                        language = "fr";
+                    if (Application.systemLanguage == SystemLanguage.Spanish)
+                        language = "es";
+                    if (Application.systemLanguage == SystemLanguage.Portuguese)
+                        language = "pt";
+                    if (Application.systemLanguage == SystemLanguage.Turkish)
+                        language = "tk";
+                    if (Application.systemLanguage == SystemLanguage.Japanese)
+                        language = "jp";
+                    if (Application.systemLanguage == SystemLanguage.Korean)
+                        language = "ko";
+                    if (Application.systemLanguage == SystemLanguage.ChineseSimplified)
+                        language = "sc";
+                    if (Application.systemLanguage == SystemLanguage.ChineseTraditional)
+                        language = "tc";
+                }
+                Debug.Log("LanguageManager:language " + language);
+
                 if (!LoadFile(language))
                 {
-                    Debug.LogError("Default Language xml not found " + language);
+                    Debug.LogWarning("Language xml not found " + language);
+                    language = "en";
+                    if (!LoadFile(language))
+                    {
+                        Debug.LogError("Default Language xml not found " + language);
+                    }
                 }
-            }
 
-            callbackFunction();
+                //Init completed
+                isInitComplete = true;
+                if (Instance.OnInitActions != null)
+                    Instance.OnInitActions.Invoke();
+            }
+            else
+            {
+                Debug.LogError("LanguageManager:Repeating static class Init!");
+            }
         }
 
 

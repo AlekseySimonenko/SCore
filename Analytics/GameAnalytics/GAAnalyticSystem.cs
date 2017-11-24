@@ -139,22 +139,7 @@ namespace SCore
                 }
 
                 GA_Wrapper.Initialize(targetGameKey, targetSecretKey);
-
-                //User info
-                User _userInfo = PlatformManager.GetUserInfo();
-                if (_userInfo != null)
-                {
-                    GAGender _gender = _userInfo.sex == "" || _userInfo.sex == "0" ? GAGender.Undefined : _userInfo.sex == "2" ? GAGender.male : GAGender.female;
-                    GameAnalytics.SetGender(_gender);
-
-                    int _birthYear = _userInfo.byear;
-                    GameAnalytics.SetBirthYear(_birthYear);
-
-                    string _referral = PlatformManager.GetUserReferral() == "" ? null : PlatformManager.GetUserReferral();
-                }
-
-                GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
-
+                //GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
             }
 
             InitComplete();
