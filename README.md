@@ -2,13 +2,12 @@
 SCore it is a simple solution included utilites and framework for multiplatform games on Unity.
 
 # Main systems
-* Game initializing control (sync and async) - Loader.cs & ServiceLoader.cs
+* Game initializing control (sync and async) - ServiceLoader.cs
 * Localisation from Gdocs - LanguageManager.cs
-* Platform manager
-* Save manager
-* Web request manager
 * Analytics manager
 * Ads manager
+* Save manager
+* Web request manager
 * Music playlist mixer
 
 # Framework components
@@ -32,11 +31,9 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * Unknow basic
 
 # Compilation constants
-* CORE_GPGS - use google play game services
-* CORE_GA - use game analitycs
-* CORE_STEAM - use Steam
 * CORE_FB - use Facebook SDK
 * CORE_FIREBASE - use Firebase SDK
+* CORE_GA - use game analitycs
 
 #Additional
 * Collection of components for fast development in Components folder

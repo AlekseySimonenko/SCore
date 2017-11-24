@@ -12,11 +12,11 @@ namespace SCore
     /// </summary>
     public class ServiceLoader : MonoBehaviour
     {
-        [Header("First order")]
+        [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
 
-        [Header("Second order")]
+        [Header("Asynchronous loading")]
         [Tooltip("Steps without complete event")]
         public GameObject[] asyncLoadingSteps;
 
