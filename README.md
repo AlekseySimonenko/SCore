@@ -3,16 +3,17 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 
 # Main systems
 * Game initializing control (sync and async) - ServiceLoader.cs
-* Localisation from Gdocs - LanguageManager.cs
-* Analytics manager
-* Ads manager
-* Save manager
-* Web request manager
-* Music playlist mixer
+* Social platform interfaces
+* Localisation
+* Analytics
+* Ads
+* Saving
+* Web requests
+* Music playlists
 
 # Framework components
 * Singletone
-* Callback delegate
+* Callback delegates
 
 # Utils
 * GameObject pool - ObjectPool.cs
@@ -20,8 +21,8 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * Hash string to MD5 string - HashString.cs
 * XMLparser included
 * MiniJSON included
-* Datetime human read view - DateTime.cs
-* Soft color lerp - ColorUtility.cs
+* Datetime human read - DateTime.cs
+* Color lerp - ColorUtility.cs
 * FPSCounter.cs
 
 # Platforms support
