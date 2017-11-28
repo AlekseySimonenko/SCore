@@ -80,6 +80,10 @@ namespace SCore
         static public void OnInitComleted()
         {
             Debug.Log("SocialManager.OnInitComleted");
+            //Remove listeners
+            platform.InitCompletedEvent -= OnInitComleted;
+            platform.InitErrorEvent -= OnInitErrorEvent;
+            //Call completed event
             if (InitCompletedEvent != null)
                 InitCompletedEvent();
         }
@@ -87,6 +91,10 @@ namespace SCore
         static public void OnInitErrorEvent()
         {
             Debug.Log("SocialManager.OnInitErrorEvent");
+            //Remove listeners
+            platform.InitCompletedEvent -= OnInitComleted;
+            platform.InitErrorEvent -= OnInitErrorEvent;
+            //Call error event
             if (InitErrorEvent != null)
                 InitErrorEvent();
         }
