@@ -19,9 +19,11 @@ namespace SCore
         static public event Callback.EventHandler InitCompletedEvent;
         static public event Callback.EventHandler InitErrorEvent;
         static public event Callback.EventHandler LoginEvent;
+        static public event Callback.EventHandler LoginErrorEvent;
         static public event Callback.EventHandler LogoutEvent;
 
-        static public bool loginCompleted { get { return platform.loginCompleted; } protected set { } }
+        static public bool LoginCompleted { get; protected set; }
+        static public bool LoginProcessed { get; protected set; }
         #endregion
 
         #region Public const
@@ -58,6 +60,7 @@ namespace SCore
             platform.InitCompletedEvent += OnInitComleted;
             platform.InitErrorEvent += OnInitErrorEvent;
             platform.LoginEvent += OnLogin;
+            platform.LoginErrorEvent += OnLoginError;
             platform.LogoutEvent += OnLogout;
 
         platform.Init();
@@ -86,12 +89,22 @@ namespace SCore
 
         static public void OnLogin()
         {
+            LoginCompleted = true;
+            LoginProcessed = false;
             if (LoginEvent != null)
                 LoginEvent();
         }
 
+        static public void OnLoginError()
+        {
+            LoginProcessed = false;
+            if (LoginErrorEvent != null)
+                LoginErrorEvent();
+        }
+
         static public void OnLogout()
         {
+            LoginCompleted = false;
             if (LogoutEvent != null)
                 LogoutEvent();
         }
@@ -104,7 +117,15 @@ namespace SCore
 
         static public void Login(Dictionary<string, object> parameters = null)
         {
-            platform.Login(parameters);
+            if (!LoginCompleted)
+            {
+                LoginProcessed = true;
+                platform.Login(parameters);
+            }
+            else
+            {
+                Debug.Log("SocialManager: Already logined!");
+            }
         }
 
         static public void Logout()

@@ -15,9 +15,8 @@ namespace SCore
         public abstract event Callback.EventHandler InitCompletedEvent;
         public abstract event Callback.EventHandler InitErrorEvent;
         public abstract event Callback.EventHandler LoginEvent;
+        public abstract event Callback.EventHandler LoginErrorEvent;
         public abstract event Callback.EventHandler LogoutEvent;
-
-        public bool loginCompleted { get; protected set; }
         #endregion
 
         /// <summary>
