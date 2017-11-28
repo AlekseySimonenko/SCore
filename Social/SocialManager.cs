@@ -15,7 +15,7 @@ namespace SCore
         #region Public var
         public ISocialPlatform platformAutoInit;
         public UnityEvent OnInitActions;
-        
+
         static public event Callback.EventHandler InitCompletedEvent;
         static public event Callback.EventHandler InitErrorEvent;
         static public event Callback.EventHandler LoginEvent;
@@ -40,12 +40,14 @@ namespace SCore
         #region Init
         private void Start()
         {
+            Debug.Log("SocialManager.Start");
             if (platformAutoInit != null)
                 Init(platformAutoInit, OnAutoInitCompleted, null);
         }
 
         public void OnAutoInitCompleted()
         {
+            Debug.Log("SocialManager.OnAutoInitCompleted");
             if (OnInitActions != null)
                 OnInitActions.Invoke();
         }
@@ -63,7 +65,7 @@ namespace SCore
             platform.LoginErrorEvent += OnLoginError;
             platform.LogoutEvent += OnLogout;
 
-        platform.Init();
+            platform.Init();
         }
 
         void Update()
@@ -77,18 +79,21 @@ namespace SCore
 
         static public void OnInitComleted()
         {
+            Debug.Log("SocialManager.OnInitComleted");
             if (InitCompletedEvent != null)
                 InitCompletedEvent();
         }
 
         static public void OnInitErrorEvent()
         {
+            Debug.Log("SocialManager.OnInitErrorEvent");
             if (InitErrorEvent != null)
                 InitErrorEvent();
         }
 
         static public void OnLogin()
         {
+            Debug.Log("SocialManager.OnLogin");
             LoginCompleted = true;
             LoginProcessed = false;
             if (LoginEvent != null)
@@ -97,6 +102,7 @@ namespace SCore
 
         static public void OnLoginError()
         {
+            Debug.Log("SocialManager.OnLoginError");
             LoginProcessed = false;
             if (LoginErrorEvent != null)
                 LoginErrorEvent();
@@ -104,6 +110,7 @@ namespace SCore
 
         static public void OnLogout()
         {
+            Debug.Log("SocialManager.OnLogout");
             LoginCompleted = false;
             if (LogoutEvent != null)
                 LogoutEvent();
@@ -112,11 +119,13 @@ namespace SCore
 
         static public string GetPlatformID()
         {
+            Debug.Log("SocialManager.GetPlatformID");
             return platform.GetPlatformID();
         }
 
         static public void Login(Dictionary<string, object> parameters = null)
         {
+            Debug.Log("SocialManager.Login");
             if (!LoginCompleted)
             {
                 LoginProcessed = true;
@@ -130,26 +139,31 @@ namespace SCore
 
         static public void Logout()
         {
+            Debug.Log("SocialManager.Logout");
             platform.Logout();
         }
 
         static public string GetUserID()
         {
+            Debug.Log("SocialManager.GetUserID");
             return platform.GetUserID();
         }
 
         static public List<SocialUser> GetInAppFriends()
         {
+            Debug.Log("SocialManager.GetInAppFriends");
             return platform.GetInAppFriends();
         }
 
         static public void InviteFriends(string inviteText = "")
         {
+            Debug.Log("SocialManager.InviteFriends");
             platform.InviteFriends(inviteText);
         }
 
         static public void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback)
         {
+            Debug.Log("SocialManager.Share");
             platform.Share(title, message, url, imageUrl, completedCallback, errorCallback);
         }
 
