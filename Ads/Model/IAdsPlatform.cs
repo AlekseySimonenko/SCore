@@ -15,10 +15,22 @@ namespace SCore
         public abstract event Callback.EventHandler CompletedEvent;
         public abstract event Callback.EventHandler ErrorEvent;
 
+
+        /// <summary>
+        /// Is Interstitial ad was loading and ready
+        /// </summary>
+        public abstract bool IsInterstitialReady();
+
         /// <summary>
         /// Show Interstitial ad that can be skiped
         /// </summary>
         public abstract void ShowInterstitial();
+
+
+        /// <summary>
+        /// Is Interstitial ad was loading and ready
+        /// </summary>
+        public abstract bool IsRewardedReady();
 
         /// <summary>
         /// Show Rewarded ads that can't be skiped

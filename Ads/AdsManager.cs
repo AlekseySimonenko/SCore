@@ -9,25 +9,22 @@ namespace SCore
     /// </summary>
     public class AdsManager : MonoBehaviourSingleton<AdsManager>
     {
-        #region Public var
-        public bool isEnabled = true;
+        /// PUBLIC VARIABLES
+        [SerializeField]
+        private bool isEnabled = true;
         public IAdsPlatform[] AdsPlatforms;
-        #endregion
 
-        #region Public const
+        /// PUBLIC CONSTANTS
         public enum ADSTYPES { INTERSTITIAL, REWARDED };
-        #endregion
 
-        #region Private const
-        #endregion
+        /// PRIVATE CONSTANTS
 
-        #region Private var
+        /// PRIVATE VARIABLES
         static private int TargetAdsPlatformID;
         static private ADSTYPES TargetAdsType;
         static private float timeLimit;
         static private Callback.EventHandler callbackCompletedMain;
         static private Callback.EventHandler callbackErrorMain;
-        #endregion
 
         private void Start()
         {
@@ -57,6 +54,11 @@ namespace SCore
                     callbackErrorMain();
                 }
             }
+        }
+
+        static public bool IsEnabled()
+        {
+            return Instance.isEnabled;
         }
 
 
@@ -94,6 +96,29 @@ namespace SCore
                 if (callbackErrorMain != null)
                     callbackErrorMain();
             }
+        }
+
+        static public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
+        {
+            Debug.Log("AdsManager: IsAnyAdsReady");
+
+            for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
+            {
+                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ i ];
+                switch (TargetAdsType)
+                {
+                    case ADSTYPES.INTERSTITIAL:
+                        if (AdsPlatform.IsInterstitialReady())
+                            return true;
+                        break;
+                    case ADSTYPES.REWARDED:
+                        if (AdsPlatform.IsRewardedReady())
+                            return true;
+                        break;
+                }
+            }
+
+            return false;
         }
 
         static public void OnStarted()
