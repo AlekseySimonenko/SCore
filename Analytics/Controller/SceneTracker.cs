@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace SCore
 {
-    public class GASceneTracker : MonoBehaviour
+    public class SceneTracker : MonoBehaviour
     {
 
         // Use this for initialization
@@ -22,9 +22,7 @@ namespace SCore
 
         public void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-#if CORE_GA
-            GameAnalyticsSDK.GameAnalytics.NewDesignEvent("Game:Scene:" + SceneManager.GetActiveScene().name);
-#endif
+            AnalyticsManager.DesignEvent("Scene_" + SceneManager.GetActiveScene().name, 0);
         }
     }
 }
