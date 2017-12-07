@@ -12,6 +12,8 @@ namespace SCore
     /// </summary>
     public class ServiceLoader : MonoBehaviour
     {
+
+        /// PUBLIC VARIABLES
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
@@ -23,7 +25,16 @@ namespace SCore
         [Header("Final")]
         public UnityEvent finalActions;
 
+        /// PUBLIC CONSTANTS
+
+        /// PRIVATE CONSTANTS
+
+        /// PRIVATE VARIABLES
         private int syncLoadingStep;
+        private bool syncLoadingStepReady;
+
+        private int asyncLoadingStep;
+        private bool asyncLoadingStepReady;
 
         // Use this for initialization
         void Start()
@@ -34,9 +45,21 @@ namespace SCore
         }
 
         // Update is called once per frame
+        //We used that to prevent from frame locked on low devices with only one work thread
         void Update()
         {
-
+            //Sync steps
+            if (syncLoadingStepReady)
+            {
+                syncLoadingStepReady = false;
+                NextSyncLoadingStep();
+            }
+            //ASync steps
+            if (asyncLoadingStepReady)
+            {
+                asyncLoadingStepReady = false;
+                NextASyncLoadingStep();
+            }
         }
 
         /// <summary>
@@ -51,31 +74,41 @@ namespace SCore
             {
                 //Run next step
                 IServiceLoadingStep serviceStep = Instantiate(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
-                serviceStep.OnCompleted += NextSyncLoadingStep;
+                serviceStep.OnCompleted += OnSyncLoadingStepCompleted;
             }
             else
             {
-                RunASyncLoadingSteps();
+                asyncLoadingStep = -1;
+                NextASyncLoadingStep();
             }
+        }
+
+        public void OnSyncLoadingStepCompleted()
+        {
+            syncLoadingStepReady = true;
         }
 
         /// <summary>
         /// Final load all not important services whose can be loaded async.
         /// Run final steps without waiting end of loading!
         /// </summary>
-        void RunASyncLoadingSteps()
+        void NextASyncLoadingStep()
         {
-            Debug.Log("ServiceLoader: RunASyncLoadingSteps");
+            asyncLoadingStep++;
+            Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep);
 
-            foreach (GameObject nextAsyncStep in asyncLoadingSteps)
+            if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
-                Instantiate(nextAsyncStep, gameObject.transform);
+                //Run next step
+                Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
+                asyncLoadingStepReady = true;
             }
-
-            Debug.Log("ServiceLoader: finalActions");
-            finalActions.Invoke();
+            else
+            {
+                Debug.Log("ServiceLoader: finalActions");
+                finalActions.Invoke();
+            }
         }
-
 
     }
 

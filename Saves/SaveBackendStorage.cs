@@ -9,16 +9,13 @@ namespace SCore
     /// </summary>
     static public class SaveBackendStorage
     {
-        #region Public var
-        #endregion
+        /// PUBLIC VARIABLES
 
-        #region Public const
-        #endregion
+        /// PUBLIC CONSTANTS
 
-        #region Private const
-        #endregion
+        /// PRIVATE CONSTANTS
 
-        #region Private var
+        /// PRIVATE VARIABLES
         static private string app_id;
         static private string user_id;
         static private string server_key;
@@ -26,7 +23,6 @@ namespace SCore
         static private string server_request_url;
 
         static private bool isInited = false;
-        #endregion
 
         private static Callback.EventHandlerObject gameLoadSuccessCallbackFunction;
         private static Callback.EventHandlerObject gameLoadFailCallbackFunction;

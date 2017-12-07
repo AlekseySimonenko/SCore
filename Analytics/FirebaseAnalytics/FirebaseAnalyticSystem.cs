@@ -13,21 +13,9 @@ namespace SCore
     public class FirebaseAnalyticSystem : IAnalyticSystem
     {
 
-        #region Public variables
-        #endregion
-
-        #region Public constants
-        #endregion
-
-        #region Private constants
-
-        #endregion
-
-        #region Private variables
         private static Callback.EventHandler initCallbackFunction;
         private string targetGameKey;
         private string targetSecretKey;
-        #endregion
 
 #if CORE_FIREBASE
 
