@@ -163,16 +163,16 @@ namespace SCore
             return platform.GetInAppFriends();
         }
 
-        static public void InviteFriends(string inviteText = "")
+        static public void InviteFriends(string inviteText = "", string area = "")
         {
             Debug.Log("SocialManager.InviteFriends");
-            platform.InviteFriends(inviteText);
+            platform.InviteFriends(inviteText, area);
         }
 
-        static public void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback)
+        static public void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback, string shareID, string area = "")
         {
             Debug.Log("SocialManager.Share");
-            platform.Share(title, message, url, imageUrl, completedCallback, errorCallback);
+            platform.Share(title, message, url, imageUrl, completedCallback, errorCallback, shareID, area);
         }
 
         #endregion

@@ -123,6 +123,19 @@ namespace SCore
             }
         }
 
+
+        //// <summary>
+        /// Track when mission/level/quest started
+        /// </summary>
+        static public void SocialSignUp()
+        {
+            Debug.Log("AnalyticsManager.SocialSignUp");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                asystem.SocialSignUp();
+            }
+        }
+
         //// <summary>
         /// Track when mission/level/quest started
         /// </summary>
@@ -170,6 +183,32 @@ namespace SCore
                 asystem.CompleteLevel(_level);
             }
         }
+
+
+        //// <summary>
+        /// Track when game tutorial started
+        /// </summary>
+        static public void TutorialStart()
+        {
+            Debug.Log("AnalyticsManager.TutorialStart");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                asystem.TutorialStart();
+            }
+        }
+
+        //// <summary>
+        /// Track when game tutorial ended (only one time!)
+        /// </summary>
+        static public void TutorialCompleted()
+        {
+            Debug.Log("AnalyticsManager.TutorialStart");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                asystem.TutorialCompleted();
+            }
+        }
+
 
         //// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
@@ -246,24 +285,24 @@ namespace SCore
         //// <summary>
         /// Track info about share try
         /// </summary>
-        static public void ShareTry(string _area)
+        static public void ShareTry(string _id, string _area)
         {
             Debug.Log("AnalyticsManager.ShareTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ShareTry(_area);
+                asystem.ShareTry(_id, _area);
             }
         }
 
         //// <summary>
         /// Track info about share success
         /// </summary>
-        static public void ShareSuccess(string _area)
+        static public void ShareSuccess(string _id, string _area)
         {
             Debug.Log("AnalyticsManager.ShareSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ShareSuccess(_area);
+                asystem.ShareSuccess(_id, _area);
             }
         }
 

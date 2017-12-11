@@ -21,124 +21,99 @@ namespace SCore
                 _callbackFunction();
         }
 
+
         //// <summary>
-        /// Track when mission/level/quest started
+        /// Track first login in social network
         /// </summary>
-        public virtual void OpenLevel(int _level)
-        {
-            //No to do by default
-        }
+        public abstract void SocialSignUp();
 
         //// <summary>
         /// Track when mission/level/quest started
         /// </summary>
-        public virtual void StartLevel(int _level)
-        {
-            //No to do by default
-        }
+        public abstract void OpenLevel(int _level);
+
+        //// <summary>
+        /// Track when mission/level/quest started
+        /// </summary>
+        public abstract void StartLevel(int _level);
 
         //// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
-        public virtual void FailLevel(int _level)
-        {
-            //No to do by default
-        }
+        public abstract void FailLevel(int _level);
 
         //// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
-        public virtual void CompleteLevel(int _level)
-        {
-            //No to do by default
-        }
+        public abstract void CompleteLevel(int _level);
+
+        //// <summary>
+        /// Track when game tutorial started
+        /// </summary>
+        public abstract void TutorialStart();
+
+        //// <summary>
+        /// Track when game tutorial ended (only one time!)
+        /// </summary>
+        public abstract void TutorialCompleted();
 
         //// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
-        public virtual void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area);
 
         //// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
-        public virtual void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area);
 
         //// <summary>
         /// Track business real payment with currency and value
         /// </summary>
-        public virtual void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area);
 
         //// <summary>
         /// Track resource event
         /// </summary>
-        public virtual void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area);
 
         //// <summary>
         /// Track resource event
         /// </summary>
-        public virtual void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area);
 
         //// <summary>
         /// Track info about invite try
         /// </summary>
-        public virtual void InviteTry(string _area)
-        {
-            //No to do by default
-        }
+        public abstract void InviteTry(string _area);
+
 
         //// <summary>
         /// Track info about share try
         /// </summary>
-        public virtual void ShareTry(string _area)
-        {
-            //No to do by default
-        }
+        public abstract void ShareTry(string _id, string _area);
 
         //// <summary>
         /// Track info about share success
         /// </summary>
-        public virtual void ShareSuccess(string _area)
-        {
-            //No to do by default
-        }
+        public abstract void ShareSuccess(string _id, string _area);
 
         //// <summary>
         /// Track info about request try
         /// </summary>
-        public virtual void RequestTry(string _type, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void RequestTry(string _type, string _area);
+
 
         //// <summary>
         /// Track info about request success
         /// </summary>
-        public virtual void RequestSuccess(string _type, string _area)
-        {
-            //No to do by default
-        }
+        public abstract void RequestSuccess(string _type, string _area);
+
 
         //// <summary>
         /// Track optional game design event
         /// </summary>
-        public virtual void DesignEvent(string _id, int _amount)
-        {
-            //No to do by default
-        }
+        public abstract void DesignEvent(string _id, int _amount);
+
     }
 }

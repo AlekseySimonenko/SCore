@@ -53,12 +53,12 @@ namespace SCore
         /// <summary>
         /// Invite friends by social channel
         /// </summary>
-        public abstract void InviteFriends(string inviteText = "");
+        public abstract void InviteFriends(string inviteText = "", string area = "");
 
         /// <summary>
         /// Share post to social feed channel
         /// </summary>
-        public abstract void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback);
+        public abstract void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback, string shareID, string area = "");
     }
 
 }

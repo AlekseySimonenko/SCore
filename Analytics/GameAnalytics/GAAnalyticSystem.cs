@@ -155,40 +155,47 @@ namespace SCore
                 initCallbackFunction();
         }
 
-        //// <summary>
-        /// Track when mission/level/quest open and view
-        /// </summary>
+
+        public override void SocialSignUp()
+        {
+            Debug.Log("GameAnalytics.SocialSignUp");
+            GameAnalytics.NewDesignEvent("Social:SignUp");
+        }
+
         override public void OpenLevel(int _level)
         {
             Debug.Log("GameAnalytics.OpenLevel " + _level);
             GameAnalytics.NewDesignEvent("Level:Open", _level);
         }
 
-        //// <summary>
-        /// Track when mission/level/quest started
-        /// </summary>
         override public void StartLevel(int _level)
         {
             Debug.Log("GameAnalytics.StartLevel " + _level);
             GameAnalytics.NewDesignEvent("Level:Start", _level);
         }
 
-        //// <summary>
-        /// Track when mission/level/quest failed
-        /// </summary>
         override public void FailLevel(int _level)
         {
             Debug.Log("GameAnalytics.FailLevel " + _level);
             GameAnalytics.NewDesignEvent("Level:Fail", _level);
         }
 
-        //// <summary>
-        /// Track when mission/level/quest completed
-        /// </summary>
         override public void CompleteLevel(int _level)
         {
             Debug.Log("GameAnalytics.CompleteLevel " + _level);
             GameAnalytics.NewDesignEvent("Level:Complete", _level);
+        }
+
+        public override void TutorialStart()
+        {
+            Debug.Log("GameAnalytics.TutorialStart");
+            GameAnalytics.NewDesignEvent("Tutorial:Start");
+        }
+
+        public override void TutorialCompleted()
+        {
+            Debug.Log("GameAnalytics.TutorialCompleted");
+            GameAnalytics.NewDesignEvent("Tutorial:Completed");
         }
 
         //// <summary>
@@ -252,19 +259,19 @@ namespace SCore
         //// <summary>
         /// Track open share window
         /// </summary>
-        override public void ShareTry(string _area)
+        override public void ShareTry(string _id, string _area)
         {
             Debug.Log("GameAnalytics.ShareTry ");
-            GameAnalytics.NewDesignEvent("Share:OpenWindow" + ":" + _area);
+            GameAnalytics.NewDesignEvent("ShareOpenWindow" + ":" + _id + ":" + _area);
         }
 
         //// <summary>
         /// Track successfull share
         /// </summary>
-        override public void ShareSuccess(string _area)
+        override public void ShareSuccess(string _id, string _area)
         {
             Debug.Log("GameAnalytics.ShareSuccess ");
-            GameAnalytics.NewDesignEvent("Share:Success" + ":" + _area);
+            GameAnalytics.NewDesignEvent("ShareSuccess" + ":" + _id + ":" + _area);
         }
 
         //// <summary>
@@ -293,6 +300,8 @@ namespace SCore
             Debug.Log("GameAnalytics.NewDesignEvent " + _id + " " + _amount);
             GameAnalytics.NewDesignEvent(_id, _amount);
         }
+
+        
 
 
 #endif

@@ -40,23 +40,23 @@ namespace SCore
             initCallbackFunction = _callbackFunction;
 
             //Init FB
- 
+
             //User info
-        /*
-            User _userInfo = PlatformManager.GetUserInfo();
-            if (_userInfo != null)
-            {
-                GAGender _gender = _userInfo.sex == "" || _userInfo.sex == "0" ? GAGender.Undefined : _userInfo.sex == "2" ? GAGender.male : GAGender.female;
-                GameAnalytics.SetGender(_gender);
+            /*
+                User _userInfo = PlatformManager.GetUserInfo();
+                if (_userInfo != null)
+                {
+                    GAGender _gender = _userInfo.sex == "" || _userInfo.sex == "0" ? GAGender.Undefined : _userInfo.sex == "2" ? GAGender.male : GAGender.female;
+                    GameAnalytics.SetGender(_gender);
 
-                int _birthYear = _userInfo.byear;
-                GameAnalytics.SetBirthYear(_birthYear);
+                    int _birthYear = _userInfo.byear;
+                    GameAnalytics.SetBirthYear(_birthYear);
 
-                string _referral = PlatformManager.GetUserReferral() == "" ? null : PlatformManager.GetUserReferral();
-            }
+                    string _referral = PlatformManager.GetUserReferral() == "" ? null : PlatformManager.GetUserReferral();
+                }
 
-            GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
-        */
+                GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
+            */
             InitComplete();
         }
 
@@ -110,13 +110,26 @@ namespace SCore
             FB.LogAppEvent(_event, _level);
         }
 
+        public override void TutorialStart()
+        {
+            Debug.Log("FBAnalytics.TutorialStart");
+            string _event = PrepareEventValue("fb_mobile_tutorial_started");
+            FB.LogAppEvent(_event);
+        }
+
+        public override void TutorialCompleted()
+        {
+            Debug.Log("FBAnalytics.TutorialCompleted");
+            FB.LogAppEvent(AppEventName.CompletedTutorial);
+        }
+
         //// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
         override public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("FBAnalytics.PaymentInfoTry " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType);
-            FB.LogAppEvent(AppEventName.InitiatedCheckout, _amount / 100.0F, new Dictionary<string, object>() {{ AppEventParameterName.Currency, _currency }} );
+            FB.LogAppEvent(AppEventName.InitiatedCheckout, _amount / 100.0F, new Dictionary<string, object>() { { AppEventParameterName.Currency, _currency } });
         }
 
 
@@ -134,7 +147,7 @@ namespace SCore
         /// </summary>
         override public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            FB.LogPurchase(_amount/100.0F, _currency);
+            FB.LogPurchase(_amount / 100.0F, _currency);
             Debug.Log("FBAnalytics.PaymentReal " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType);
         }
 
@@ -171,7 +184,7 @@ namespace SCore
         //// <summary>
         /// Track open share window
         /// </summary>
-        override public void ShareTry(string _area)
+        override public void ShareTry(string _id, string _area)
         {
             //Facebook platform already has this info
         }
@@ -179,7 +192,7 @@ namespace SCore
         //// <summary>
         /// Track successfull share
         /// </summary>
-        override public void ShareSuccess(string _area)
+        override public void ShareSuccess(string _id, string _area)
         {
             //Facebook platform already has this info
         }
@@ -207,7 +220,7 @@ namespace SCore
         {
             string _event = PrepareEventValue(_id);
             FB.LogAppEvent(_event, _amount);
-            Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount );
+            Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount);
         }
 
         private string PrepareEventValue(string _event)
@@ -216,6 +229,11 @@ namespace SCore
             _event.Replace(' ', '_');
             _event.Replace('.', '_');
             return _event;
+        }
+
+        public override void SocialSignUp()
+        {
+            //Facebook platform already has this info
         }
 
 #endif
