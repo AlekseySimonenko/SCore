@@ -56,6 +56,96 @@ namespace SCore
         private static Callback.EventHandler initCallbackFunction;
         private string targetGameKey;
         private string targetSecretKey;
+
+        public override void SocialSignUp()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OpenLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void StartLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void FailLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void CompleteLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void TutorialStart()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void TutorialCompleted()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void InviteTry(string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShareTry(string _id, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShareSuccess(string _id, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RequestTry(string _type, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RequestSuccess(string _type, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void DesignEvent(string _id, int _amount)
+        {
+            throw new System.NotImplementedException();
+        }
         #endregion
 
 #if CORE_GA
