@@ -14,18 +14,22 @@ namespace SCore
         // Use this for initialization
         void Start()
         {
-            if (autoCompleteEventOnStart)
-                CompleteStep();
+            Debug.Log("IServiceLoadingStep: Start");
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            if (autoCompleteEventOnStart && !completed)
+            {
+                Debug.Log("IServiceLoadingStep: autoCompleteEventOnStart");
+                CompleteStep();
+            }
         }
 
         public void CompleteStep()
         {
+            Debug.Log("IServiceLoadingStep: CompleteStep");
             completed = true;
             if (OnCompleted != null)
             {

@@ -39,9 +39,9 @@ namespace SCore
         // Use this for initialization
         void Start()
         {
+            Debug.Log("ServiceLoader: Start");
             syncLoadingStep = -1;
             NextSyncLoadingStep();
-            Debug.Log("ServiceLoader: Start");
         }
 
         // Update is called once per frame
