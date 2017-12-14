@@ -84,6 +84,24 @@ namespace SCore
             Debug.Log("FirebaseAnalyticSystem.CompleteLevel " + _level);
         }
 
+        public override void NewScore(int _level, int _score)
+        {
+            Debug.Log("FirebaseAnalyticSystem.PostScore " + _level + " " + _score);
+            FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventPostScore,
+                new Parameter[]{
+                    new Parameter(FirebaseAnalytics.ParameterLevel, _level),
+                    new Parameter(FirebaseAnalytics.ParameterValue, _score)
+                }
+            );
+        }
+
+        public override void AchievenemntUnlocked(string _achievementID)
+        {
+            Debug.Log("FirebaseAnalyticSystem.AchievenemntUnlocked " + _achievementID);
+            FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventUnlockAchievement, FirebaseAnalytics.ParameterAchievementId, _achievementID);
+        }
+
+
         public override void TutorialStart()
         {
             FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventTutorialBegin);
@@ -191,10 +209,107 @@ namespace SCore
             return _event;
         }
 
-        
 
+#else
+        public override void SocialSignUp()
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public override void OpenLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public override void StartLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void FailLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void CompleteLevel(int _level)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void NewScore(int _level, int _score)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void AchievenemntUnlocked(string _achievementID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void TutorialStart()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void TutorialCompleted()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void InviteTry(string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShareTry(string _id, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShareSuccess(string _id, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RequestTry(string _type, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RequestSuccess(string _type, string _area)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void DesignEvent(string _id, int _amount)
+        {
+            throw new System.NotImplementedException();
+        }
 #endif
     }
 

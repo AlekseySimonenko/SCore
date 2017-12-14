@@ -10,12 +10,6 @@ namespace SCore
     public class HashString
     {
 
-        #region Public var
-        #endregion
-
-        #region Private const
-        #endregion
-
         static public string Hash(string _string)
         {
             MD5CryptoServiceProvider cryptography = new MD5CryptoServiceProvider();

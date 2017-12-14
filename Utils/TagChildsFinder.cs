@@ -9,13 +9,7 @@ namespace SCore
     /// </summary>
     public class TagChildsFinder
     {
-
-        #region Public var
-        #endregion
-
-        #region Private var
         static private ArrayList list;
-        #endregion
 
         static public ArrayList Find(GameObject _parent, string _tag)
         {

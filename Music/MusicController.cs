@@ -9,28 +9,18 @@ namespace SCore
     /// </summary>
     public class MusicController : MonoBehaviour
     {
-
-        #region Public variables
         public MusicPlaylist[] playlists;
         public AudioMixer audioMixer;
         public int PlayOnAwakeID = -1;
         public bool DontDestroy;
-        #endregion
 
-        #region Public constants
-        #endregion
-
-        #region Private constants
-        #endregion
-
-        #region Private variables
         static public MusicController instance;
         static private AudioSource audioSource;
+
         // Playing now track in playlist.
         static private int playtrack = 0;
         static private int playlistID = -1;
         static private bool pause = false;
-        #endregion
 
 
         void Awake()

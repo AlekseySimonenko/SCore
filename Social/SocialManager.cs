@@ -12,7 +12,6 @@ namespace SCore
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class SocialManager : MonoBehaviourSingleton<SocialManager>
     {
-        #region Public var
         public ISocialPlatform platformAutoInit;
         public UnityEvent OnInitActions;
 
@@ -24,17 +23,8 @@ namespace SCore
 
         static public bool LoginCompleted { get; protected set; }
         static public bool LoginProcessed { get; protected set; }
-        #endregion
 
-        #region Public const
-        #endregion
-
-        #region Private const
-        #endregion
-
-        #region Private var
         static private ISocialPlatform platform;
-        #endregion
 
 
         #region Init

@@ -10,38 +10,22 @@ namespace SCore
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
-        #region Public var
         [Header("Android platform Analytics")]
         public IAnalyticSystem[] androidSystems;
-
         [Header("iOS platform Analytics")]
         public IAnalyticSystem[] iosSystems;
-
         [Header("WebGL platform Analytics")]
         public IAnalyticSystem[] webglSystems;
-
         [Header("Editor platform Analytics")]
         public IAnalyticSystem[] editorSystems;
-
         [Header("Default platform Analytics")]
         public IAnalyticSystem[] defaultSystems;
 
         public UnityEvent OnInitActions;
-        #endregion
 
-        #region Public const
-        #endregion
-
-        #region Private const
-        #endregion
-
-        #region Private var
         private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
         private static int systemInitedCount = 0;
-
-        // Only one init calling protect variables
         private static bool isInitComplete = false;
-        #endregion
 
 
         private void Start()
@@ -181,6 +165,30 @@ namespace SCore
             foreach (IAnalyticSystem asystem in asystems)
             {
                 asystem.CompleteLevel(_level);
+            }
+        }
+
+        //// <summary>
+        /// Track when player get some record or score
+        /// </summary>
+        static public void NewScore(int _level, int _score)
+        {
+            Debug.Log("AnalyticsManager.PostScore");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                asystem.NewScore(_level, _score);
+            }
+        }
+
+        //// <summary>
+        /// Track when player get some record or score
+        /// </summary>
+        static public void AchievenemntUnlocked(string _achievementID)
+        {
+            Debug.Log("AnalyticsManager.AchievenemntUnlocked");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                asystem.AchievenemntUnlocked(_achievementID);
             }
         }
 

@@ -11,14 +11,8 @@ namespace SCore
     /// </summary>
     public class SaveLocalStorage
     {
-
-        #region Public var
-        #endregion
-
-        #region Private const
         //Universal path for quick saved games
         private const string fileSavePath = "/save.qs";
-        #endregion
 
 
         static public void Save(Dictionary<string, object> _saveVO)

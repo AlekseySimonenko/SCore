@@ -11,13 +11,11 @@ namespace SCore
     [Serializable]
     public abstract class ISocialPlatform : MonoBehaviour
     {
-        #region Public variables
         public abstract event Callback.EventHandler InitCompletedEvent;
         public abstract event Callback.EventHandler InitErrorEvent;
         public abstract event Callback.EventHandler LoginEvent;
         public abstract event Callback.EventHandler LoginErrorEvent;
         public abstract event Callback.EventHandler LogoutEvent;
-        #endregion
 
         /// <summary>
         /// Init social platform with custom parameters

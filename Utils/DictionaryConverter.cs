@@ -10,13 +10,6 @@ namespace SCore
     public class DictionaryConverter
     {
 
-        #region Public var
-        #endregion
-
-        #region Private const
-        #endregion
-
-
         static public string ConvertStrObjToString(Dictionary<string, object> _saveVO)
         {
             string _string = "";

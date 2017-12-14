@@ -11,29 +11,20 @@ namespace SCore
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
-        #region Public variables
         [Header("Manual Language")]
         public string languageManual;
         [Header("After inited")]
         public UnityEvent OnInitActions;
 
         public static string language;
-        #endregion
 
-        #region Public constants
-        #endregion
-
-        #region Private constants
-        #endregion
-
-        #region Private variables
         private static TextAsset xmlAsset;
         private static SmallXmlParser xmlParser = new SmallXmlParser();
         private static Handler xmlDoc = new Handler();
 
         // Only one init calling protect variables
         private static bool isInitComplete = false;
-        #endregion
+
 
         private void Start()
         {
