@@ -109,7 +109,7 @@ namespace SCore
 
 
         //// <summary>
-        /// Track when mission/level/quest started
+        /// Track when first login in social network
         /// </summary>
         static public void SocialSignUp()
         {
