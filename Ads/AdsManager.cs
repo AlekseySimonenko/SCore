@@ -30,7 +30,7 @@ namespace SCore
         {
             foreach (IAdsPlatform adsPlatform in AdsPlatforms)
             {
-                if(adsPlatform != null)
+                if (adsPlatform != null)
                 {
                     adsPlatform.StartEvent += OnStarted;
                     adsPlatform.CompletedEvent += OnCompleted;
@@ -79,14 +79,16 @@ namespace SCore
             TargetAdsPlatformID++;
             if (TargetAdsPlatformID < Instance.AdsPlatforms.Length)
             {
-                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[TargetAdsPlatformID];
+                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ TargetAdsPlatformID ];
                 switch (TargetAdsType)
                 {
                     case ADSTYPES.INTERSTITIAL:
                         AdsPlatform.ShowInterstitial();
                         break;
                     case ADSTYPES.REWARDED:
+#if !UNITY_IOS
                         AdsPlatform.ShowRewarded();
+#endif
                         break;
                 }
             }
@@ -111,10 +113,12 @@ namespace SCore
                         if (AdsPlatform.IsInterstitialReady())
                             return true;
                         break;
+#if !UNITY_IOS
                     case ADSTYPES.REWARDED:
                         if (AdsPlatform.IsRewardedReady())
                             return true;
                         break;
+#endif
                 }
             }
 
