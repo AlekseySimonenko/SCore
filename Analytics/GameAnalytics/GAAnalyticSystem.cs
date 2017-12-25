@@ -47,7 +47,7 @@ namespace SCore
         private string targetGameKey;
         private string targetSecretKey;
 
-
+        
 #if CORE_GA
 
 
