@@ -32,7 +32,7 @@ namespace SCore
         {
             Debug.Log("SocialManager.Start");
             if (platformAutoInit != null)
-                Init(platformAutoInit, OnAutoInitCompleted, null);
+                Init(platformAutoInit, OnAutoInitCompleted, OnAutoInitCompleted);
         }
 
         public void OnAutoInitCompleted()
