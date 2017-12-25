@@ -117,7 +117,6 @@ namespace SCore
 
         static public string GetPlatformID()
         {
-            Debug.Log("SocialManager.GetPlatformID");
             return platform.GetPlatformID();
         }
 
@@ -143,7 +142,6 @@ namespace SCore
 
         static public string GetUserID()
         {
-            Debug.Log("SocialManager.GetUserID");
             return platform.GetUserID();
         }
 
