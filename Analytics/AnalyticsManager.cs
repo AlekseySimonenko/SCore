@@ -47,6 +47,7 @@ namespace SCore
                     initSystems = webglSystems;
                     break;
                 default:
+                    initSystems = defaultSystems;
                     break;
             }
 
