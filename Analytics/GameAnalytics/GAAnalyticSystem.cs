@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 #if CORE_GA
 using GameAnalyticsSDK;
 using GameAnalyticsSDK.Wrapper;
@@ -11,6 +12,9 @@ namespace SCore
     /// </summary
     public class GAAnalyticSystem : IAnalyticSystem
     {
+
+        public override event Action<IAnalyticSystem> InitCompletedEvent;
+        public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
         public bool useCustomInit = true;
 
@@ -42,62 +46,60 @@ namespace SCore
         public string GearProdGame;
         public string GearProdKey;
 
-
-        private static Callback.EventHandler initCallbackFunction;
         private string targetGameKey;
         private string targetSecretKey;
 
-        
 #if CORE_GA
 
 
         /// <summary>
         /// Constructor
         /// </summary
-        override public void Init(Callback.EventHandler _callbackFunction)
+        override public void Init()
         {
             Debug.Log("GameAnalytics init");
-            initCallbackFunction = _callbackFunction;
 
-            if (useCustomInit)
+            try
             {
-
-                //Init GA
-                switch (Application.platform)
+                if (useCustomInit)
                 {
-                    case RuntimePlatform.WindowsEditor:
-                        targetGameKey = EditorGame;
-                        targetSecretKey = EditorKey;
-                        break;
 
-                    case RuntimePlatform.WindowsPlayer:
-                    case RuntimePlatform.OSXPlayer:
-                    case RuntimePlatform.LinuxPlayer:
-                        if (Debug.isDebugBuild)
-                        {
-                            targetGameKey = SteamDevGame;
-                            targetSecretKey = SteamDevKey;
-                        }
-                        else
-                        {
-                            targetGameKey = SteamProdGame;
-                            targetSecretKey = SteamProdKey;
-                        }
-                        break;
+                    //Init GA
+                    switch (Application.platform)
+                    {
+                        case RuntimePlatform.WindowsEditor:
+                            targetGameKey = EditorGame;
+                            targetSecretKey = EditorKey;
+                            break;
 
-                    case RuntimePlatform.IPhonePlayer:
-                        if (Debug.isDebugBuild)
-                        {
-                            targetGameKey = IosDevGame;
-                            targetSecretKey = IosDevKey;
-                        }
-                        else
-                        {
-                            targetGameKey = IosProdGame;
-                            targetSecretKey = IosProdKey;
-                        }
-                        break;
-                    case RuntimePlatform.Android:
+                        case RuntimePlatform.WindowsPlayer:
+                        case RuntimePlatform.OSXPlayer:
+                        case RuntimePlatform.LinuxPlayer:
+                            if (Debug.isDebugBuild)
+                            {
+                                targetGameKey = SteamDevGame;
+                                targetSecretKey = SteamDevKey;
+                            }
+                            else
+                            {
+                                targetGameKey = SteamProdGame;
+                                targetSecretKey = SteamProdKey;
+                            }
+                            break;
+
+                        case RuntimePlatform.IPhonePlayer:
+                            if (Debug.isDebugBuild)
+                            {
+                                targetGameKey = IosDevGame;
+                                targetSecretKey = IosDevKey;
+                            }
+                            else
+                            {
+                                targetGameKey = IosProdGame;
+                                targetSecretKey = IosProdKey;
+                            }
+                            break;
+                        case RuntimePlatform.Android:
 
 #if COREVR_GEAR
                     if (Debug.isDebugBuild)
@@ -111,39 +113,40 @@ namespace SCore
                         targetSecretKey = GearProdKey;
                     }
 #else
-                        if (Debug.isDebugBuild)
-                        {
-                            targetGameKey = AndroidDevGame;
-                            targetSecretKey = AndroidDevKey;
-                        }
-                        else
-                        {
-                            targetGameKey = AndroidProdGame;
-                            targetSecretKey = AndroidProdKey;
-                        }
+                            if (Debug.isDebugBuild)
+                            {
+                                targetGameKey = AndroidDevGame;
+                                targetSecretKey = AndroidDevKey;
+                            }
+                            else
+                            {
+                                targetGameKey = AndroidProdGame;
+                                targetSecretKey = AndroidProdKey;
+                            }
 #endif
-                        break;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
+
+                    GA_Wrapper.Initialize(targetGameKey, targetSecretKey);
+                    //GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
                 }
 
-                GA_Wrapper.Initialize(targetGameKey, targetSecretKey);
-                //GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
+                Debug.Log("GameAnalytics InitComplete");
+                if (InitCompletedEvent != null)
+                    InitCompletedEvent(this);
+            }
+            catch (Exception e)
+            {
+                if (InitErrorEvent != null)
+                    InitErrorEvent(this, e.Message);
             }
 
-            InitComplete();
+
         }
 
-        /// <summary>
-        /// Return static id of platform
-        /// </summary>
-        public void InitComplete()
-        {
-            Debug.Log("GameAnalytics InitComplete");
-            if (initCallbackFunction != null)
-                initCallbackFunction();
-        }
 
 
         public override void SocialSignUp()
@@ -306,6 +309,17 @@ namespace SCore
 
 
 #else
+        public override void Init(Callback.EventHandler _callbackFunction)
+        {
+            if (_callbackFunction != null)
+                _callbackFunction();
+        }
+
+        public override bool IsInited()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void SocialSignUp()
         {
             //throw new System.NotImplementedException();

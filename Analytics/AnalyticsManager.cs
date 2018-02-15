@@ -23,14 +23,14 @@ namespace SCore
 
         public UnityEvent OnInitActions;
 
-        private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
+        private static IAnalyticSystem[] asystems = new IAnalyticSystem[ 0 ];
         private static int systemInitedCount = 0;
         private static bool isInitComplete = false;
 
 
         private void Start()
         {
-            IAnalyticSystem[] initSystems = new IAnalyticSystem[0];
+            IAnalyticSystem[] initSystems = new IAnalyticSystem[ 0 ];
 
             switch (Application.platform)
             {
@@ -62,19 +62,22 @@ namespace SCore
             if (!isInitComplete)
             {
                 Debug.Log("AnalyticsManager:init");
-                if(_asystems != null && _asystems.Length > 0)
+                if (_asystems != null && _asystems.Length > 0)
                 {
                     asystems = _asystems;
 
                     foreach (IAnalyticSystem asystem in asystems)
                     {
-                        asystem.Init(InitComplete);
+                        asystem.InitCompletedEvent += OnSystemInitComleted;
+                        asystem.InitErrorEvent += OnSystemInitErrorEvent;
+                        asystem.Init();
                     }
                 }
                 else
                 {
                     Debug.LogWarning("AnalyticsManager NOT ENABLED");
-                    InitComplete();
+                    if (Instance.OnInitActions != null)
+                        Instance.OnInitActions.Invoke();
                 }
 
             }
@@ -84,17 +87,27 @@ namespace SCore
             }
         }
 
-        /// <summary>
-        /// Only one init can will be called
-        /// </summary>
-        private static void InitComplete()
+
+        static public void OnSystemInitComleted(IAnalyticSystem asystem)
+        {
+            Debug.Log("AnalyticsManager.OnSystemInitComleted");
+            asystem.isInited = true;
+            systemInitedCount++;
+            CheckInitCompleted();
+        }
+
+        static public void OnSystemInitErrorEvent(IAnalyticSystem asystem, string message)
+        {
+            Debug.Log("AnalyticsManager.OnSystemInitErrorEvent: " + message);
+            systemInitedCount++;
+            CheckInitCompleted();
+        }
+
+        static public void CheckInitCompleted()
         {
             if (!isInitComplete)
             {
-                Debug.Log("AnalyticsManager.NextSystemInitComplete");
-
-                systemInitedCount++;
-                if(asystems == null || asystems.Length == 0 || systemInitedCount >= asystems.Length)
+                if (asystems == null || asystems.Length == 0 || systemInitedCount >= asystems.Length)
                 {
                     Debug.Log("AnalyticsManager.AllSystemsInitComplete");
                     isInitComplete = true;
@@ -102,11 +115,12 @@ namespace SCore
                         Instance.OnInitActions.Invoke();
                 }
             }
-            else
-            {
-                Debug.LogError("AnalyticsManager:Repeating static class InitComplete!");
-            }
         }
+
+
+
+
+
 
 
         //// <summary>
@@ -117,7 +131,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.SocialSignUp");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.SocialSignUp();
+                if (asystem.isInited)
+                    asystem.SocialSignUp();
             }
         }
 
@@ -129,7 +144,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.OpenMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.OpenLevel(_level);
+                if (asystem.isInited)
+                    asystem.OpenLevel(_level);
             }
         }
 
@@ -141,7 +157,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.StartMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.StartLevel(_level);
+                if (asystem.isInited)
+                    asystem.StartLevel(_level);
             }
         }
 
@@ -153,7 +170,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.FailMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.FailLevel(_level);
+                if (asystem.isInited)
+                    asystem.FailLevel(_level);
             }
         }
 
@@ -165,7 +183,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.CompleteMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.CompleteLevel(_level);
+                if (asystem.isInited)
+                    asystem.CompleteLevel(_level);
             }
         }
 
@@ -177,7 +196,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.PostScore");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.NewScore(_level, _score);
+                if (asystem.isInited)
+                    asystem.NewScore(_level, _score);
             }
         }
 
@@ -189,7 +209,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.AchievenemntUnlocked");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.AchievenemntUnlocked(_achievementID);
+                if (asystem.isInited)
+                    asystem.AchievenemntUnlocked(_achievementID);
             }
         }
 
@@ -202,7 +223,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.TutorialStart");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.TutorialStart();
+                if (asystem.isInited)
+                    asystem.TutorialStart();
             }
         }
 
@@ -214,7 +236,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.TutorialStart");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.TutorialCompleted();
+                if (asystem.isInited)
+                    asystem.TutorialCompleted();
             }
         }
 
@@ -227,7 +250,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentInfoTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.PaymentInfoTry(_currency, _amount, _itemID, _itemType, _area);
+                if (asystem.isInited)
+                    asystem.PaymentInfoTry(_currency, _amount, _itemID, _itemType, _area);
             }
         }
 
@@ -239,7 +263,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentInfoSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.PaymentInfoSuccess(_currency, _amount, _itemID, _itemType, _area);
+                if (asystem.isInited)
+                    asystem.PaymentInfoSuccess(_currency, _amount, _itemID, _itemType, _area);
             }
         }
 
@@ -251,7 +276,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentReal");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.PaymentReal(_currency, _amount, _itemID, _itemType, _area);
+                if (asystem.isInited)
+                    asystem.PaymentReal(_currency, _amount, _itemID, _itemType, _area);
             }
         }
 
@@ -263,7 +289,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.ResourceAdd");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ResourceAdd(_currency, _amount, _itemID, _itemType, _area);
+                if (asystem.isInited)
+                    asystem.ResourceAdd(_currency, _amount, _itemID, _itemType, _area);
             }
         }
 
@@ -275,7 +302,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.ResourceRemove");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ResourceRemove(_currency, _amount, _itemID, _itemType, _area);
+                if (asystem.isInited)
+                    asystem.ResourceRemove(_currency, _amount, _itemID, _itemType, _area);
             }
         }
 
@@ -287,7 +315,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.InviteTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.InviteTry(_area);
+                if (asystem.isInited)
+                    asystem.InviteTry(_area);
             }
         }
 
@@ -299,7 +328,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.ShareTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ShareTry(_id, _area);
+                if (asystem.isInited)
+                    asystem.ShareTry(_id, _area);
             }
         }
 
@@ -311,7 +341,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.ShareSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.ShareSuccess(_id, _area);
+                if (asystem.isInited)
+                    asystem.ShareSuccess(_id, _area);
             }
         }
 
@@ -323,7 +354,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.RequestTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.RequestTry(_type, _area);
+                if (asystem.isInited)
+                    asystem.RequestTry(_type, _area);
             }
         }
 
@@ -335,7 +367,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.RequestSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.RequestSuccess(_type, _area);
+                if (asystem.isInited)
+                    asystem.RequestSuccess(_type, _area);
             }
         }
 
@@ -347,7 +380,8 @@ namespace SCore
             Debug.Log("AnalyticsManager.DesignEvent");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                asystem.DesignEvent(_id, _amount);
+                if (asystem.isInited)
+                    asystem.DesignEvent(_id, _amount);
             }
         }
 

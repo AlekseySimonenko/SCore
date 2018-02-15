@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 #if CORE_FB
 using Facebook.Unity;
 #endif
@@ -11,33 +12,34 @@ namespace SCore
     /// </summary
     public class FBAnalyticSystem : IAnalyticSystem
     {
-
-        private static Callback.EventHandler initCallbackFunction;
+        public override event Action<IAnalyticSystem> InitCompletedEvent;
+        public override event Action<IAnalyticSystem, string> InitErrorEvent;
         private string targetGameKey;
         private string targetSecretKey;
-
 
 #if CORE_FB
 
         /// <summary>
         /// Constructor
         /// </summary
-        override public void Init(Callback.EventHandler _callbackFunction)
+        override public void Init()
         {
             Debug.Log("FBAnalytics init");
-            initCallbackFunction = _callbackFunction;
-            InitComplete();
+
+            try
+            {
+                //Init events
+                Debug.Log("FBAnalytics InitComplete");
+                if (InitCompletedEvent != null)
+                    InitCompletedEvent(this);
+            }
+            catch (Exception e)
+            {
+                if (InitErrorEvent != null)
+                    InitErrorEvent(this, e.Message);
+            }
         }
 
-        /// <summary>
-        /// Return static id of platform
-        /// </summary>
-        public void InitComplete()
-        {
-            Debug.Log("FBAnalytics InitComplete");
-            if (initCallbackFunction != null)
-                initCallbackFunction();
-        }
 
         //// <summary>
         /// Track when mission/level/quest open and view
@@ -218,8 +220,21 @@ namespace SCore
             //Facebook platform already has this info
         }
 
+        
 
-#else 
+
+#else
+
+        public override void Init(Callback.EventHandler _callbackFunction)
+        {
+            if (_callbackFunction != null)
+                _callbackFunction();
+        }
+
+        public override bool IsInited()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void SocialSignUp()
         {

@@ -9,16 +9,11 @@ namespace SCore
     [Serializable]
     public abstract class IAnalyticSystem : MonoBehaviour
     {
-        //// <summary>
-        /// System must must call callback from this method when init will completed
-        /// </summary>
-        public virtual void Init(Callback.EventHandler _callbackFunction)
-        {
-            //By standart base abstract platform no need init.
-            if (_callbackFunction != null)
-                _callbackFunction();
-        }
+        public abstract event Action<IAnalyticSystem> InitCompletedEvent;
+        public abstract event Action<IAnalyticSystem, string> InitErrorEvent;
+        public bool isInited;
 
+        public abstract void Init();
         public abstract void SocialSignUp();
         public abstract void OpenLevel(int _level);
         public abstract void StartLevel(int _level);

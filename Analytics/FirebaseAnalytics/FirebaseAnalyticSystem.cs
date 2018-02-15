@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 #if CORE_FIREBASE
 using Firebase.Analytics;
@@ -12,6 +13,9 @@ namespace SCore
     /// </summary
     public class FirebaseAnalyticSystem : IAnalyticSystem
     {
+        public override event Action<IAnalyticSystem> InitCompletedEvent;
+        public override event Action<IAnalyticSystem, string> InitErrorEvent;
+
         public int sessionTimeoutDurationMS = 180000;
         private static Callback.EventHandler initCallbackFunction;
         private string targetGameKey;
@@ -23,26 +27,25 @@ namespace SCore
         /// <summary>
         /// Constructor
         /// </summary
-        override public void Init(Callback.EventHandler _callbackFunction)
+        override public void Init()
         {
             Debug.Log("FirebaseAnalyticSystem init");
-            initCallbackFunction = _callbackFunction;
+            try
+            {
+                //Init events
+                FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
+                Debug.Log("FirebaseAnalyticSystem InitComplete");
+                if (InitCompletedEvent != null)
+                    InitCompletedEvent(this);
+            }
+            catch (Exception e)
+            {
+                if (InitErrorEvent != null)
+                    InitErrorEvent(this, e.Message);
+            }
 
-            //Init events
-            FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
-
-            InitComplete();
         }
 
-        /// <summary>
-        /// Return static id of platform
-        /// </summary>
-        public void InitComplete()
-        {
-            Debug.Log("FirebaseAnalyticSystem InitComplete");
-            if (initCallbackFunction != null)
-                initCallbackFunction();
-        }
 
         private void OnApplicationPause(bool pause)
         {
@@ -211,6 +214,17 @@ namespace SCore
 
 
 #else
+        public override void Init(Callback.EventHandler _callbackFunction)
+        {
+            if (_callbackFunction != null)
+                _callbackFunction();
+        }
+
+        public override bool IsInited()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void SocialSignUp()
         {
             throw new System.NotImplementedException();
