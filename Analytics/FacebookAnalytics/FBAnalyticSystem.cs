@@ -225,15 +225,8 @@ namespace SCore
 
 #else
 
-        public override void Init(Callback.EventHandler _callbackFunction)
+        public override void Init()
         {
-            if (_callbackFunction != null)
-                _callbackFunction();
-        }
-
-        public override bool IsInited()
-        {
-            throw new System.NotImplementedException();
         }
 
         public override void SocialSignUp()
