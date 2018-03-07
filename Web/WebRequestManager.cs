@@ -12,6 +12,7 @@ namespace SCore
             Debug.Log("WebRequestManager.Request " + _url);
 
             GameObject requestObject = new GameObject();
+            requestObject.AddComponent<DontDestroy>();
             requestObject.AddComponent<WebRequest>();
             WebRequest request = requestObject.GetComponent<WebRequest>() as WebRequest;
             request.url = _url;
