@@ -27,7 +27,7 @@ namespace SCore
         void Update()
         {
             //Looking timer
-            timer -= Time.deltaTime;
+            timer -= Time.unscaledDeltaTime;
             if (timer <= 0.0f)
             {
                 timer = timerDelay;
@@ -38,12 +38,12 @@ namespace SCore
             if (isLookingOn)
             {
                 if (audioSource.volume < startVolume)
-                    audioSource.volume += Time.deltaTime * speedVolumeChange;
+                    audioSource.volume += Time.unscaledDeltaTime * speedVolumeChange;
             }
             else
             {
                 if (audioSource.volume > 0.0F)
-                    audioSource.volume -= Time.deltaTime * speedVolumeChange;
+                    audioSource.volume -= Time.unscaledDeltaTime * speedVolumeChange;
                 else
                     audioSource.volume = 0.0F;
             }

@@ -47,7 +47,7 @@ namespace SCore
             //Timelimit
             if (timeLimit > 0)
             {
-                timeLimit -= Time.deltaTime;
+                timeLimit -= Time.unscaledDeltaTime;
                 if (timeLimit <= 0)
                 {
                     Debug.Log("AdsManager: timeLimit");

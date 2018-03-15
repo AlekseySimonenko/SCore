@@ -44,8 +44,8 @@ namespace SCore
         {
             if (timerEnabled)
             {
-                trackTimer += Time.deltaTime;
-                timeFromFirstLaunch += Time.deltaTime;
+                trackTimer += Time.unscaledDeltaTime;
+                timeFromFirstLaunch += Time.unscaledDeltaTime;
                 if (trackTimer > TRACK_TIME)
                 {
                     trackTimer = 0;

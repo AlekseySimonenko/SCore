@@ -38,7 +38,7 @@ namespace SCore
         void Update()
         {
             if (startTimer > 0)
-                startTimer -= Time.deltaTime;
+                startTimer -= Time.unscaledDeltaTime;
         }
 
         IEnumerator UpdateStatus()
@@ -51,7 +51,7 @@ namespace SCore
                         DestroyObject();
                 }
                 //Wait next step
-                yield return new WaitForSeconds(checkInterval);
+                yield return new WaitForSecondsRealtime(checkInterval);
             }
         }
 
