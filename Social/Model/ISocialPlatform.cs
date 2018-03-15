@@ -43,6 +43,11 @@ namespace SCore
         public abstract string GetUserID();
 
         /// <summary>
+        /// Get user social info
+        /// </summary>
+        public abstract SocialUser GetUserInfo();
+
+        /// <summary>
         /// Get in app friends
         /// Always must return 1 user (player self)
         /// </summary>

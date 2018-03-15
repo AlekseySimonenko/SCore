@@ -145,6 +145,12 @@ namespace SCore
             return platform.GetUserID();
         }
 
+        static public SocialUser GetUserInfo()
+        {
+            return platform.GetUserInfo();
+        }
+
+
         static public List<SocialUser> GetInAppFriends()
         {
             Debug.Log("SocialManager.GetInAppFriends");
