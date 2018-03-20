@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,7 +37,18 @@ namespace SCore
             {
                 Debug.Log("LanguageManager:init");
 
-                language = Instance.languageManual;
+                if (Application.isEditor || Debug.isDebugBuild)
+                {
+                    string language_debug = PlayerPrefs.GetString("Language_debug");
+                    if (!string.IsNullOrEmpty(language_debug))
+                        language = language_debug;
+                    else
+                        language = Instance.languageManual;
+                }
+
+                // Spcial for Hindi
+                if (GetLanguage() == "hi")
+                    language = "hi";
 
                 //Auto system language choise
                 if (language == "")
@@ -54,15 +65,28 @@ namespace SCore
                     if (Application.systemLanguage == SystemLanguage.Portuguese)
                         language = "pt";
                     if (Application.systemLanguage == SystemLanguage.Turkish)
-                        language = "tk";
+                        language = "tr";
                     if (Application.systemLanguage == SystemLanguage.Japanese)
-                        language = "jp";
+                        language = "ja";
                     if (Application.systemLanguage == SystemLanguage.Korean)
                         language = "ko";
                     if (Application.systemLanguage == SystemLanguage.ChineseSimplified)
-                        language = "sc";
+                        language = "zh-CN";
                     if (Application.systemLanguage == SystemLanguage.ChineseTraditional)
                         language = "tc";
+                    if (Application.systemLanguage == SystemLanguage.Arabic)
+                        language = "ar";
+                    if (Application.systemLanguage == SystemLanguage.Dutch)
+                        language = "nl";
+                    if (Application.systemLanguage == SystemLanguage.Thai)
+                        language = "th";
+                    if (Application.systemLanguage == SystemLanguage.Indonesian)
+                        language = "id";
+                    if (Application.systemLanguage == SystemLanguage.Italian)
+                        language = "it";
+                    if (Application.systemLanguage == SystemLanguage.Spanish)
+                        language = "es-419";
+
                 }
                 Debug.Log("LanguageManager:language " + language);
 
@@ -143,6 +167,25 @@ namespace SCore
             return stream;
         }
 
+        // Returns system language from java enviroment (Android only)
+        public static string GetLanguage()
+        {
+#if UNITY_ANDROID
+            try
+            {
+                var locale = new AndroidJavaClass("java.util.Locale");
+                var localeInst = locale.CallStatic<AndroidJavaObject>("getDefault");
+                var name = localeInst.Call<string>("getLanguage");
+                return name;
+            }
+            catch (System.Exception e)
+            {
+                return "Error";
+            }
+#else
+     return "Not supported";
+#endif
+        }
 
     }
 
