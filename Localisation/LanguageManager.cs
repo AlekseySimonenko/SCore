@@ -51,7 +51,7 @@ namespace SCore
                     language = "hi";
 
                 //Auto system language choise
-                if (language == "")
+                if (string.IsNullOrEmpty(language))
                 {
                     language = "en";
                     if (Application.systemLanguage == SystemLanguage.Russian || Application.systemLanguage == SystemLanguage.Ukrainian || Application.systemLanguage == SystemLanguage.Belarusian || Application.systemLanguage == SystemLanguage.Bulgarian)
