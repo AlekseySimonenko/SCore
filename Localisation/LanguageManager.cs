@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,20 +8,35 @@ namespace SCore
 {
     /// <summary>
     /// Singletone language and texts manager
+    /// 1. Remote config - xml file on server
+    /// 2. Local config - xml file downloaded from server to device
+    /// 3. Build config - xml file included in build
     /// </summary>
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
-        [Header("Manual Language")]
-        public string languageManual;
+        [Header("Remote/Local version updater")]
+        public int buildConfigVersion = 0;
+        private int localConfigVersion = 0;
+        public int remoteConfigVersion = 0;
+        public string remoteUrl;
+        public float remoteUrlTimelimit = 5F;
+
         [Header("After inited")]
         public UnityEvent OnInitActions;
 
+        [Header("Debug")]
+        public string languageManual;
+
         public static string language;
+
+        private const string LOCAL_CONFIG_VERSION = "sCore_language_local_v";
 
         private static TextAsset xmlAsset;
         private static SmallXmlParser xmlParser = new SmallXmlParser();
         private static Handler xmlDoc = new Handler();
+
+        private static XmlDocument remoteXmlDocument;
 
         // Only one init calling protect variables
         private static bool isInitComplete = false;
@@ -90,20 +106,18 @@ namespace SCore
                 }
                 Debug.Log("LanguageManager:language " + language);
 
-                if (!LoadFile(language))
-                {
-                    Debug.LogWarning("Language xml not found " + language);
-                    language = "en";
-                    if (!LoadFile(language))
-                    {
-                        Debug.LogError("Default Language xml not found " + language);
-                    }
-                }
 
-                //Init completed
-                isInitComplete = true;
-                if (Instance.OnInitActions != null)
-                    Instance.OnInitActions.Invoke();
+                //Localisation version updater
+                if (PlayerPrefs.HasKey(LOCAL_CONFIG_VERSION))
+                    Instance.localConfigVersion = PlayerPrefs.GetInt(LOCAL_CONFIG_VERSION);
+
+                //Try to load actual version
+                if (Instance.buildConfigVersion == Instance.remoteConfigVersion)
+                    LoadBuildVersion();
+                else if (Instance.localConfigVersion == Instance.remoteConfigVersion)
+                    LoadLocalVersion();
+                else
+                    LoadRemoteVersion();
             }
             else
             {
@@ -111,18 +125,140 @@ namespace SCore
             }
         }
 
+        public static void InitCompleted()
+        {
+            if (!isInitComplete)
+            {
+                Debug.Log("LanguageManager:Init completed");
+                isInitComplete = true;
+                if (Instance.OnInitActions != null)
+                    Instance.OnInitActions.Invoke();
+            }
+            else
+            {
+                Debug.LogError("LanguageManager:Repeating static class Init Completed!");
+            }
+        }
 
-        private static bool LoadFile(string _name)
+
+        private static void LoadBuildVersion()
+        {
+            Debug.Log("LanguageManager: LoadBuildVersion " + language);
+            if (!LoadResource(language))
+            {
+                Debug.LogWarning("LanguageManager: Language xml not found " + language);
+                language = "en";
+                if (!LoadResource(language))
+                {
+                    Debug.LogError("LanguageManager: Default Language xml not found " + language);
+                }
+            }
+        }
+
+        private static bool LoadResource(string _name)
         {
             xmlAsset = Resources.Load(language) as TextAsset;
             if (xmlAsset)
             {
-                TextReader textReader = new StreamReader(GenerateStreamFromString(xmlAsset.text));
-                xmlParser.Parse(textReader, xmlDoc);
+                LoadFromString(xmlAsset.text);
+                //Complete init of language manager
+                InitCompleted();
                 return true;
             }
             else
                 return false;
+        }
+
+
+        private static void LoadLocalVersion()
+        {
+            Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(language));
+            if (File.Exists(GetLocalConfigName(language)))
+            {
+                LoadFromFile(GetLocalConfigName(language));
+                //Complete init of language manager
+                InitCompleted();
+            }
+            else
+            {
+                Debug.LogWarning("LanguageManager: Local language xml not found " + language);
+                LoadBuildVersion();
+            }
+        }
+
+        private static void LoadRemoteVersion()
+        {
+            string configUrl = Instance.remoteUrl + language + ".xml" + "?v=" + Instance.remoteConfigVersion;
+            Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl);
+
+            WebRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, Instance.remoteUrlTimelimit);
+
+            /*
+            System.Net.HttpWebRequest req = (System.Net.HttpWebRequest) System.Net.WebRequest.Create(configUrl);
+            req.Timeout = 1000 * 60 * 5; // milliseconds
+            System.Net.WebResponse res = req.GetResponse();
+            Stream responseStream = res.GetResponseStream();
+            remoteXmlDocument = new XmlDocument();
+            remoteXmlDocument.Load(responseStream);
+            responseStream.Close();
+            */
+        }
+
+        private static void OnLoadRemoteCompleted(object _object)
+        {
+            Debug.Log("LanguageManager: OnLoadRemoteCompleted");
+
+            if (_object == null)
+            {
+                Debug.LogWarning("LanguageManager: ERROR null request response");
+                return;
+            }
+
+            WWW www = _object as WWW;
+            string data = www.text;
+            if (data == "")
+            {
+                Debug.LogWarning("LanguageManager: ERROR zero request response");
+                return;
+            }
+
+            //Parse localisation config
+            LoadFromString(data);
+            //Backup loaded config
+            SaveLocalConfig(data, language);
+            Instance.localConfigVersion = Instance.remoteConfigVersion;
+            PlayerPrefs.SetInt(LOCAL_CONFIG_VERSION, Instance.localConfigVersion);
+            //Complete init of language manager
+            InitCompleted();
+        }
+
+        private static void OnLoadRemoteError(object data)
+        {
+            Debug.LogWarning("LanguageManager: OnLoadRemoteError");
+            LoadLocalVersion();
+        }
+
+        private static void LoadFromFile(string _file)
+        {
+            TextReader textReader = File.OpenText(_file);
+            xmlParser.Parse(textReader, xmlDoc);            
+        }
+
+        private static void LoadFromString(string _data)
+        {
+            TextReader textReader = new StreamReader(GenerateStreamFromString(_data));
+            xmlParser.Parse(textReader, xmlDoc);
+        }
+
+        private static void SaveLocalConfig(string _data, string _language)
+        {
+            string path = GetLocalConfigName(_language);
+            File.WriteAllText(path, _data);
+        }
+
+        private static string GetLocalConfigName(string _language)
+        {
+            return Application.persistentDataPath + "/" + _language + ".xml";
         }
 
 
@@ -137,17 +273,17 @@ namespace SCore
             }
             else
             {
-                Debug.LogError("LanguageManager:return " + "!none on id: " + _id);
+                Debug.LogError("LanguageManager: return " + "!none on id: " + _id);
                 return "!none";
             }
         }
 
         public static string Replace(string _text, string[] args)
         {
-            if(args != null)
-            for (int i = 0; i < args.Length; i++)
-            {
-                    _text = _text.Replace("{" + i.ToString() + "}", args[i]);
+            if (args != null)
+                for (int i = 0; i < args.Length; i++)
+                {
+                    _text = _text.Replace("{" + i.ToString() + "}", args[ i ]);
                 }
             return _text;
         }
@@ -203,7 +339,7 @@ namespace SCore
 
         public string SelectKey(string _id)
         {
-            return content[_id];
+            return content[ _id ];
         }
 
         public void OnStartParsing(SmallXmlParser parser)
@@ -225,7 +361,7 @@ namespace SCore
 
         public void OnChars(string s)
         {
-            content[lastKey] = s;
+            content[ lastKey ] = s;
         }
 
         public void OnIgnorableWhitespace(string s)
