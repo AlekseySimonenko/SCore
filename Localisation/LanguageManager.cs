@@ -76,8 +76,6 @@ namespace SCore
                         language = "de";
                     if (Application.systemLanguage == SystemLanguage.French)
                         language = "fr";
-                    if (Application.systemLanguage == SystemLanguage.Spanish)
-                        language = "es";
                     if (Application.systemLanguage == SystemLanguage.Portuguese)
                         language = "pt";
                     if (Application.systemLanguage == SystemLanguage.Turkish)
