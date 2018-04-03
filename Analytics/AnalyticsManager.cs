@@ -139,52 +139,52 @@ namespace SCore
         //// <summary>
         /// Track when mission/level/quest started
         /// </summary>
-        static public void OpenLevel(int _level)
+        static public void OpenLevel(int _level, string _type)
         {
             Debug.Log("AnalyticsManager.OpenMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
                 if (asystem.isInited)
-                    asystem.OpenLevel(_level);
+                    asystem.OpenLevel(_level, _type);
             }
         }
 
         //// <summary>
         /// Track when mission/level/quest started
         /// </summary>
-        static public void StartLevel(int _level)
+        static public void StartLevel(int _level, string _type)
         {
             Debug.Log("AnalyticsManager.StartMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
                 if (asystem.isInited)
-                    asystem.StartLevel(_level);
+                    asystem.StartLevel(_level, _type);
             }
         }
 
         //// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
-        static public void FailLevel(int _level)
+        static public void FailLevel(int _level, string _type, int _score)
         {
             Debug.Log("AnalyticsManager.FailMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
                 if (asystem.isInited)
-                    asystem.FailLevel(_level);
+                    asystem.FailLevel(_level, _type, _score);
             }
         }
 
         //// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
-        static public void CompleteLevel(int _level)
+        static public void CompleteLevel(int _level, string _type, int _score)
         {
             Debug.Log("AnalyticsManager.CompleteMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
                 if (asystem.isInited)
-                    asystem.CompleteLevel(_level);
+                    asystem.CompleteLevel(_level, _type, _score);
             }
         }
 

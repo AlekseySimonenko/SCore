@@ -11,14 +11,16 @@ namespace SCore
     {
         public abstract event Action<IAnalyticSystem> InitCompletedEvent;
         public abstract event Action<IAnalyticSystem, string> InitErrorEvent;
+
+        [HideInInspector]
         public bool isInited;
 
         public abstract void Init();
         public abstract void SocialSignUp();
-        public abstract void OpenLevel(int _level);
-        public abstract void StartLevel(int _level);
-        public abstract void FailLevel(int _level);
-        public abstract void CompleteLevel(int _level);
+        public abstract void OpenLevel(int _level, string _type);
+        public abstract void StartLevel(int _level, string _type);
+        public abstract void FailLevel(int _level, string _type, int _score);
+        public abstract void CompleteLevel(int _level, string _type, int _score);
         public abstract void NewScore(int _level, int _score);
         public abstract void AchievenemntUnlocked(string _achievementID);
         public abstract void TutorialStart();

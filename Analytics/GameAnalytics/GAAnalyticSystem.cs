@@ -155,28 +155,28 @@ namespace SCore
             GameAnalytics.NewDesignEvent("Social:SignUp");
         }
 
-        override public void OpenLevel(int _level)
+        override public void OpenLevel(int _level, string _type)
         {
             Debug.Log("GameAnalytics.OpenLevel " + _level);
-            GameAnalytics.NewDesignEvent("Level:Open", _level);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Undefined, "Level", _type, _level.ToString(), 0);
         }
 
-        override public void StartLevel(int _level)
+        override public void StartLevel(int _level, string _type)
         {
             Debug.Log("GameAnalytics.StartLevel " + _level);
-            GameAnalytics.NewDesignEvent("Level:Start", _level);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Level", _type, _level.ToString(), 0);
         }
 
-        override public void FailLevel(int _level)
+        override public void FailLevel(int _level, string _type, int _score)
         {
             Debug.Log("GameAnalytics.FailLevel " + _level);
-            GameAnalytics.NewDesignEvent("Level:Fail", _level);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Level", _type, _level.ToString(), _score);
         }
 
-        override public void CompleteLevel(int _level)
+        override public void CompleteLevel(int _level, string _type, int _score)
         {
             Debug.Log("GameAnalytics.CompleteLevel " + _level);
-            GameAnalytics.NewDesignEvent("Level:Complete", _level);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Level", _type, _level.ToString(), _score);
         }
 
         public override void NewScore(int _level, int _score)

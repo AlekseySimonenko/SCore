@@ -44,9 +44,9 @@ namespace SCore
         //// <summary>
         /// Track when mission/level/quest open and view
         /// </summary>
-        override public void OpenLevel(int _level)
+        override public void OpenLevel(int _level, string _type)
         {
-            string _event = PrepareEventValue("Level_Open");
+            string _event = PrepareEventValue("Lv_Open_" + _type);
             Debug.Log("FBAnalytics.OpenLevel " + _level);
             FB.LogAppEvent(_event, _level);
         }
@@ -54,9 +54,9 @@ namespace SCore
         //// <summary>
         /// Track when mission/level/quest started
         /// </summary>
-        override public void StartLevel(int _level)
+        override public void StartLevel(int _level, string _type)
         {
-            string _event = PrepareEventValue("Level_Start");
+            string _event = PrepareEventValue("Lv_Start_" + _type);
             Debug.Log("FBAnalytics.StartMission " + _level);
             FB.LogAppEvent(_event, _level);
         }
@@ -64,9 +64,9 @@ namespace SCore
         //// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
-        override public void FailLevel(int _level)
+        override public void FailLevel(int _level, string _type, int _score)
         {
-            string _event = PrepareEventValue("Level_Fail");
+            string _event = PrepareEventValue("Lv_Fail_" + _type);
             Debug.Log("FBAnalytics.FailMission " + _level);
             FB.LogAppEvent(_event, _level);
         }
@@ -74,9 +74,9 @@ namespace SCore
         //// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
-        override public void CompleteLevel(int _level)
+        override public void CompleteLevel(int _level, string _type, int _score)
         {
-            string _event = PrepareEventValue("Level_Сomplete");
+            string _event = PrepareEventValue("Lv_Сomplete_" + _type);
             Debug.Log("FBAnalytics.CompleteLevel " + _level);
             FB.LogAppEvent(_event, _level);
         }
@@ -220,7 +220,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        
+
 
 
 #else
