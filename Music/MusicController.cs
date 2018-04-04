@@ -12,7 +12,6 @@ namespace SCore
         public MusicPlaylist[] playlists;
         public AudioMixer audioMixer;
         public int PlayOnAwakeID = -1;
-        public bool DontDestroy;
 
         static public MusicController instance;
         static private AudioSource audioSource;
@@ -23,11 +22,6 @@ namespace SCore
         static private bool pause = false;
 
 
-        void Awake()
-        {
-            if (DontDestroy)
-                DontDestroyOnLoad(this.gameObject);
-        }
 
         void Start()
         {
