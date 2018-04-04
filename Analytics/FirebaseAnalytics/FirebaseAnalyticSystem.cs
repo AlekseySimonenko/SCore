@@ -226,22 +226,22 @@ namespace SCore
             throw new System.NotImplementedException();
         }
 
-        public override void OpenLevel(int _level)
+        public override void OpenLevel(int _level, string _type)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void StartLevel(int _level)
+        public override void StartLevel(int _level, string _type)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void FailLevel(int _level)
+        override public void FailLevel(int _level, string _type, int _score)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void CompleteLevel(int _level)
+        override public void CompleteLevel(int _level, string _type, int _score)
         {
             throw new System.NotImplementedException();
         }
