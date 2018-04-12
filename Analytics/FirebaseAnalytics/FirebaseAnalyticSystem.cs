@@ -62,29 +62,51 @@ namespace SCore
 
         override public void OpenLevel(int _level, string _type)
         {
-            string _event = PrepareEventValue("Level_Open_" + _type);
-            FirebaseAnalytics.LogEvent(_event, FirebaseAnalytics.ParameterLevel, _level);
+            string _event = PrepareEventValue("Level_Open");
+            FirebaseAnalytics.LogEvent(_event,
+                new Parameter[]{
+                    new Parameter(FirebaseAnalytics.ParameterLevel, _level),
+                    new Parameter("level_type", _type)
+                }
+            );
+
             Debug.Log("FirebaseAnalyticSystem.OpenLevel " + _level);
         }
 
         override public void StartLevel(int _level, string _type)
         {
-            string _event = PrepareEventValue("Level_Start_" + _type);
-            FirebaseAnalytics.LogEvent(_event, FirebaseAnalytics.ParameterLevel, _level);
+            string _event = PrepareEventValue("Level_Start");
+            FirebaseAnalytics.LogEvent(_event,
+                new Parameter[]{
+                    new Parameter(FirebaseAnalytics.ParameterLevel, _level),
+                    new Parameter("level_type", _type)
+                }
+            );
             Debug.Log("FirebaseAnalyticSystem.StartMission " + _level);
         }
 
         override public void FailLevel(int _level, string _type, int _score)
         {
-            string _event = PrepareEventValue("Level_Fail_" + _type);
-            FirebaseAnalytics.LogEvent(_event, FirebaseAnalytics.ParameterLevel, _level);
+            string _event = PrepareEventValue("Level_Fail");
+            FirebaseAnalytics.LogEvent(_event,
+                new Parameter[]{
+                    new Parameter(FirebaseAnalytics.ParameterLevel, _level),
+                    new Parameter("level_type", _type)
+                }
+            );
             Debug.Log("FirebaseAnalyticSystem.FailMission " + _level);
         }
 
         override public void CompleteLevel(int _level, string _type, int _score)
         {
-            string _event = PrepareEventValue("Level_completed" + _type);
-            FirebaseAnalytics.LogEvent(_event, FirebaseAnalytics.ParameterLevel, _level);
+            string _event = PrepareEventValue("Level_completed");
+            FirebaseAnalytics.LogEvent(_event,
+                new Parameter[]{
+                    new Parameter(FirebaseAnalytics.ParameterLevel, _level),
+                    new Parameter("level_type", _type),
+                    new Parameter("score", _score)
+                }
+            );
             //Additional event
             FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventLevelUp, FirebaseAnalytics.ParameterLevel, _level);
             Debug.Log("FirebaseAnalyticSystem.CompleteLevel " + _level);
