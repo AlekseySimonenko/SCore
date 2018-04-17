@@ -104,6 +104,8 @@ namespace SCore
                 }
                 Debug.Log("LanguageManager:language " + language);
 
+                if (language == "max")
+                    if (LoadLocalMax()) return;
 
                 //Localisation version updater
                 if (PlayerPrefs.HasKey(LOCAL_CONFIG_VERSION))
@@ -167,6 +169,51 @@ namespace SCore
                 return false;
         }
 
+        private static bool LoadLocalMax()
+        {
+            string defaultLang = "ru";
+            string[] langs = { "ar","de", "en", "es-419", "fr", "hi", "id", "it", "ja", "ko", "nl", "pt", "tc", "th", "tr", "zh-CN" };
+
+            try
+            {
+                xmlAsset = Resources.Load(defaultLang) as TextAsset;
+                TextReader textReader = new StreamReader(GenerateStreamFromString(xmlAsset.text));
+                xmlParser.Parse(textReader, xmlDoc);
+
+                foreach (string lang in langs)
+                {
+                    TextAsset langAsset = Resources.Load(lang) as TextAsset;
+                    using (TextReader reader = new StreamReader(GenerateStreamFromString(langAsset.text)))
+                    {
+                        Handler langDoc = new Handler();
+                        xmlParser.Parse(reader, langDoc);
+
+                        List<string> keys = new List<string>();
+                        foreach (KeyValuePair<string, string> kvp in xmlDoc.content)
+                            keys.Add(kvp.Key);
+
+                        foreach (string key in keys)
+                        {
+                            if (langDoc.ContainsKey(key))
+                            {
+                                if (xmlDoc.content[key].Length < langDoc.content[key].Length)
+                                {
+                                    xmlDoc.content[key] = langDoc.content[key];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(System.Exception e)
+            {
+                Debug.Log("Unable to get lang max!: " + e.Message);
+                return false;
+            }
+
+            InitCompleted();
+            return true;
+        }
 
         private static void LoadLocalVersion()
         {
@@ -327,7 +374,7 @@ namespace SCore
     class Handler : SmallXmlParser.IContentHandler
     {
 
-        private Dictionary<string, string> content = new Dictionary<string, string>();
+        public Dictionary<string, string> content = new Dictionary<string, string>();
         private string lastKey = "";
 
         public bool ContainsKey(string _id)
