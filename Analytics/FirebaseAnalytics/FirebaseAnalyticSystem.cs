@@ -32,6 +32,10 @@ namespace SCore
             Debug.Log("FirebaseAnalyticSystem init");
             try
             {
+                //Configuration
+                TimeSpan sessionTimeout = new TimeSpan(sessionTimeoutDurationMS * TimeSpan.TicksPerMillisecond);
+                FirebaseAnalytics.SetSessionTimeoutDuration(sessionTimeout);
+
                 //Init events
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
                 Debug.Log("FirebaseAnalyticSystem InitComplete");
