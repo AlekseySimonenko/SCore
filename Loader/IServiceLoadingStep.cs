@@ -9,12 +9,16 @@ namespace SCore
 
         public event Callback.EventHandler OnCompleted;
         public bool autoCompleteEventOnStart = false;
+        public float InitTimelimit = 5.0F;
+        private float initTimerlimit = 0.0F;
+
         private bool completed = false;
 
         // Use this for initialization
         void Start()
         {
             Debug.Log("IServiceLoadingStep: Start");
+            initTimerlimit = InitTimelimit;
         }
 
         // Update is called once per frame
@@ -25,16 +29,27 @@ namespace SCore
                 Debug.Log("IServiceLoadingStep: autoCompleteEventOnStart");
                 CompleteStep();
             }
+            if (initTimerlimit > 0 && !completed)
+            {
+                initTimerlimit -= Time.deltaTime;
+                if (initTimerlimit <= 0)
+                {
+                    CompleteStep();
+                }
+            }
         }
 
         public void CompleteStep()
         {
             Debug.Log("IServiceLoadingStep: CompleteStep");
-            completed = true;
-            if (OnCompleted != null)
+            if (!completed)
             {
-                OnCompleted();
-                OnCompleted = null;
+                completed = true;
+                if (OnCompleted != null)
+                {
+                    OnCompleted();
+                    OnCompleted = null;
+                }
             }
         }
 

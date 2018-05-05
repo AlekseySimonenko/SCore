@@ -22,9 +22,7 @@ namespace SCore
         public IAnalyticSystem[] defaultSystems;
 
         public UnityEvent OnInitActions;
-        public float InitTimelimit = 5.0F;
-        private float initTimerlimit = 0.0F;
-
+        
         private static IAnalyticSystem[] asystems = new IAnalyticSystem[ 0 ];
         private static int systemInitedCount = 0;
         private static bool isInitComplete = false;
@@ -52,22 +50,9 @@ namespace SCore
                     initSystems = defaultSystems;
                     break;
             }
-
-            initTimerlimit = InitTimelimit;
             Init(initSystems);
         }
 
-        private void Update()
-        {
-            if(initTimerlimit > 0 && !isInitComplete)
-            {
-                initTimerlimit -= Time.deltaTime;
-                if(initTimerlimit <= 0)
-                {
-                    InitCompleted();
-                }
-            }
-        }
 
         /// <summary>
         /// Only one init can will be called
