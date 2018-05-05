@@ -227,6 +227,7 @@ namespace SCore
 
         public override void Init()
         {
+            InitErrorEvent(this, "CORE_FB not added in compilation constants");
         }
 
         public override void SocialSignUp()

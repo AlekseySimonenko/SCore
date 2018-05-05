@@ -22,6 +22,8 @@ namespace SCore
         public IAnalyticSystem[] defaultSystems;
 
         public UnityEvent OnInitActions;
+        public float InitTimelimit = 5.0F;
+        private float initTimerlimit = 0.0F;
 
         private static IAnalyticSystem[] asystems = new IAnalyticSystem[ 0 ];
         private static int systemInitedCount = 0;
@@ -51,7 +53,20 @@ namespace SCore
                     break;
             }
 
+            initTimerlimit = InitTimelimit;
             Init(initSystems);
+        }
+
+        private void Update()
+        {
+            if(initTimerlimit > 0 && !isInitComplete)
+            {
+                initTimerlimit -= Time.deltaTime;
+                if(initTimerlimit <= 0)
+                {
+                    InitCompleted();
+                }
+            }
         }
 
         /// <summary>
@@ -105,18 +120,26 @@ namespace SCore
 
         static public void CheckInitCompleted()
         {
+            Debug.Log("AnalyticsManager.CheckInitCompleted");
             if (!isInitComplete)
             {
                 if (asystems == null || asystems.Length == 0 || systemInitedCount >= asystems.Length)
                 {
-                    Debug.Log("AnalyticsManager.AllSystemsInitComplete");
-                    isInitComplete = true;
-                    if (Instance.OnInitActions != null)
-                        Instance.OnInitActions.Invoke();
+                    InitCompleted();
                 }
             }
         }
 
+        static private void InitCompleted()
+        {
+            if (!isInitComplete)
+            {
+                    Debug.Log("AnalyticsManager.InitCompleted");
+                    isInitComplete = true;
+                    if (Instance.OnInitActions != null)
+                        Instance.OnInitActions.Invoke();
+            }
+        }
 
 
 
