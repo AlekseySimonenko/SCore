@@ -160,7 +160,7 @@ namespace SCore
         }
 
         //// <summary>
-        /// Track when mission/level/quest started
+        /// Track when mission/level/quest opened for player
         /// </summary>
         static public void OpenLevel(int _level, string _type)
         {
@@ -173,7 +173,7 @@ namespace SCore
         }
 
         //// <summary>
-        /// Track when mission/level/quest started
+        /// Track when mission/level/quest started by player
         /// </summary>
         static public void StartLevel(int _level, string _type)
         {
