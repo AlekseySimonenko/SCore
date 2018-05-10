@@ -12,11 +12,11 @@ namespace SCore
     /// </summary>
     public class ServiceLoader : MonoBehaviour
     {
-
         /// PUBLIC VARIABLES
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
+        public event Action<int, int> OnSyncStepLoadingEvent; 
 
         [Header("Asynchronous loading")]
         [Tooltip("Steps without complete event")]
@@ -69,6 +69,9 @@ namespace SCore
         {
             syncLoadingStep++;
             Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep);
+
+            if (OnSyncStepLoadingEvent != null)
+                OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
 
             if (syncLoadingStep < syncLoadingSteps.Length)
             {
