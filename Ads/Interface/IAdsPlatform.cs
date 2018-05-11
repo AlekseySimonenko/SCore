@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +15,10 @@ namespace SCore
         public abstract event Callback.EventHandler CompletedEvent;
         public abstract event Callback.EventHandler ErrorEvent;
 
+        /// <summary>
+        /// Init ads platform
+        /// </summary>
+        public abstract void Init();
 
         /// <summary>
         /// Is Interstitial ad was loading and ready
@@ -41,6 +45,8 @@ namespace SCore
         /// Show Rewarded ads that can't be skiped
         /// </summary>
         public abstract void ShowBanner();
+
+        
 
     }
 

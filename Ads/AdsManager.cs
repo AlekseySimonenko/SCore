@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +12,14 @@ namespace SCore
         /// PUBLIC VARIABLES
         [SerializeField]
         private bool isEnabled = true;
+        [SerializeField]
         public IAdsPlatform[] AdsPlatforms;
 
         /// PUBLIC CONSTANTS
         public enum ADSTYPES { INTERSTITIAL, REWARDED };
 
         /// PRIVATE CONSTANTS
+        private float reloadTimer;
 
         /// PRIVATE VARIABLES
         static private int TargetAdsPlatformID;
@@ -35,11 +37,11 @@ namespace SCore
                     adsPlatform.StartEvent += OnStarted;
                     adsPlatform.CompletedEvent += OnCompleted;
                     adsPlatform.ErrorEvent += OnError;
+
+                    adsPlatform.Init();
                 }
             }
         }
-
-
 
         // Update is called once per frame
         void Update()
