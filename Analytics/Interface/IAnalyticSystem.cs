@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SCore
@@ -36,6 +37,7 @@ namespace SCore
         public abstract void RequestTry(string _type, string _area);
         public abstract void RequestSuccess(string _type, string _area);
         public abstract void DesignEvent(string _id, int _amount);
+        public abstract void DesignEvent(string _id, Dictionary<string, object> parameters);
 
     }
 }

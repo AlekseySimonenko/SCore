@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 #if CORE_GA
 using GameAnalyticsSDK;
 using GameAnalyticsSDK.Wrapper;
@@ -306,6 +307,10 @@ namespace SCore
             GameAnalytics.NewDesignEvent(_id, _amount);
         }
 
+        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
 
 
 #else
@@ -412,6 +417,11 @@ namespace SCore
         public override void DesignEvent(string _id, int _amount)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
         }
 
 #endif

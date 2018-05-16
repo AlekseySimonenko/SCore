@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace SCore
@@ -390,6 +391,19 @@ namespace SCore
             {
                 if (asystem.isInited)
                     asystem.DesignEvent(_id, _amount);
+            }
+        }
+
+        //// <summary>
+        /// Track optional game design event
+        /// </summary>
+        static public void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            Debug.Log("AnalyticsManager.DesignEvent");
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                if (asystem.isInited)
+                    asystem.DesignEvent(_id, parameters);
             }
         }
 

@@ -207,6 +207,14 @@ namespace SCore
             Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount);
         }
 
+        override public void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            string _event = PrepareEventValue(_id);
+            FB.LogAppEvent(_event, 0, parameters);
+            Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event);
+        }
+
+
         private string PrepareEventValue(string _event)
         {
             _event.Replace(':', '_');
@@ -328,6 +336,11 @@ namespace SCore
         public override void DesignEvent(string _id, int _amount)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
         }
 #endif
     }

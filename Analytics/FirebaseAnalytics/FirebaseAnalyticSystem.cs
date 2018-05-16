@@ -233,6 +233,23 @@ namespace SCore
             Debug.Log("FirebaseAnalyticSystem.DesignEvent " + _event + " " + _amount);
         }
 
+        override public void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            string _event = PrepareEventValue(_id);
+
+            Parameter[] eventParameters = new Parameter[ parameters.Count ];
+            int i = 0;
+            foreach (KeyValuePair<string, object> kvp in parameters)
+            {
+                eventParameters[ i ] = new Parameter(kvp.Key, kvp.Value.ToString());
+                i++;
+            }
+
+            FirebaseAnalytics.LogEvent(_event, eventParameters);
+            Debug.Log("FirebaseAnalyticSystem.DesignEvent with Parameters " + _event);
+        }
+
+
         private string PrepareEventValue(string _event)
         {
             _event.Replace(':', '_');
@@ -345,6 +362,11 @@ namespace SCore
         public override void DesignEvent(string _id, int _amount)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
         }
 #endif
     }
