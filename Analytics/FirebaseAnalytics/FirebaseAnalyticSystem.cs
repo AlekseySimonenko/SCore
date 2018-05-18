@@ -237,15 +237,26 @@ namespace SCore
         {
             string _event = PrepareEventValue(_id);
 
-            Parameter[] eventParameters = new Parameter[ parameters.Count ];
-            int i = 0;
-            foreach (KeyValuePair<string, object> kvp in parameters)
+            try
             {
-                eventParameters[ i ] = new Parameter(kvp.Key, kvp.Value.ToString());
-                i++;
+                Parameter[] eventParameters = new Parameter[parameters.Count];
+                int i = 0;
+                foreach (KeyValuePair<string, object> kvp in parameters)
+                {
+                    eventParameters[i] = new Parameter(kvp.Key, kvp.Value.ToString());
+                    i++;
+                }
+
+                FirebaseAnalytics.LogEvent(_event, eventParameters);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("FirebaseAnalyticSystem Exception");
+                Debug.Log(e.ToString());
+                throw;
             }
 
-            FirebaseAnalytics.LogEvent(_event, eventParameters);
+
             Debug.Log("FirebaseAnalyticSystem.DesignEvent with Parameters " + _event);
         }
 

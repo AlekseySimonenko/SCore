@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -140,8 +141,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.SocialSignUp");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.SocialSignUp();
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.SocialSignUp();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -153,8 +163,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.OpenMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.OpenLevel(_level, _type);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.OpenLevel(_level, _type);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -166,8 +185,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.StartMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.StartLevel(_level, _type);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.StartLevel(_level, _type);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -179,8 +207,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.FailMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.FailLevel(_level, _type, _score);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.FailLevel(_level, _type, _score);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -192,8 +229,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.CompleteMission");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.CompleteLevel(_level, _type, _score);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.CompleteLevel(_level, _type, _score);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -205,8 +251,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.PostScore");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.NewScore(_level, _score);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.NewScore(_level, _score);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -218,8 +273,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.AchievenemntUnlocked");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.AchievenemntUnlocked(_achievementID);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.AchievenemntUnlocked(_achievementID);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -232,8 +296,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.TutorialStart");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.TutorialStart();
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.TutorialStart();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -245,8 +318,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.TutorialStart");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.TutorialCompleted();
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.TutorialCompleted();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -259,8 +341,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentInfoTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.PaymentInfoTry(_currency, _amount, _itemID, _itemType, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.PaymentInfoTry(_currency, _amount, _itemID, _itemType, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -272,8 +363,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentInfoSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.PaymentInfoSuccess(_currency, _amount, _itemID, _itemType, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.PaymentInfoSuccess(_currency, _amount, _itemID, _itemType, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -285,8 +385,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.PaymentReal");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.PaymentReal(_currency, _amount, _itemID, _itemType, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.PaymentReal(_currency, _amount, _itemID, _itemType, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -298,8 +407,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.ResourceAdd");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.ResourceAdd(_currency, _amount, _itemID, _itemType, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.ResourceAdd(_currency, _amount, _itemID, _itemType, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -311,8 +429,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.ResourceRemove");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.ResourceRemove(_currency, _amount, _itemID, _itemType, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.ResourceRemove(_currency, _amount, _itemID, _itemType, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -324,8 +451,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.InviteTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.InviteTry(_area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.InviteTry(_area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -337,8 +473,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.ShareTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.ShareTry(_id, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.ShareTry(_id, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -350,8 +495,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.ShareSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.ShareSuccess(_id, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.ShareSuccess(_id, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -363,8 +517,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.RequestTry");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.RequestTry(_type, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.RequestTry(_type, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -376,8 +539,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.RequestSuccess");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.RequestSuccess(_type, _area);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.RequestSuccess(_type, _area);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -389,8 +561,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.DesignEvent");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.DesignEvent(_id, _amount);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.DesignEvent(_id, _amount);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -402,8 +583,17 @@ namespace SCore
             Debug.Log("AnalyticsManager.DesignEvent");
             foreach (IAnalyticSystem asystem in asystems)
             {
-                if (asystem.isInited)
-                    asystem.DesignEvent(_id, parameters);
+                try
+                {
+                    if (asystem.isInited)
+                        asystem.DesignEvent(_id, parameters);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception");
+                    Debug.Log(e.ToString());
+                    throw;
+                }
             }
         }
 

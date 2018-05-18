@@ -210,7 +210,16 @@ namespace SCore
         override public void DesignEvent(string _id, Dictionary<string, object> parameters)
         {
             string _event = PrepareEventValue(_id);
-            FB.LogAppEvent(_event, 0, parameters);
+            try
+            {
+                FB.LogAppEvent(_event, 0, parameters);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("FBAnalyticSystem Exception");
+                Debug.Log(e.ToString());
+                throw;
+            }
             Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event);
         }
 
