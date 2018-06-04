@@ -309,7 +309,8 @@ namespace SCore
 
         public override void DesignEvent(string _id, Dictionary<string, object> parameters)
         {
-            throw new NotImplementedException();
+            Debug.Log("GameAnalytics.NewDesignEvent NotImplemented with parameters");
+            GameAnalytics.NewDesignEvent(_id, 0);
         }
 
 
