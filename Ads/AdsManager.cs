@@ -109,7 +109,7 @@ namespace SCore
             for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
             {
                 IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ i ];
-                switch (TargetAdsType)
+                switch (adstype)
                 {
                     case ADSTYPES.INTERSTITIAL:
                         if (AdsPlatform.IsInterstitialReady())
