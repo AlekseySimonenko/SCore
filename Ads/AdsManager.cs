@@ -15,6 +15,10 @@ namespace SCore
         [SerializeField]
         public IAdsPlatform[] AdsPlatforms;
 
+        static public event Callback.EventHandler StartAnyAdEvent;
+        static public event Callback.EventHandler CompletedAnyAdEvent;
+        static public event Callback.EventHandler ErrorAnyAdEvent;
+
         /// PUBLIC CONSTANTS
         public enum ADSTYPES { INTERSTITIAL, REWARDED };
 
@@ -109,7 +113,7 @@ namespace SCore
             for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
             {
                 IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ i ];
-                switch (adstype)
+                switch (TargetAdsType)
                 {
                     case ADSTYPES.INTERSTITIAL:
                         if (AdsPlatform.IsInterstitialReady())
@@ -127,9 +131,12 @@ namespace SCore
             return false;
         }
 
+
         static public void OnStarted()
         {
             Debug.Log("AdsManager OnStarted");
+            if (StartAnyAdEvent != null)
+                StartAnyAdEvent();
         }
 
         static public void OnCompleted()
@@ -137,6 +144,8 @@ namespace SCore
             Debug.Log("AdsManager OnCompleted");
             if (callbackCompletedMain != null)
                 callbackCompletedMain();
+            if (CompletedAnyAdEvent != null)
+                CompletedAnyAdEvent();
         }
 
         static public void OnError()
@@ -144,6 +153,8 @@ namespace SCore
             Debug.Log("AdsManager OnError");
             if (callbackErrorMain != null)
                 callbackErrorMain();
+            if (ErrorAnyAdEvent != null)
+                ErrorAnyAdEvent();
         }
 
 
