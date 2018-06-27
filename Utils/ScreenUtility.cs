@@ -17,7 +17,11 @@ namespace SCore
         public static bool IsTablet()
         {
             if (Application.isEditor)
+#if DEBUG_TABLET
+                return true;
+#else
                 return false;
+#endif
             else
                 return DeviceDiagonalSizeInInches() > 6.5F;
         }
