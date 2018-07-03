@@ -108,7 +108,7 @@ namespace SCore
 
         static public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
         {
-            Debug.Log("AdsManager: IsAnyAdsReady");
+            Debug.Log("AdsManager: IsAnyAdsReady " + adstype.ToString());
 
             for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
             {
