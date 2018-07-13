@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using SCore;
 using UnityEngine.UI;
+#if MESHPRO
+using TMPro;
+#endif
 
 namespace SCore
 {
@@ -10,6 +13,9 @@ namespace SCore
 
         public string idLocaleVar;
         public TextMesh textMesh;
+#if MESHPRO
+        public TextMeshProUGUI textMeshProUGUI;
+#endif
         public Text textUI;
 
         // Use this for initialization
@@ -23,6 +29,10 @@ namespace SCore
                 textUI = GetComponent<Text>();
             if (textUI != null)
                 textUI.text = LanguageManager.Get(idLocaleVar);
+#if MESHPRO
+            if (textMeshProUGUI != null)
+                textMeshProUGUI.text = LanguageManager.Get(idLocaleVar);
+#endif
         }
 
         // Update is called once per frame
