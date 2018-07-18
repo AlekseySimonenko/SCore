@@ -18,6 +18,7 @@ namespace SCore
         static public event Callback.EventHandler StartAnyAdEvent;
         static public event Callback.EventHandler CompletedAnyAdEvent;
         static public event Callback.EventHandler ErrorAnyAdEvent;
+        static public event Callback.EventHandler CancelAnyAdEvent;
 
         /// PUBLIC CONSTANTS
         public enum ADSTYPES { INTERSTITIAL, REWARDED };
@@ -31,6 +32,7 @@ namespace SCore
         static private float timeLimit;
         static private Callback.EventHandler callbackCompletedMain;
         static private Callback.EventHandler callbackErrorMain;
+        static private Callback.EventHandler callbackCancelMain;
 
         private void Start()
         {
@@ -41,6 +43,7 @@ namespace SCore
                     adsPlatform.StartEvent += OnStarted;
                     adsPlatform.CompletedEvent += OnCompleted;
                     adsPlatform.ErrorEvent += OnError;
+                    adsPlatform.CancelEvent += OnCancel;
 
                     adsPlatform.Init();
                 }
@@ -68,13 +71,14 @@ namespace SCore
         }
 
 
-        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Callback.EventHandler callbackCompleted = null, Callback.EventHandler callbackError = null, float _timeLimit = 0)
+        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Callback.EventHandler callbackCompleted = null, Callback.EventHandler callbackError = null, Callback.EventHandler callbackCancel = null, float _timeLimit = 0)
         {
             Debug.Log("AdsManager: ShowAds");
             TargetAdsPlatformID = -1;
             TargetAdsType = adstype;
             callbackCompletedMain = callbackCompleted;
             callbackErrorMain = callbackError;
+            callbackCancelMain = callbackCancel;
             timeLimit = _timeLimit;
             TryShowAds();
         }
@@ -155,6 +159,15 @@ namespace SCore
                 callbackErrorMain();
             if (ErrorAnyAdEvent != null)
                 ErrorAnyAdEvent();
+        }
+
+        static public void OnCancel()
+        {
+            Debug.Log("AdsManager OnCancel");
+            if (callbackCancelMain != null)
+                callbackCancelMain();
+            if (CancelAnyAdEvent != null)
+                CancelAnyAdEvent();
         }
 
 

@@ -14,6 +14,7 @@ namespace SCore
         public abstract event Callback.EventHandler StartEvent;
         public abstract event Callback.EventHandler CompletedEvent;
         public abstract event Callback.EventHandler ErrorEvent;
+        public abstract event Callback.EventHandler CancelEvent;
 
         /// <summary>
         /// Init ads platform
