@@ -13,7 +13,6 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 
 # Framework components
 * Singletone
-* Callback delegates
 
 # Utils
 * GameObject pool - ObjectPool.cs
@@ -35,6 +34,7 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * CORE_FB - use Facebook SDK
 * CORE_FIREBASE - use Firebase SDK
 * CORE_GA - use game analitycs
+* MESHPRO - use mesh pro plugin
 
 #Additional
 * Collection of components for fast development in Components folder
