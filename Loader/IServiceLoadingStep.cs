@@ -17,7 +17,7 @@ namespace SCore
         // Use this for initialization
         void Start()
         {
-            Debug.Log("IServiceLoadingStep: Start");
+            Debug.Log("IServiceLoadingStep: Start " + gameObject.name );
             initTimerlimit = InitTimelimit;
         }
 
@@ -26,7 +26,7 @@ namespace SCore
         {
             if (autoCompleteEventOnStart && !completed)
             {
-                Debug.Log("IServiceLoadingStep: autoCompleteEventOnStart");
+                Debug.Log("IServiceLoadingStep: AutoComplete " + gameObject.name );
                 CompleteStep();
             }
             if (initTimerlimit > 0 && !completed)
@@ -34,6 +34,7 @@ namespace SCore
                 initTimerlimit -= Time.deltaTime;
                 if (initTimerlimit <= 0)
                 {
+                    Debug.Log("IServiceLoadingStep: TimeLimit! " + gameObject.name);
                     CompleteStep();
                 }
             }
@@ -41,7 +42,7 @@ namespace SCore
 
         public void CompleteStep()
         {
-            Debug.Log("IServiceLoadingStep: CompleteStep");
+            Debug.Log("IServiceLoadingStep: CompleteStep " + gameObject.name);
             if (!completed)
             {
                 completed = true;

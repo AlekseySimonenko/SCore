@@ -68,19 +68,21 @@ namespace SCore
         void NextSyncLoadingStep()
         {
             syncLoadingStep++;
-            Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep);
-
+            Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep );
+            
             if (OnSyncStepLoadingEvent != null)
                 OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
 
             if (syncLoadingStep < syncLoadingSteps.Length)
             {
+                Debug.Log("ServiceLoader: Loading: " + syncLoadingSteps[syncLoadingStep].gameObject.name);
                 //Run next step
                 IServiceLoadingStep serviceStep = Instantiate(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
                 serviceStep.OnCompleted += OnSyncLoadingStepCompleted;
             }
             else
             {
+                Debug.Log("ServiceLoader: SyncLoadingSteps completed");
                 asyncLoadingStep = -1;
                 NextASyncLoadingStep();
             }
@@ -102,6 +104,7 @@ namespace SCore
 
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
+                Debug.Log("ServiceLoader: Loading: " + asyncLoadingSteps[asyncLoadingStep].gameObject.name);
                 //Run next step
                 Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
                 asyncLoadingStepReady = true;
