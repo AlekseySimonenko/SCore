@@ -44,5 +44,10 @@ namespace SCore
             instance = default(T);
         }
 
+        public static bool IsNotNull()
+        {
+            return instance != null;
+        }
+
     }
 }
