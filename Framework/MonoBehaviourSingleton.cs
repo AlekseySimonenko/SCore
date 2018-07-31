@@ -12,6 +12,12 @@ namespace SCore
         /// </summary>
         private static T instance;
 
+        void Awake()
+        {
+            if (instance == null)
+                instance = this.GetComponent<T>();
+        }
+
         public static T Instance
         {
             get
