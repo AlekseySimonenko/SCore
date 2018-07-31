@@ -59,7 +59,7 @@ namespace SCore
         /// <summary>
         /// Only one init can will be called
         /// </summary>
-        public static void Init(IAnalyticSystem[] _asystems)
+        private static void Init(IAnalyticSystem[] _asystems)
         {
             if (!isInitComplete)
             {
@@ -105,7 +105,7 @@ namespace SCore
             CheckInitCompleted();
         }
 
-        static public void CheckInitCompleted()
+        static private void CheckInitCompleted()
         {
             Debug.Log("AnalyticsManager.CheckInitCompleted");
             if (!isInitComplete)

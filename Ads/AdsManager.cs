@@ -83,7 +83,7 @@ namespace SCore
             TryShowAds();
         }
 
-        static public void TryShowAds()
+        static private void TryShowAds()
         {
             Debug.Log("AdsManager: TryShowAds");
             TargetAdsPlatformID++;
