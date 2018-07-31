@@ -10,13 +10,15 @@ namespace SCore
     //// <summary>
     /// Control loading any services on game start
     /// </summary>
-    public class ServiceLoader : MonoBehaviour
+    public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
     {
         /// PUBLIC VARIABLES
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
-        public event Action<int, int> OnSyncStepLoadingEvent; 
+        public event Action<int, int> OnSyncStepLoadingEvent;
+        public event Action<int, int> OnAsyncStepLoadingEvent;
+        public event Action OnLoadingCompletedEvent;
 
         [Header("Asynchronous loading")]
         [Tooltip("Steps without complete event")]
@@ -102,6 +104,9 @@ namespace SCore
             asyncLoadingStep++;
             Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep);
 
+            if (OnAsyncStepLoadingEvent != null)
+                OnAsyncStepLoadingEvent(asyncLoadingStep, asyncLoadingSteps.Length);
+
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
                 Debug.Log("ServiceLoader: Loading: " + asyncLoadingSteps[asyncLoadingStep].gameObject.name);
@@ -112,6 +117,10 @@ namespace SCore
             else
             {
                 Debug.Log("ServiceLoader: finalActions");
+
+                if (OnLoadingCompletedEvent != null)
+                    OnLoadingCompletedEvent();
+
                 finalActions.Invoke();
             }
         }

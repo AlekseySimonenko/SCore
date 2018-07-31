@@ -17,7 +17,6 @@ namespace SCore
         // Use this for initialization
         void Start()
         {
-            Debug.Log("IServiceLoadingStep: Start " + gameObject.name );
             initTimerlimit = InitTimelimit;
         }
 
