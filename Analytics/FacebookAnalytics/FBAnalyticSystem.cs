@@ -29,6 +29,8 @@ namespace SCore
             try
             {
                 //Init events
+                if (!FB.IsInitialized)
+                    FB.Init();
                 Debug.Log("FBAnalytics InitComplete");
                 if (InitCompletedEvent != null)
                     InitCompletedEvent(this);
