@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace SCore
 {
@@ -38,10 +35,13 @@ namespace SCore
         private int asyncLoadingStep;
         private bool asyncLoadingStepReady;
 
+        private System.Diagnostics.Stopwatch stopwatch;
+
         // Use this for initialization
         void Start()
         {
             Debug.Log("ServiceLoader: Start");
+            stopwatch = System.Diagnostics.Stopwatch.StartNew();
             syncLoadingStep = -1;
             NextSyncLoadingStep();
         }
@@ -70,8 +70,8 @@ namespace SCore
         void NextSyncLoadingStep()
         {
             syncLoadingStep++;
-            Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep );
-            
+            Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
+
             if (OnSyncStepLoadingEvent != null)
                 OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
 
@@ -102,7 +102,7 @@ namespace SCore
         void NextASyncLoadingStep()
         {
             asyncLoadingStep++;
-            Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep);
+            Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
 
             if (OnAsyncStepLoadingEvent != null)
                 OnAsyncStepLoadingEvent(asyncLoadingStep, asyncLoadingSteps.Length);
@@ -121,6 +121,7 @@ namespace SCore
                 if (OnLoadingCompletedEvent != null)
                     OnLoadingCompletedEvent();
 
+                stopwatch.Stop();
                 finalActions.Invoke();
             }
         }
