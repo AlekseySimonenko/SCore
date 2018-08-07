@@ -81,6 +81,7 @@ namespace SCore
             string _event = PrepareEventValue("Lv_Сomplete_" + _type);
             Debug.Log("FBAnalytics.CompleteLevel " + _level);
             FB.LogAppEvent(_event, _level);
+            FB.LogAppEvent(AppEventName.AchievedLevel, 0, new Dictionary<string, object>() { { AppEventParameterName.Level, _level } });
         }
 
         public override void NewScore(int _level, int _score)
