@@ -123,12 +123,10 @@ namespace SCore
                         if (AdsPlatform.IsInterstitialReady())
                             return true;
                         break;
-#if !UNITY_IOS
                     case ADSTYPES.REWARDED:
                         if (AdsPlatform.IsRewardedReady())
                             return true;
                         break;
-#endif
                 }
             }
 
