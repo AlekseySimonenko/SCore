@@ -315,7 +315,7 @@ namespace SCore
         /// </summary>
         static public void TutorialCompleted()
         {
-            Debug.Log("AnalyticsManager.TutorialStart");
+            Debug.Log("AnalyticsManager.TutorialCompleted");
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
