@@ -1,4 +1,5 @@
 using SCore.Loading;
+using SCore.Web;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;

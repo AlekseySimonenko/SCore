@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Web
 {
 
     /// <summary>

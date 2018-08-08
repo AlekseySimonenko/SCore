@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Web
 {
     /// <summary>
     /// Singletone language and texts manager
