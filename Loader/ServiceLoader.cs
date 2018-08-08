@@ -2,14 +2,18 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SCore
+namespace SCore.Loading
 {
     /// <summary>
     /// Control loading any services on game start
     /// </summary>
     public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
     {
-        /// PUBLIC VARIABLES
+        //PUBLIC STATIC
+
+        //PUBLIC EVENTS
+
+        //PUBLIC VARIABLES
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
@@ -24,18 +28,15 @@ namespace SCore
         [Header("Final")]
         public UnityEvent finalActions;
 
-        /// PUBLIC CONSTANTS
+        //PRIVATE STATIC
 
-        /// PRIVATE CONSTANTS
-
-        /// PRIVATE VARIABLES
+        //PRIVATE VARIABLES
         private int syncLoadingStep;
         private bool syncLoadingStepReady;
-
         private int asyncLoadingStep;
         private bool asyncLoadingStepReady;
-
         private System.Diagnostics.Stopwatch stopwatch;
+
 
         // Use this for initialization
         void Start()

@@ -1,10 +1,11 @@
+using SCore.Loading;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SCore
+namespace SCore.Localisation
 {
     /// <summary>
     /// Singletone language and texts manager
@@ -15,9 +16,14 @@ namespace SCore
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
+        //PUBLIC STATIC
+        public static string language;
+
+        //PUBLIC EVENTS
+
+        //PUBLIC VARIABLES
         [Header("Remote/Local version updater")]
         public int buildConfigVersion = 0;
-        private int localConfigVersion = 0;
         public int remoteConfigVersion = 0;
         public string remoteUrl;
         public float remoteUrlTimelimit = 5F;
@@ -28,8 +34,7 @@ namespace SCore
         [Header("Debug")]
         public string languageManual;
 
-        public static string language;
-
+        //PRIVATE STATIC
         private const string LOCAL_CONFIG_VERSION = "sCore_language_local_v";
 
         private static TextAsset xmlAsset;
@@ -40,6 +45,9 @@ namespace SCore
 
         // Only one init calling protect variables
         private static bool isInitComplete = false;
+
+        //PRIVATE VARIABLES
+        private int localConfigVersion = 0;
 
 
         private void Start()

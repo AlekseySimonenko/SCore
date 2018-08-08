@@ -1,4 +1,4 @@
-﻿ 
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,8 +12,8 @@ namespace SCore
     public class WebRequest : MonoBehaviour
     {
         public string url;
-        public Callback.EventHandlerObject callback;
-        public Callback.EventHandlerObject callbackError;
+        public Action<object> callback;
+        public Action<object> callbackError;
 
         private WWW www;
         private float timeLimit;

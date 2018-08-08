@@ -2,24 +2,32 @@
 using System.Collections;
 using UnityEngine.Audio;
 
-namespace SCore
+namespace SCore.Music
 {
     /// <summary>
     /// Music mixer and control
     /// </summary>
     public class MusicController : MonoBehaviour
     {
+        //PUBLIC STATIC
+        static public MusicController instance;
+
+        //PUBLIC EVENTS
+
+        //PUBLIC VARIABLES
         public MusicPlaylist[] playlists;
         public AudioMixer audioMixer;
         public int PlayOnAwakeID = -1;
 
-        static public MusicController instance;
+        //PRIVATE STATIC
         static private AudioSource audioSource;
-
         // Playing now track in playlist.
         static private int playtrack = 0;
         static private int playlistID = -1;
         static private bool pause = false;
+
+        //PRIVATE VARIABLES
+
 
 
 

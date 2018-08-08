@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Deactivate gameobject
+/// </summary>
 public class Deactivator : MonoBehaviour
 {
-
     public bool deactiveOnStart = false;
     public bool deactiveOnUpdate = false;
 

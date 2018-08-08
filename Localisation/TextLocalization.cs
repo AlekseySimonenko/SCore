@@ -6,8 +6,11 @@ using UnityEngine.UI;
 using TMPro;
 #endif
 
-namespace SCore
+namespace SCore.Localisation
 {
+    /// <summary>
+    /// Use SCore.LanguageManager to apply localisation text to UI components
+    /// </summary>
     public class TextLocalization : MonoBehaviour
     {
 

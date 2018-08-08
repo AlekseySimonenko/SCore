@@ -3,17 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Analytics
 {
+    /// <summary>
+    /// Track summary lifetime from install
+    /// </summary>
     public class AnalyticsTimer : MonoBehaviour
     {
-
+        //PUBLIC STATIC
+        //PUBLIC EVENTS
+        //PUBLIC VARIABLES
         public int[] trackMinutePoints;
 
-        private string PREFS_KEY_LAUNCHTIME = "secondsFromFirstLaunch";
-        private string PREFS_KEY_TRACKEDMINUTES = "trackedMinutes";
-        private float TRACK_TIME = 1.0F;
+        //PRIVATE STATIC
+        private const string PREFS_KEY_LAUNCHTIME = "secondsFromFirstLaunch";
+        private const string PREFS_KEY_TRACKEDMINUTES = "trackedMinutes";
+        private const float TRACK_TIME = 1.0F;
 
+        //PRIVATE VARIABLES
         private float trackTimer;
         private float timeFromFirstLaunch;
         private int trackedMinutes;

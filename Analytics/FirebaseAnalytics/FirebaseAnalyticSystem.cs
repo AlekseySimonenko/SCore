@@ -6,18 +6,26 @@ using System;
 using Firebase.Analytics;
 #endif
 
-namespace SCore
+namespace SCore.Analytics
 {
     /// <summary>
     /// Analytic class for Firebase https://firebase.google.com/docs/analytics/
     /// </summary
     public class FirebaseAnalyticSystem : IAnalyticSystem
     {
+        //PUBLIC STATIC
+
+        //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
+        //PUBLIC VARIABLES
         public int sessionTimeoutDurationMS = 180000;
-        private static Callback.EventHandler initCallbackFunction;
+
+        //PRIVATE STATIC
+        private static Action initCallbackFunction;
+
+        //PRIVATE VARIABLES
         private string targetGameKey;
         private string targetSecretKey;
 

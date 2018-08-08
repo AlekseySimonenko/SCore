@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace SCore
+namespace SCore.Saves
 {
     //s/ <summary>
     /// Static class controlling work with server saves
@@ -24,8 +24,8 @@ namespace SCore
 
         static private bool isInited = false;
 
-        private static Callback.EventHandlerObject gameLoadSuccessCallbackFunction;
-        private static Callback.EventHandlerObject gameLoadFailCallbackFunction;
+        private static Action<object> gameLoadSuccessCallbackFunction;
+        private static Action<object> gameLoadFailCallbackFunction;
 
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace SCore
         /// <summary>
         /// Game load profile from server storage
         /// </summary>
-        static public void Load(Callback.EventHandlerObject successCallbackFunction = null, Callback.EventHandlerObject failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        static public void Load(Action<object> successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
         {
             Debug.Log("SaveBackendStorage.Load");
             if (!CheckExceptions())
@@ -148,13 +148,13 @@ namespace SCore
                 gameLoadSuccessCallbackFunction(null);
         }
 
-        private static Callback.EventHandler gameSaveSuccessCallbackFunction;
-        private static Callback.EventHandlerObject gameSaveFailCallbackFunction;
+        private static Action gameSaveSuccessCallbackFunction;
+        private static Action<object> gameSaveFailCallbackFunction;
 
         /// <summary>
         /// Game save profile push to server storage
         /// </summary>
-        static public void Save(Dictionary<string, object> _saveVO, Dictionary<string, object> _meta = null, Callback.EventHandler successCallbackFunction = null, Callback.EventHandlerObject failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        static public void Save(Dictionary<string, object> _saveVO, Dictionary<string, object> _meta = null, Action successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
         {
             if (!CheckExceptions())
                 return;

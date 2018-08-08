@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using SCore.Loading;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SCore
+namespace SCore.Social
 {
     /// <summary>
     /// Static class choise and control social platforms
@@ -15,11 +16,11 @@ namespace SCore
         public ISocialPlatform platformAutoInit;
         public UnityEvent OnInitActions;
 
-        static public event Callback.EventHandler InitCompletedEvent;
-        static public event Callback.EventHandler InitErrorEvent;
-        static public event Callback.EventHandler LoginEvent;
-        static public event Callback.EventHandler LoginErrorEvent;
-        static public event Callback.EventHandler LogoutEvent;
+        static public event Action InitCompletedEvent;
+        static public event Action InitErrorEvent;
+        static public event Action LoginEvent;
+        static public event Action LoginErrorEvent;
+        static public event Action LogoutEvent;
 
         static public bool LoginCompleted { get; protected set; }
         static public bool LoginProcessed { get; protected set; }
@@ -42,7 +43,7 @@ namespace SCore
                 OnInitActions.Invoke();
         }
 
-        static public void Init(ISocialPlatform _platform, Callback.EventHandler callbackCompleted, Callback.EventHandler callbackError)
+        static public void Init(ISocialPlatform _platform, Action callbackCompleted, Action callbackError)
         {
             Debug.Log("SocialManager Init platform " + _platform.GetPlatformID());
             platform = _platform;
@@ -163,7 +164,7 @@ namespace SCore
             platform.InviteFriends(inviteText, area);
         }
 
-        static public void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback, string shareID, string area = "")
+        static public void Share(string title, string message, string url, string imageUrl, Action completedCallback, Action errorCallback, string shareID, string area = "")
         {
             Debug.Log("SocialManager.Share");
             platform.Share(title, message, url, imageUrl, completedCallback, errorCallback, shareID, area);

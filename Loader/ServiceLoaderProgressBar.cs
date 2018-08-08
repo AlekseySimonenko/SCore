@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SCore
+namespace SCore.Loading
 {
     /// <summary>
     /// Display servic loading information by image bar

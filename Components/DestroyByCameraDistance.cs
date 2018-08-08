@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace SCore
@@ -12,7 +13,7 @@ namespace SCore
         public float checkInterval = 5.0F;
         public bool isRecycle;
 
-        public event Callback.EventHandlerObject DestroyEvent;
+        public event Action<object> DestroyEvent;
 
         private float startTimer;
 

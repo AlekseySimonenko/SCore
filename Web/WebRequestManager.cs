@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SCore
 {
@@ -7,7 +8,7 @@ namespace SCore
     /// </summary>
     public class WebRequestManager
     {
-        public static void Request(string _url, Callback.EventHandlerObject successCallbackFunction = null, Callback.EventHandlerObject failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        public static void Request(string _url, Action<object> successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
         {
             Debug.Log("WebRequestManager.Request " + _url);
 

@@ -6,17 +6,20 @@ using GameAnalyticsSDK;
 using GameAnalyticsSDK.Wrapper;
 #endif
 
-namespace SCore
+namespace SCore.Analytics
 {
     /// <summary>
     /// Analytic class for Game Analytics (GA) https://go.gameanalytics.com
     /// </summary
     public class GAAnalyticSystem : IAnalyticSystem
     {
+        //PUBLIC STATIC
 
+        //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
+        //PUBLIC VARIABLES
         public bool useCustomInit = true;
 
         [Header("InEditor")]
@@ -47,6 +50,9 @@ namespace SCore
         public string GearProdGame;
         public string GearProdKey;
 
+        //PRIVATE STATIC
+
+        //PRIVATE VARIABLES
         private string targetGameKey;
         private string targetSecretKey;
 

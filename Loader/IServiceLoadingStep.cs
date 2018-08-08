@@ -1,17 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Loading
 {
+    /// <summary>
+    /// Every loading step gameobject may contain this component.
+    /// IServiceLoadingStep have many options to setup loading behavior.
+    /// </summary>
     public class IServiceLoadingStep : MonoBehaviour
     {
+        //PUBLIC STATIC
 
-        public event Callback.EventHandler OnCompleted;
+        //PUBLIC EVENTS
+        public event Action OnCompleted;
+
+        //PUBLIC VARIABLES
         public bool autoCompleteEventOnStart = false;
         public float InitTimelimit = 5.0F;
-        private float initTimerlimit = 0.0F;
 
+        //PRIVATE STATIC
+
+        //PRIVATE VARIABLES
+        private float initTimerlimit = 0.0F;
         private bool completed = false;
 
         // Use this for initialization

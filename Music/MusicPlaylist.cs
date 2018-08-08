@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Music
 {
     /// <summary>
-    /// Value object music playlist
+    /// Value object music playlist for SCore.MusicController
     /// </summary>
     public class MusicPlaylist : MonoBehaviour
     {

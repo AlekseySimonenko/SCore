@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Social
 {
     /// <summary>
     /// Interface of social platforms
@@ -11,11 +11,11 @@ namespace SCore
     [Serializable]
     public abstract class ISocialPlatform : MonoBehaviour
     {
-        public abstract event Callback.EventHandler InitCompletedEvent;
-        public abstract event Callback.EventHandler InitErrorEvent;
-        public abstract event Callback.EventHandler LoginEvent;
-        public abstract event Callback.EventHandler LoginErrorEvent;
-        public abstract event Callback.EventHandler LogoutEvent;
+        public abstract event Action InitCompletedEvent;
+        public abstract event Action InitErrorEvent;
+        public abstract event Action LoginEvent;
+        public abstract event Action LoginErrorEvent;
+        public abstract event Action LogoutEvent;
 
         /// <summary>
         /// Init social platform with custom parameters
@@ -61,7 +61,7 @@ namespace SCore
         /// <summary>
         /// Share post to social feed channel
         /// </summary>
-        public abstract void Share(string title, string message, string url, string imageUrl, Callback.EventHandler completedCallback, Callback.EventHandler errorCallback, string shareID, string area = "");
+        public abstract void Share(string title, string message, string url, string imageUrl, Action completedCallback, Action errorCallback, string shareID, string area = "");
     }
 
 }

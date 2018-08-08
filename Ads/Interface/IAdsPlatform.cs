@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Ads
 {
     /// <summary>
     /// Interface of ads platforms
@@ -11,10 +11,10 @@ namespace SCore
     [Serializable]
     public abstract class IAdsPlatform : MonoBehaviour
     {
-        public abstract event Callback.EventHandler StartEvent;
-        public abstract event Callback.EventHandler CompletedEvent;
-        public abstract event Callback.EventHandler ErrorEvent;
-        public abstract event Callback.EventHandler CancelEvent;
+        public abstract event Action StartEvent;
+        public abstract event Action CompletedEvent;
+        public abstract event Action ErrorEvent;
+        public abstract event Action CancelEvent;
 
         /// <summary>
         /// Init ads platform

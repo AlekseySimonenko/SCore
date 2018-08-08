@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SCore
+namespace SCore.Analytics
 {
     public class SceneTracker : MonoBehaviour
     {

@@ -1,38 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Ads
 {
     /// <summary>
     /// Static class controlling all ads platforms
     /// </summary>
     public class AdsManager : MonoBehaviourSingleton<AdsManager>
     {
-        /// PUBLIC VARIABLES
+        //PUBLIC STATIC
+        public enum ADSTYPES { INTERSTITIAL, REWARDED };
+
+        //PUBLIC EVENTS
+        static public event Action StartAnyAdEvent;
+        static public event Action CompletedAnyAdEvent;
+        static public event Action ErrorAnyAdEvent;
+        static public event Action CancelAnyAdEvent;
+
+        //PUBLIC VARIABLES
         [SerializeField]
         private bool isEnabled = true;
         [SerializeField]
         public IAdsPlatform[] AdsPlatforms;
 
-        static public event Callback.EventHandler StartAnyAdEvent;
-        static public event Callback.EventHandler CompletedAnyAdEvent;
-        static public event Callback.EventHandler ErrorAnyAdEvent;
-        static public event Callback.EventHandler CancelAnyAdEvent;
-
-        /// PUBLIC CONSTANTS
-        public enum ADSTYPES { INTERSTITIAL, REWARDED };
-
-        /// PRIVATE CONSTANTS
-        private float reloadTimer;
-
-        /// PRIVATE VARIABLES
+        //PRIVATE STATIC
         static private int TargetAdsPlatformID;
         static private ADSTYPES TargetAdsType;
         static private float timeLimit;
-        static private Callback.EventHandler callbackCompletedMain;
-        static private Callback.EventHandler callbackErrorMain;
-        static private Callback.EventHandler callbackCancelMain;
+        static private Action callbackCompletedMain;
+        static private Action callbackErrorMain;
+        static private Action callbackCancelMain;
+
+        //PRIVATE VARIABLES
+
 
         private void Start()
         {
@@ -71,7 +73,7 @@ namespace SCore
         }
 
 
-        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Callback.EventHandler callbackCompleted = null, Callback.EventHandler callbackError = null, Callback.EventHandler callbackCancel = null, float _timeLimit = 0)
+        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
         {
             Debug.Log("AdsManager: ShowAds");
             TargetAdsPlatformID = -1;
@@ -136,14 +138,16 @@ namespace SCore
 
         static public void OnStarted()
         {
-            Debug.Log("AdsManager OnStarted");
+            Debug.Log("AdsManager: OnStarted");
+
             if (StartAnyAdEvent != null)
                 StartAnyAdEvent();
         }
 
         static public void OnCompleted()
         {
-            Debug.Log("AdsManager OnCompleted");
+            Debug.Log("AdsManager: OnCompleted");
+
             if (callbackCompletedMain != null)
                 callbackCompletedMain();
             if (CompletedAnyAdEvent != null)
@@ -152,7 +156,8 @@ namespace SCore
 
         static public void OnError()
         {
-            Debug.Log("AdsManager OnError");
+            Debug.Log("AdsManager: OnError");
+
             if (callbackErrorMain != null)
                 callbackErrorMain();
             if (ErrorAnyAdEvent != null)
@@ -161,7 +166,8 @@ namespace SCore
 
         static public void OnCancel()
         {
-            Debug.Log("AdsManager OnCancel");
+            Debug.Log("AdsManager: OnCancel");
+
             if (callbackCancelMain != null)
                 callbackCancelMain();
             if (CancelAnyAdEvent != null)

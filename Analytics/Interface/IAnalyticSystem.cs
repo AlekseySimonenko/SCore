@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Analytics
 {
     /// <summary>
     /// Base abstract class for analytics platforms. By standart most of the features are disabled.

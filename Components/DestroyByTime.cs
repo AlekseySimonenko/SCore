@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SCore
 {
@@ -11,7 +12,7 @@ namespace SCore
         public bool isRecycle;
         public GameObject destroyEffect;
 
-        public event Callback.EventHandlerObject DestroyEvent;
+        public event Action<object> DestroyEvent;
 
         [HideInInspector]
         [SerializeField]

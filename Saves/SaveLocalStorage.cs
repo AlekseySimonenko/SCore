@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 
-namespace SCore
+namespace SCore.Saves
 {
     /// <summary>
     /// Static class controlling saving and loading of game progress on local storage.

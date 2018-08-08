@@ -5,15 +5,24 @@ using System;
 using Facebook.Unity;
 #endif
 
-namespace SCore
+namespace SCore.Analytics
 {
     /// <summary>
     /// Analytic class for Facebook events https://developers.facebook.com/docs/unity/reference/current/FB.LogAppEvent
     /// </summary
     public class FBAnalyticSystem : IAnalyticSystem
     {
+        //PUBLIC STATIC
+
+        //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
+
+        //PUBLIC VARIABLES
+
+        //PRIVATE STATIC
+
+        //PRIVATE VARIABLES
         private string targetGameKey;
         private string targetSecretKey;
 

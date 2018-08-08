@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SCore.Loading;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SCore
+namespace SCore.Analytics
 {
     /// <summary>
     /// Static class controlling analytic system choosing. 
@@ -12,6 +13,12 @@ namespace SCore
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
+        //PUBLIC STATIC
+
+        //PUBLIC EVENTS
+        public UnityEvent OnInitActions;
+
+        //PUBLIC VARIABLES
         [Header("Android platform Analytics")]
         public IAnalyticSystem[] androidSystems;
         [Header("iOS platform Analytics")]
@@ -23,11 +30,13 @@ namespace SCore
         [Header("Default platform Analytics")]
         public IAnalyticSystem[] defaultSystems;
 
-        public UnityEvent OnInitActions;
-        
-        private static IAnalyticSystem[] asystems = new IAnalyticSystem[ 0 ];
+        //PRIVATE STATIC
+        private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
         private static int systemInitedCount = 0;
         private static bool isInitComplete = false;
+
+        //PRIVATE VARIABLES
+
 
 
         private void Start()

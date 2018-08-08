@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace SCore
+namespace SCore.Social
 {
     public class SocialUser
     {
