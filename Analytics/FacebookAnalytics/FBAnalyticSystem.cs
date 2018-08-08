@@ -163,7 +163,7 @@ namespace SCore.Analytics
         /// </summary>
         override public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            string _event = PrepareEventValue("Rem_" + _currency + "_" + _itemID);
+            string _event = PrepareEventValue("Rem_" + _currency + "_" + _itemType);
             Debug.Log("FBAnalytics.ResourceRemove " + _currency + " " + _amount + " " + _itemID + " " + _itemType);
             FB.LogAppEvent(_event, _amount);
         }
