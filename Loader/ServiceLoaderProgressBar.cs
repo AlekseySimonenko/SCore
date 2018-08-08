@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Display servic loading information by image bar
     /// </summary>
     [RequireComponent(typeof(ServiceLoader))]

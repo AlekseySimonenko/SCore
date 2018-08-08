@@ -3,7 +3,7 @@
 namespace SCore
 {
 
-    //// <summary>
+    /// <summary>
     /// Object follow another object by some rules
     /// </summary>
     [DisallowMultipleComponent]

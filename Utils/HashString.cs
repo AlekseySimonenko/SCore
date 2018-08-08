@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class for hashing string to MD5 string
     /// </summary>
     public class HashString

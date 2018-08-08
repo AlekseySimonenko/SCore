@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Interface of ads platforms
     /// </summary>
     [Serializable]

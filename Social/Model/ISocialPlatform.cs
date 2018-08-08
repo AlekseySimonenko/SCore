@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Interface of social platforms
     /// </summary>
     [Serializable]

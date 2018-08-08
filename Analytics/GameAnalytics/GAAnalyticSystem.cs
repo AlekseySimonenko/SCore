@@ -204,7 +204,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("Tutorial:Completed");
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
         override public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -214,7 +214,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
         override public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -224,7 +224,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track business real payment with currency and value
         /// </summary>
         override public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -234,7 +234,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         override public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -243,7 +243,7 @@ namespace SCore
             GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, _currency, _amount, _itemType, _itemID);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         override public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -253,7 +253,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track open invite window
         /// </summary>
         override public void InviteTry(string _area)
@@ -262,7 +262,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("Invite:OpenWindow" + ":" + _area);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track open share window
         /// </summary>
         override public void ShareTry(string _id, string _area)
@@ -271,7 +271,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("ShareOpenWindow" + ":" + _id + ":" + _area);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track successfull share
         /// </summary>
         override public void ShareSuccess(string _id, string _area)
@@ -280,7 +280,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("ShareSuccess" + ":" + _id + ":" + _area);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track open Request window
         /// </summary>
         override public void RequestTry(string _type, string _area)
@@ -289,7 +289,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("Request:OpenWindow:" + _type + ":" + _area);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track successfull Request
         /// </summary>
         override public void RequestSuccess(string _type, string _area)
@@ -298,7 +298,7 @@ namespace SCore
             GameAnalytics.NewDesignEvent("Request:Success:" + _type + ":" + _area);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track optional game design event
         /// </summary>
         override public void DesignEvent(string _id, int _amount)

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SCore
 {
 
-    //// <summary>
+    /// <summary>
     /// This behavior attached to dummy object on the scene. 
     /// When  get response this object self-destroyed.
     /// </summary>

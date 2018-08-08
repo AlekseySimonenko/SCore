@@ -4,7 +4,7 @@ using System;
 
 namespace SCore
 {
-    //// <summary>
+    //s/ <summary>
     /// Static class controlling work with server saves
     /// </summary>
     static public class SaveBackendStorage

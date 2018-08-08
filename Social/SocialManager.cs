@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class choise and control social platforms
     /// Only one social platform can be inited at one time!
     /// </summary>

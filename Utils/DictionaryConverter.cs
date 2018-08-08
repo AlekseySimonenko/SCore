@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class for dictionary converter (from unknow to selected type)
     /// </summary>
     public class DictionaryConverter

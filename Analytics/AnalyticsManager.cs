@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class controlling analytic system choosing. 
     /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
     /// </summary>
@@ -133,7 +133,7 @@ namespace SCore
 
 
 
-        //// <summary>
+        /// <summary>
         /// Track when first login in social network
         /// </summary>
         static public void SocialSignUp()
@@ -155,7 +155,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest opened for player
         /// </summary>
         static public void OpenLevel(int _level, string _type)
@@ -177,7 +177,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest started by player
         /// </summary>
         static public void StartLevel(int _level, string _type)
@@ -199,7 +199,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
         static public void FailLevel(int _level, string _type, int _score)
@@ -221,7 +221,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
         static public void CompleteLevel(int _level, string _type, int _score)
@@ -243,7 +243,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when player get some record or score
         /// </summary>
         static public void NewScore(int _level, int _score)
@@ -265,7 +265,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when player get some record or score
         /// </summary>
         static public void AchievenemntUnlocked(string _achievementID)
@@ -288,7 +288,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track when game tutorial started
         /// </summary>
         static public void TutorialStart()
@@ -310,7 +310,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when game tutorial ended (only one time!)
         /// </summary>
         static public void TutorialCompleted()
@@ -333,7 +333,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
         static public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -355,7 +355,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
         static public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -377,7 +377,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track business real payment with currency and value
         /// </summary>
         static public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -399,7 +399,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         static public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -421,7 +421,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         static public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -443,7 +443,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info about invite try
         /// </summary>
         static public void InviteTry(string _area)
@@ -465,7 +465,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info about share try
         /// </summary>
         static public void ShareTry(string _id, string _area)
@@ -487,7 +487,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info about share success
         /// </summary>
         static public void ShareSuccess(string _id, string _area)
@@ -509,7 +509,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info about request try
         /// </summary>
         static public void RequestTry(string _type, string _area)
@@ -531,7 +531,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info about request success
         /// </summary>
         static public void RequestSuccess(string _type, string _area)
@@ -553,7 +553,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track optional game design event
         /// </summary>
         static public void DesignEvent(string _id, int _amount)
@@ -575,7 +575,7 @@ namespace SCore
             }
         }
 
-        //// <summary>
+        /// <summary>
         /// Track optional game design event
         /// </summary>
         static public void DesignEvent(string _id, Dictionary<string, object> parameters)

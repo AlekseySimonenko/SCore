@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class controlling all ads platforms
     /// </summary>
     public class AdsManager : MonoBehaviourSingleton<AdsManager>

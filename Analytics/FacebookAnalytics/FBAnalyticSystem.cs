@@ -43,7 +43,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest open and view
         /// </summary>
         override public void OpenLevel(int _level, string _type)
@@ -53,7 +53,7 @@ namespace SCore
             FB.LogAppEvent(_event, _level);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest started
         /// </summary>
         override public void StartLevel(int _level, string _type)
@@ -63,7 +63,7 @@ namespace SCore
             FB.LogAppEvent(_event, _level);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
         override public void FailLevel(int _level, string _type, int _score)
@@ -73,7 +73,7 @@ namespace SCore
             FB.LogAppEvent(_event, _level);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
         override public void CompleteLevel(int _level, string _type, int _score)
@@ -110,7 +110,7 @@ namespace SCore
             FB.LogAppEvent(AppEventName.CompletedTutorial);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
         override public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -120,7 +120,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
         override public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -129,7 +129,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track business real payment with currency and value
         /// </summary>
         override public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -139,7 +139,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         override public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -149,7 +149,7 @@ namespace SCore
             FB.LogAppEvent(_event, _amount);
         }
 
-        //// <summary>
+        /// <summary>
         /// Track resource event
         /// </summary>
         override public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -160,7 +160,7 @@ namespace SCore
         }
 
 
-        //// <summary>
+        /// <summary>
         /// Track open invite window
         /// </summary>
         override public void InviteTry(string _area)
@@ -168,7 +168,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        //// <summary>
+        /// <summary>
         /// Track open share window
         /// </summary>
         override public void ShareTry(string _id, string _area)
@@ -176,7 +176,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        //// <summary>
+        /// <summary>
         /// Track successfull share
         /// </summary>
         override public void ShareSuccess(string _id, string _area)
@@ -184,7 +184,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        //// <summary>
+        /// <summary>
         /// Track open Request window
         /// </summary>
         override public void RequestTry(string _type, string _area)
@@ -192,7 +192,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        //// <summary>
+        /// <summary>
         /// Track successfull Request
         /// </summary>
         override public void RequestSuccess(string _type, string _area)
@@ -200,7 +200,7 @@ namespace SCore
             //Facebook platform already has this info
         }
 
-        //// <summary>
+        /// <summary>
         /// Track optional game design event
         /// </summary>
         override public void DesignEvent(string _id, int _amount)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class for recursive finding childs of objects by tag
     /// </summary>
     public class TagChildsFinder

@@ -2,7 +2,7 @@
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Protected variables by key offset
     /// </summary>
     public class MemoryProtection

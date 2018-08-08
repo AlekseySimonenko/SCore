@@ -6,7 +6,7 @@ using System.IO;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Static class controlling saving and loading of game progress on local storage.
     /// </summary>
     public class SaveLocalStorage

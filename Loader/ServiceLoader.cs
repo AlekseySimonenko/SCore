@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace SCore
 {
-    //// <summary>
+    /// <summary>
     /// Control loading any services on game start
     /// </summary>
     public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
