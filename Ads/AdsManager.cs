@@ -98,9 +98,7 @@ namespace SCore.Ads
                         AdsPlatform.ShowInterstitial();
                         break;
                     case ADSTYPES.REWARDED:
-#if !UNITY_IOS
                         AdsPlatform.ShowRewarded();
-#endif
                         break;
                 }
             }
