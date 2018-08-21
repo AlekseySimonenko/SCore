@@ -25,7 +25,7 @@ namespace SCore.Templates
         /// </summary>
         void Start()
         {
-
+            Debug.Log("TemplateSingletone:" + "Start");
         }
 
         /// <summary>
