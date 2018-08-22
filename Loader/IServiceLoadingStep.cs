@@ -49,6 +49,11 @@ namespace SCore.Loading
             }
         }
 
+        public void CompleteStep()
+        {
+            CompleteStep("");
+        }
+
         public void CompleteStep(string _reason = "")
         {
             Debug.Log("IServiceLoadingStep: CompleteStep " + _reason + " " + gameObject.name);
