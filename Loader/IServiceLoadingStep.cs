@@ -37,23 +37,21 @@ namespace SCore.Loading
         {
             if (autoCompleteEventOnStart && !completed)
             {
-                Debug.Log("IServiceLoadingStep: AutoComplete " + gameObject.name );
-                CompleteStep();
+                CompleteStep("AutoComplete");
             }
             if (initTimerlimit > 0 && !completed)
             {
                 initTimerlimit -= Time.deltaTime;
                 if (initTimerlimit <= 0)
                 {
-                    Debug.Log("IServiceLoadingStep: TimeLimit! " + gameObject.name);
-                    CompleteStep();
+                    CompleteStep("TimeLimit");
                 }
             }
         }
 
-        public void CompleteStep()
+        public void CompleteStep(string _reason = "")
         {
-            Debug.Log("IServiceLoadingStep: CompleteStep " + gameObject.name);
+            Debug.Log("IServiceLoadingStep: CompleteStep " + _reason + " " + gameObject.name);
             if (!completed)
             {
                 completed = true;

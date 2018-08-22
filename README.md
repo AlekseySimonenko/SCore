@@ -26,7 +26,7 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 
 # Platforms support
 * Android
-* Ios
+* ios
 * WebGL
 * Unknow basic
 
@@ -36,5 +36,5 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * CORE_GA - use game analitycs
 * MESHPRO - use mesh pro plugin
 
-#Additional
+# Additional
 * Collection of components for fast development in Components folder

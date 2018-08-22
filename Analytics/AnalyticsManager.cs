@@ -567,7 +567,7 @@ namespace SCore.Analytics
         /// </summary>
         static public void DesignEvent(string _id, int _amount)
         {
-            Debug.Log("AnalyticsManager.DesignEvent");
+            Debug.Log("AnalyticsManager.DesignEvent " + _id + " " + _amount.ToString());
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try

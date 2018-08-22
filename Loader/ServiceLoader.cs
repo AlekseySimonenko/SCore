@@ -71,14 +71,14 @@ namespace SCore.Loading
         void NextSyncLoadingStep()
         {
             syncLoadingStep++;
-            Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
+            //Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
 
             if (OnSyncStepLoadingEvent != null)
                 OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
 
             if (syncLoadingStep < syncLoadingSteps.Length)
             {
-                Debug.Log("ServiceLoader: Loading: " + syncLoadingSteps[syncLoadingStep].gameObject.name);
+                Debug.Log("ServiceLoader: NextSyncLoadingStep: " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + syncLoadingSteps[syncLoadingStep].gameObject.name);
                 //Run next step
                 IServiceLoadingStep serviceStep = Instantiate(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
                 serviceStep.OnCompleted += OnSyncLoadingStepCompleted;
@@ -103,14 +103,14 @@ namespace SCore.Loading
         void NextASyncLoadingStep()
         {
             asyncLoadingStep++;
-            Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
+            //Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
 
             if (OnAsyncStepLoadingEvent != null)
                 OnAsyncStepLoadingEvent(asyncLoadingStep, asyncLoadingSteps.Length);
 
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
-                Debug.Log("ServiceLoader: Loading: " + asyncLoadingSteps[asyncLoadingStep].gameObject.name);
+                Debug.Log("ServiceLoader: Loading: " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + asyncLoadingSteps[asyncLoadingStep].gameObject.name);
                 //Run next step
                 Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
                 asyncLoadingStepReady = true;
