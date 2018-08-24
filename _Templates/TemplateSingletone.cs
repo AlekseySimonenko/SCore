@@ -25,7 +25,7 @@ namespace SCore.Templates
         /// </summary>
         void Start()
         {
-            Debug.Log("TemplateSingletone:" + "Start");
+            Debug.Log("TemplateSingletone:" + "Start", Instance.gameObject);
         }
 
         /// <summary>

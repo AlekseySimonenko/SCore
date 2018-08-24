@@ -41,7 +41,7 @@ namespace SCore.Loading
         // Use this for initialization
         void Start()
         {
-            Debug.Log("ServiceLoader: Start");
+            Debug.Log("ServiceLoader: Start", gameObject);
             stopwatch = System.Diagnostics.Stopwatch.StartNew();
             syncLoadingStep = -1;
             NextSyncLoadingStep();
@@ -71,21 +71,20 @@ namespace SCore.Loading
         void NextSyncLoadingStep()
         {
             syncLoadingStep++;
-            //Debug.Log("ServiceLoader: NextSyncLoadingStep " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
 
             if (OnSyncStepLoadingEvent != null)
                 OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
 
             if (syncLoadingStep < syncLoadingSteps.Length)
             {
-                Debug.Log("ServiceLoader: NextSyncLoadingStep: " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + syncLoadingSteps[syncLoadingStep].gameObject.name);
+                Debug.Log("ServiceLoader: NextSyncLoadingStep: " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + syncLoadingSteps[syncLoadingStep].gameObject.name, gameObject);
                 //Run next step
                 IServiceLoadingStep serviceStep = Instantiate(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
                 serviceStep.OnCompleted += OnSyncLoadingStepCompleted;
             }
             else
             {
-                Debug.Log("ServiceLoader: SyncLoadingSteps completed");
+                Debug.Log("ServiceLoader: SyncLoadingSteps completed", gameObject);
                 asyncLoadingStep = -1;
                 NextASyncLoadingStep();
             }
@@ -103,21 +102,20 @@ namespace SCore.Loading
         void NextASyncLoadingStep()
         {
             asyncLoadingStep++;
-            //Debug.Log("ServiceLoader: NextASyncLoadingStep " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f));
 
             if (OnAsyncStepLoadingEvent != null)
                 OnAsyncStepLoadingEvent(asyncLoadingStep, asyncLoadingSteps.Length);
 
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
-                Debug.Log("ServiceLoader: Loading: " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + asyncLoadingSteps[asyncLoadingStep].gameObject.name);
+                Debug.Log("ServiceLoader: Loading: " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + asyncLoadingSteps[asyncLoadingStep].gameObject.name, gameObject);
                 //Run next step
                 Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
                 asyncLoadingStepReady = true;
             }
             else
             {
-                Debug.Log("ServiceLoader: finalActions");
+                Debug.Log("ServiceLoader: finalActions", gameObject);
 
                 if (OnLoadingCompletedEvent != null)
                     OnLoadingCompletedEvent();

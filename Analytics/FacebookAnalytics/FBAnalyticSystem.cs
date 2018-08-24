@@ -40,7 +40,7 @@ namespace SCore.Analytics
                 //Init events
                 if (!FB.IsInitialized)
                     FB.Init();
-                Debug.Log("FBAnalytics InitComplete");
+                Debug.Log("FBAnalytics InitComplete ", gameObject);
                 if (InitCompletedEvent != null)
                     InitCompletedEvent(this);
             }
@@ -58,7 +58,7 @@ namespace SCore.Analytics
         override public void OpenLevel(int _level, string _type)
         {
             string _event = PrepareEventValue("Lv_Open_" + _type);
-            Debug.Log("FBAnalytics.OpenLevel " + _level);
+            Debug.Log("FBAnalytics.OpenLevel " + _level, gameObject);
             FB.LogAppEvent(_event, _level);
         }
 
@@ -68,7 +68,7 @@ namespace SCore.Analytics
         override public void StartLevel(int _level, string _type)
         {
             string _event = PrepareEventValue("Lv_Start_" + _type);
-            Debug.Log("FBAnalytics.StartMission " + _level);
+            Debug.Log("FBAnalytics.StartMission " + _level, gameObject);
             FB.LogAppEvent(_event, _level);
         }
 
@@ -78,7 +78,7 @@ namespace SCore.Analytics
         override public void FailLevel(int _level, string _type, int _score)
         {
             string _event = PrepareEventValue("Lv_Fail_" + _type);
-            Debug.Log("FBAnalytics.FailMission " + _level);
+            Debug.Log("FBAnalytics.FailMission " + _level, gameObject);
             FB.LogAppEvent(_event, _level);
         }
 
@@ -88,34 +88,34 @@ namespace SCore.Analytics
         override public void CompleteLevel(int _level, string _type, int _score)
         {
             string _event = PrepareEventValue("Lv_Сomplete_" + _type);
-            Debug.Log("FBAnalytics.CompleteLevel " + _level);
+            Debug.Log("FBAnalytics.CompleteLevel " + _level, gameObject);
             FB.LogAppEvent(_event, _level);
             FB.LogAppEvent(AppEventName.AchievedLevel, 0, new Dictionary<string, object>() { { AppEventParameterName.Level, _level } });
         }
 
         public override void NewScore(int _level, int _score)
         {
-            Debug.Log("FBAnalytics.PostScore " + _level + " " + _score);
+            Debug.Log("FBAnalytics.PostScore " + _level + " " + _score, gameObject);
             string _event = PrepareEventValue("score");
             FB.LogAppEvent(_event, _score, new Dictionary<string, object>() { { AppEventParameterName.Level, _level } });
         }
 
         public override void AchievenemntUnlocked(string _achievementID)
         {
-            Debug.Log("FBAnalytics.AchievenemntUnlocked " + _achievementID);
+            Debug.Log("FBAnalytics.AchievenemntUnlocked " + _achievementID, gameObject);
             FB.LogAppEvent(AppEventName.UnlockedAchievement, 0, new Dictionary<string, object>() { { AppEventParameterName.Description, _achievementID } });
         }
 
         public override void TutorialStart()
         {
-            Debug.Log("FBAnalytics.TutorialStart");
+            Debug.Log("FBAnalytics.TutorialStart", gameObject);
             string _event = PrepareEventValue("fb_mobile_tutorial_started");
             FB.LogAppEvent(_event);
         }
 
         public override void TutorialCompleted()
         {
-            Debug.Log("FBAnalytics.TutorialCompleted");
+            Debug.Log("FBAnalytics.TutorialCompleted", gameObject);
             FB.LogAppEvent(AppEventName.CompletedTutorial);
         }
 
@@ -124,7 +124,7 @@ namespace SCore.Analytics
         /// </summary>
         override public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("FBAnalytics.PaymentInfoTry " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType);
+            Debug.Log("FBAnalytics.PaymentInfoTry " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType, gameObject);
             FB.LogAppEvent(AppEventName.InitiatedCheckout, _amount / 100.0F, new Dictionary<string, object>() { { AppEventParameterName.Currency, _currency } });
         }
 
@@ -144,7 +144,7 @@ namespace SCore.Analytics
         override public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             FB.LogPurchase(_amount / 100.0F, _currency);
-            Debug.Log("FBAnalytics.PaymentReal " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType);
+            Debug.LogFormat(gameObject, "FBAnalytics.PaymentReal {0} {1} {2} {3}", new object[] { _currency, _amount / 100.0F, _itemID, _itemType });
         }
 
 
@@ -154,7 +154,7 @@ namespace SCore.Analytics
         override public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             string _event = PrepareEventValue("Add_" + _currency + "_" + _itemID);
-            Debug.Log("FBAnalytics.ResourceAdd " + _currency + " " + _amount + " " + _itemID + " " + _itemType);
+            Debug.Log("FBAnalytics.ResourceAdd " + _currency + " " + _amount + " " + _itemID + " " + _itemType, gameObject);
             FB.LogAppEvent(_event, _amount);
         }
 
@@ -164,7 +164,7 @@ namespace SCore.Analytics
         override public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             string _event = PrepareEventValue("Rem_" + _currency + "_" + _itemType);
-            Debug.Log("FBAnalytics.ResourceRemove " + _currency + " " + _amount + " " + _itemID + " " + _itemType);
+            Debug.Log("FBAnalytics.ResourceRemove " + _currency + " " + _amount + " " + _itemID + " " + _itemType, gameObject);
             FB.LogAppEvent(_event, _amount);
         }
 
@@ -216,7 +216,7 @@ namespace SCore.Analytics
         {
             string _event = PrepareEventValue(_id);
             FB.LogAppEvent(_event, _amount);
-            Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount);
+            Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount, gameObject);
         }
 
         override public void DesignEvent(string _id, Dictionary<string, object> parameters)
@@ -228,11 +228,11 @@ namespace SCore.Analytics
             }
             catch (Exception e)
             {
-                Debug.Log("FBAnalyticSystem Exception");
+                Debug.Log("FBAnalyticSystem Exception", gameObject);
                 Debug.Log(e.ToString());
                 throw;
             }
-            Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event);
+            Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event, gameObject);
         }
 
 

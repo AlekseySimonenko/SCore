@@ -61,7 +61,7 @@ namespace SCore
         /// </summary>
         public void DestroyObject()
         {
-            Debug.Log("DestroyObject");
+            //Debug.Log("DestroyObject");
             if (gameObject.activeInHierarchy)
             {
                 StopAllCoroutines();

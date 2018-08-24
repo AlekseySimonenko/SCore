@@ -60,7 +60,7 @@ namespace SCore.Localisation
         {
             if (!isInitComplete)
             {
-                Debug.Log("LanguageManager:init");
+                Debug.Log("LanguageManager:init", Instance.gameObject);
 
                 if (Application.isEditor || Debug.isDebugBuild)
                 {
@@ -111,7 +111,7 @@ namespace SCore.Localisation
                         language = "es-419";
 
                 }
-                Debug.Log("LanguageManager:language " + language);
+                Debug.Log("LanguageManager:language " + language, Instance.gameObject);
 
                 if (language == "max")
                     if (LoadLocalMax()) return;
@@ -130,7 +130,7 @@ namespace SCore.Localisation
             }
             else
             {
-                Debug.LogError("LanguageManager:Repeating static class Init!");
+                Debug.LogError("LanguageManager:Repeating static class Init!", Instance.gameObject);
             }
         }
 
@@ -138,28 +138,28 @@ namespace SCore.Localisation
         {
             if (!isInitComplete)
             {
-                Debug.Log("LanguageManager:Init completed");
+                Debug.Log("LanguageManager:Init completed", Instance.gameObject);
                 isInitComplete = true;
                 if (Instance.OnInitActions != null)
                     Instance.OnInitActions.Invoke();
             }
             else
             {
-                Debug.LogError("LanguageManager:Repeating static class Init Completed!");
+                Debug.LogError("LanguageManager:Repeating static class Init Completed!", Instance.gameObject);
             }
         }
 
 
         private static void LoadBuildVersion()
         {
-            Debug.Log("LanguageManager: LoadBuildVersion " + language);
+            Debug.Log("LanguageManager: LoadBuildVersion " + language, Instance.gameObject);
             if (!LoadResource(language))
             {
-                Debug.LogWarning("LanguageManager: Language xml not found " + language);
+                Debug.LogWarning("LanguageManager: Language xml not found " + language, Instance.gameObject);
                 language = "en";
                 if (!LoadResource(language))
                 {
-                    Debug.LogError("LanguageManager: Default Language xml not found " + language);
+                    Debug.LogError("LanguageManager: Default Language xml not found " + language, Instance.gameObject);
                 }
             }
         }
@@ -216,7 +216,7 @@ namespace SCore.Localisation
             }
             catch(System.Exception e)
             {
-                Debug.Log("Unable to get lang max!: " + e.Message);
+                Debug.Log("Unable to get lang max!: " + e.Message, Instance.gameObject);
                 return false;
             }
 
@@ -226,7 +226,7 @@ namespace SCore.Localisation
 
         private static void LoadLocalVersion()
         {
-            Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(language));
+            Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(language), Instance.gameObject);
             if (File.Exists(GetLocalConfigName(language)))
             {
                 LoadFromFile(GetLocalConfigName(language));
@@ -235,7 +235,7 @@ namespace SCore.Localisation
             }
             else
             {
-                Debug.LogWarning("LanguageManager: Local language xml not found " + language);
+                Debug.LogWarning("LanguageManager: Local language xml not found " + language, Instance.gameObject);
                 LoadBuildVersion();
             }
         }
@@ -243,7 +243,7 @@ namespace SCore.Localisation
         private static void LoadRemoteVersion()
         {
             string configUrl = Instance.remoteUrl + language + ".xml" + "?v=" + Instance.remoteConfigVersion;
-            Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl);
+            Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl, Instance.gameObject);
 
             WebRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, Instance.remoteUrlTimelimit);
 
@@ -260,11 +260,11 @@ namespace SCore.Localisation
 
         private static void OnLoadRemoteCompleted(object _object)
         {
-            Debug.Log("LanguageManager: OnLoadRemoteCompleted");
+            Debug.Log("LanguageManager: OnLoadRemoteCompleted", Instance.gameObject);
 
             if (_object == null)
             {
-                Debug.LogWarning("LanguageManager: ERROR null request response");
+                Debug.LogWarning("LanguageManager: ERROR null request response", Instance.gameObject);
                 return;
             }
 
@@ -272,7 +272,7 @@ namespace SCore.Localisation
             string data = www.text;
             if (data == "")
             {
-                Debug.LogWarning("LanguageManager: ERROR zero request response");
+                Debug.LogWarning("LanguageManager: ERROR zero request response", Instance.gameObject);
                 return;
             }
 
@@ -288,7 +288,7 @@ namespace SCore.Localisation
 
         private static void OnLoadRemoteError(object data)
         {
-            Debug.LogWarning("LanguageManager: OnLoadRemoteError");
+            Debug.LogWarning("LanguageManager: OnLoadRemoteError", Instance.gameObject);
             LoadLocalVersion();
         }
 
@@ -327,7 +327,7 @@ namespace SCore.Localisation
             }
             else
             {
-                Debug.LogError("LanguageManager: return " + "!none on id: " + _id);
+                Debug.LogError("LanguageManager: return " + "!none on id: " + _id, Instance.gameObject);
                 return "!none";
             }
         }

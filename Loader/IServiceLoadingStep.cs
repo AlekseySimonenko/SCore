@@ -56,7 +56,7 @@ namespace SCore.Loading
 
         public void CompleteStep(string _reason = "")
         {
-            Debug.Log("IServiceLoadingStep: CompleteStep " + _reason + " " + gameObject.name);
+            Debug.Log("IServiceLoadingStep: CompleteStep " + _reason + " " + gameObject.name, gameObject);
             if (!completed)
             {
                 completed = true;

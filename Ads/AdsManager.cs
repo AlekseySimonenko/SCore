@@ -61,7 +61,7 @@ namespace SCore.Ads
                 timeLimit -= Time.unscaledDeltaTime;
                 if (timeLimit <= 0)
                 {
-                    Debug.Log("AdsManager: timeLimit");
+                    Debug.Log("AdsManager: timeLimit", Instance.gameObject);
                     callbackErrorMain();
                 }
             }
@@ -75,7 +75,7 @@ namespace SCore.Ads
 
         static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
         {
-            Debug.Log("AdsManager: ShowAds");
+            Debug.Log("AdsManager: ShowAds", Instance.gameObject);
             TargetAdsPlatformID = -1;
             TargetAdsType = adstype;
             callbackCompletedMain = callbackCompleted;
@@ -87,7 +87,7 @@ namespace SCore.Ads
 
         static private void TryShowAds()
         {
-            Debug.Log("AdsManager: TryShowAds");
+            Debug.Log("AdsManager: TryShowAds", Instance.gameObject);
             TargetAdsPlatformID++;
             if (TargetAdsPlatformID < Instance.AdsPlatforms.Length)
             {
@@ -104,7 +104,7 @@ namespace SCore.Ads
             }
             else
             {
-                Debug.LogWarning("AdsManager: no more ads platforms");
+                Debug.LogWarning("AdsManager: no more ads platforms", Instance.gameObject);
                 if (callbackErrorMain != null)
                     callbackErrorMain();
             }
@@ -112,7 +112,7 @@ namespace SCore.Ads
 
         static public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
         {
-            Debug.Log("AdsManager: IsAnyAdsReady " + adstype.ToString());
+            Debug.Log("AdsManager: IsAnyAdsReady " + adstype.ToString(), Instance.gameObject);
 
             for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
             {
@@ -136,7 +136,7 @@ namespace SCore.Ads
 
         static public void OnStarted()
         {
-            Debug.Log("AdsManager: OnStarted");
+            Debug.Log("AdsManager: OnStarted", Instance.gameObject);
 
             if (StartAnyAdEvent != null)
                 StartAnyAdEvent();
@@ -144,7 +144,7 @@ namespace SCore.Ads
 
         static public void OnCompleted()
         {
-            Debug.Log("AdsManager: OnCompleted");
+            Debug.Log("AdsManager: OnCompleted", Instance.gameObject);
 
             if (callbackCompletedMain != null)
                 callbackCompletedMain();
@@ -154,7 +154,7 @@ namespace SCore.Ads
 
         static public void OnError()
         {
-            Debug.Log("AdsManager: OnError");
+            Debug.Log("AdsManager: OnError", Instance.gameObject);
 
             if (callbackErrorMain != null)
                 callbackErrorMain();
@@ -164,7 +164,7 @@ namespace SCore.Ads
 
         static public void OnCancel()
         {
-            Debug.Log("AdsManager: OnCancel");
+            Debug.Log("AdsManager: OnCancel", Instance.gameObject);
 
             if (callbackCancelMain != null)
                 callbackCancelMain();
