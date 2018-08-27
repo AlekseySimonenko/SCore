@@ -65,8 +65,7 @@ namespace SCore
                 Instantiate(destroyEffect, transform.position, new Quaternion());
             }
 
-            if (DestroyEvent != null)
-                DestroyEvent(gameObject);
+            DestroyEvent?.Invoke(gameObject);
 
             if (isRecycle)
             {

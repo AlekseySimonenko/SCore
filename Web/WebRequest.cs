@@ -27,10 +27,10 @@ namespace SCore.Web
 
         private void Update()
         {
-            if(timeLimit > 0.0F)
+            if (timeLimit > 0.0F)
             {
                 timeLimit -= Time.unscaledDeltaTime;
-                if(timeLimit <= 0.0F)
+                if (timeLimit <= 0.0F)
                 {
                     callbackError("WWW Request time limit");
                     DestroyRequest();
@@ -51,14 +51,12 @@ namespace SCore.Web
             if (www.error == null)
             {
                 Debug.Log("WWW Response: " + www.text);
-                if (callback != null)
-                    callback(www);
+                callback?.Invoke(www);
             }
             else
             {
                 Debug.LogError("WWW Error: " + www.error);
-                if (callbackError != null)
-                    callbackError(www.error);
+                callbackError?.Invoke(www.error);
             }
 
             DestroyRequest();

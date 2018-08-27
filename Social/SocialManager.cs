@@ -39,8 +39,7 @@ namespace SCore.Social
         public void OnAutoInitCompleted()
         {
             Debug.Log("SocialManager.OnAutoInitCompleted");
-            if (OnInitActions != null)
-                OnInitActions.Invoke();
+            OnInitActions?.Invoke();
         }
 
         static public void Init(ISocialPlatform _platform, Action callbackCompleted, Action callbackError)
@@ -75,8 +74,7 @@ namespace SCore.Social
             platform.InitCompletedEvent -= OnInitComleted;
             platform.InitErrorEvent -= OnInitErrorEvent;
             //Call completed event
-            if (InitCompletedEvent != null)
-                InitCompletedEvent();
+            InitCompletedEvent?.Invoke();
         }
 
         static public void OnInitErrorEvent()
@@ -86,8 +84,7 @@ namespace SCore.Social
             platform.InitCompletedEvent -= OnInitComleted;
             platform.InitErrorEvent -= OnInitErrorEvent;
             //Call error event
-            if (InitErrorEvent != null)
-                InitErrorEvent();
+            InitErrorEvent?.Invoke();
         }
 
         static public void OnLogin()
@@ -95,24 +92,21 @@ namespace SCore.Social
             Debug.Log("SocialManager.OnLogin");
             LoginCompleted = true;
             LoginProcessed = false;
-            if (LoginEvent != null)
-                LoginEvent();
+            LoginEvent?.Invoke();
         }
 
         static public void OnLoginError()
         {
             Debug.Log("SocialManager.OnLoginError");
             LoginProcessed = false;
-            if (LoginErrorEvent != null)
-                LoginErrorEvent();
+            LoginErrorEvent?.Invoke();
         }
 
         static public void OnLogout()
         {
             Debug.Log("SocialManager.OnLogout");
             LoginCompleted = false;
-            if (LogoutEvent != null)
-                LogoutEvent();
+            LogoutEvent?.Invoke();
         }
 
 

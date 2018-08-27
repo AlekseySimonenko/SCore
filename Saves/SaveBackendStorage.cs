@@ -65,8 +65,7 @@ namespace SCore.Saves
             }
             else
             {
-                if (failCallbackFunction != null)
-                    failCallbackFunction(null);
+                failCallbackFunction?.Invoke(null);
             }
         }
 
@@ -105,8 +104,7 @@ namespace SCore.Saves
                             if (Convert.ToString(dataRequest["savedata"]) != "")
                             {
                                 saveObject = DictionaryConverter.ConvertStringToStrObj(Convert.ToString(dataRequest["savedata"]));
-                                if (gameLoadSuccessCallbackFunction != null)
-                                    gameLoadSuccessCallbackFunction(saveObject);
+                                gameLoadSuccessCallbackFunction?.Invoke(saveObject);
                             }
                             else
                             {
@@ -134,8 +132,7 @@ namespace SCore.Saves
         {
             string _message = _object as string;
             Debug.LogError(_message);
-            if (gameLoadFailCallbackFunction != null)
-                gameLoadFailCallbackFunction(_message);
+            gameLoadFailCallbackFunction?.Invoke(_message);
         }
 
         /// <summary>
@@ -145,8 +142,7 @@ namespace SCore.Saves
         {
             string _message = _object as string;
             Debug.Log(_message);
-            if (gameLoadSuccessCallbackFunction != null)
-                gameLoadSuccessCallbackFunction(null);
+            gameLoadSuccessCallbackFunction?.Invoke(null);
         }
 
         private static Action gameSaveSuccessCallbackFunction;
@@ -187,8 +183,7 @@ namespace SCore.Saves
         /// </summary>
         static public void SaveSuccess(object _object)
         {
-            if (gameSaveSuccessCallbackFunction != null)
-                gameSaveSuccessCallbackFunction();
+            gameSaveSuccessCallbackFunction?.Invoke();
         }
 
 
@@ -199,8 +194,7 @@ namespace SCore.Saves
         {
             string _message = _object as string;
             Debug.LogError(_message);
-            if (gameSaveFailCallbackFunction != null)
-                gameSaveFailCallbackFunction(_message);
+            gameSaveFailCallbackFunction?.Invoke(_message);
         }
 
 

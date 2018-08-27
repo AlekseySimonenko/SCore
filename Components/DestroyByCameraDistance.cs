@@ -66,8 +66,7 @@ namespace SCore
             {
                 StopAllCoroutines();
 
-                if (DestroyEvent != null)
-                    DestroyEvent(gameObject);
+                DestroyEvent?.Invoke(gameObject);
 
                 if (isRecycle)
                 {

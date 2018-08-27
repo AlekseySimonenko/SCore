@@ -142,13 +142,11 @@ namespace SCore.Analytics
                 }
 
                 Debug.Log("GameAnalytics InitComplete");
-                if (InitCompletedEvent != null)
-                    InitCompletedEvent(this);
+                InitCompletedEvent?.Invoke(this);
             }
             catch (Exception e)
             {
-                if (InitErrorEvent != null)
-                    InitErrorEvent(this, e.Message);
+                InitErrorEvent?.Invoke(this, e.Message);
             }
 
 

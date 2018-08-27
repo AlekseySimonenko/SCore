@@ -13,8 +13,7 @@ namespace SCore
 
         void OnTriggerEnter(Collider collision)
         {
-            if (EnterEvent != null)
-                EnterEvent.Invoke();
+            EnterEvent?.Invoke();
         }
     }
 }

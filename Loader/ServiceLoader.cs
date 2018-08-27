@@ -72,8 +72,7 @@ namespace SCore.Loading
         {
             syncLoadingStep++;
 
-            if (OnSyncStepLoadingEvent != null)
-                OnSyncStepLoadingEvent(syncLoadingStep, syncLoadingSteps.Length);
+            OnSyncStepLoadingEvent?.Invoke(syncLoadingStep, syncLoadingSteps.Length);
 
             if (syncLoadingStep < syncLoadingSteps.Length)
             {
@@ -103,8 +102,7 @@ namespace SCore.Loading
         {
             asyncLoadingStep++;
 
-            if (OnAsyncStepLoadingEvent != null)
-                OnAsyncStepLoadingEvent(asyncLoadingStep, asyncLoadingSteps.Length);
+            OnAsyncStepLoadingEvent?.Invoke(asyncLoadingStep, asyncLoadingSteps.Length);
 
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
@@ -117,8 +115,7 @@ namespace SCore.Loading
             {
                 Debug.Log("ServiceLoader: finalActions", gameObject);
 
-                if (OnLoadingCompletedEvent != null)
-                    OnLoadingCompletedEvent();
+                OnLoadingCompletedEvent?.Invoke();
 
                 stopwatch.Stop();
                 finalActions.Invoke();

@@ -47,13 +47,11 @@ namespace SCore.Analytics
                 //Init events
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventAppOpen);
                 Debug.Log("FirebaseAnalyticSystem InitComplete");
-                if (InitCompletedEvent != null)
-                    InitCompletedEvent(this);
+                InitCompletedEvent?.Invoke(this);
             }
             catch (Exception e)
             {
-                if (InitErrorEvent != null)
-                    InitErrorEvent(this, e.Message);
+                InitErrorEvent?.Invoke(this, e.Message);
             }
 
         }

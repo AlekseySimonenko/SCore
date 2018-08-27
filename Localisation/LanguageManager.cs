@@ -140,8 +140,7 @@ namespace SCore.Localisation
             {
                 Debug.Log("LanguageManager:Init completed", Instance.gameObject);
                 isInitComplete = true;
-                if (Instance.OnInitActions != null)
-                    Instance.OnInitActions.Invoke();
+                Instance.OnInitActions?.Invoke();
             }
             else
             {
@@ -181,7 +180,7 @@ namespace SCore.Localisation
         private static bool LoadLocalMax()
         {
             string defaultLang = "ru";
-            string[] langs = { "ar","de", "en", "es-419", "fr", "hi", "id", "it", "ja", "ko", "nl", "pt", "tc", "th", "tr", "zh-CN" };
+            string[] langs = { "ar", "de", "en", "es-419", "fr", "hi", "id", "it", "ja", "ko", "nl", "pt", "tc", "th", "tr", "zh-CN" };
 
             try
             {
@@ -214,7 +213,7 @@ namespace SCore.Localisation
                     }
                 }
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.Log("Unable to get lang max!: " + e.Message, Instance.gameObject);
                 return false;
@@ -295,7 +294,7 @@ namespace SCore.Localisation
         private static void LoadFromFile(string _file)
         {
             TextReader textReader = File.OpenText(_file);
-            xmlParser.Parse(textReader, xmlDoc);            
+            xmlParser.Parse(textReader, xmlDoc);
         }
 
         private static void LoadFromString(string _data)
@@ -337,7 +336,7 @@ namespace SCore.Localisation
             if (args != null)
                 for (int i = 0; i < args.Length; i++)
                 {
-                    _text = _text.Replace("{" + i.ToString() + "}", args[ i ]);
+                    _text = _text.Replace("{" + i.ToString() + "}", args[i]);
                 }
             return _text;
         }
@@ -393,7 +392,7 @@ namespace SCore.Localisation
 
         public string SelectKey(string _id)
         {
-            return content[ _id ];
+            return content[_id];
         }
 
         public void OnStartParsing(SmallXmlParser parser)
@@ -415,7 +414,7 @@ namespace SCore.Localisation
 
         public void OnChars(string s)
         {
-            content[ lastKey ] = s;
+            content[lastKey] = s;
         }
 
         public void OnIgnorableWhitespace(string s)

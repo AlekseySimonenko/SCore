@@ -41,13 +41,11 @@ namespace SCore.Analytics
                 if (!FB.IsInitialized)
                     FB.Init();
                 Debug.Log("FBAnalytics InitComplete ", gameObject);
-                if (InitCompletedEvent != null)
-                    InitCompletedEvent(this);
+                InitCompletedEvent?.Invoke(this);
             }
             catch (Exception e)
             {
-                if (InitErrorEvent != null)
-                    InitErrorEvent(this, e.Message);
+                InitErrorEvent?.Invoke(this, e.Message);
             }
         }
 

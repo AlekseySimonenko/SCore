@@ -91,7 +91,7 @@ namespace SCore.Ads
             TargetAdsPlatformID++;
             if (TargetAdsPlatformID < Instance.AdsPlatforms.Length)
             {
-                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ TargetAdsPlatformID ];
+                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[TargetAdsPlatformID];
                 switch (TargetAdsType)
                 {
                     case ADSTYPES.INTERSTITIAL:
@@ -105,8 +105,7 @@ namespace SCore.Ads
             else
             {
                 Debug.LogWarning("AdsManager: no more ads platforms", Instance.gameObject);
-                if (callbackErrorMain != null)
-                    callbackErrorMain();
+                callbackErrorMain?.Invoke();
             }
         }
 
@@ -116,7 +115,7 @@ namespace SCore.Ads
 
             for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
             {
-                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[ i ];
+                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[i];
                 switch (adstype)
                 {
                     case ADSTYPES.INTERSTITIAL:
@@ -138,38 +137,31 @@ namespace SCore.Ads
         {
             Debug.Log("AdsManager: OnStarted", Instance.gameObject);
 
-            if (StartAnyAdEvent != null)
-                StartAnyAdEvent();
+            StartAnyAdEvent?.Invoke();
         }
 
         static public void OnCompleted()
         {
             Debug.Log("AdsManager: OnCompleted", Instance.gameObject);
 
-            if (callbackCompletedMain != null)
-                callbackCompletedMain();
-            if (CompletedAnyAdEvent != null)
-                CompletedAnyAdEvent();
+            callbackCompletedMain?.Invoke();
+            CompletedAnyAdEvent?.Invoke();
         }
 
         static public void OnError()
         {
             Debug.Log("AdsManager: OnError", Instance.gameObject);
 
-            if (callbackErrorMain != null)
-                callbackErrorMain();
-            if (ErrorAnyAdEvent != null)
-                ErrorAnyAdEvent();
+            callbackErrorMain?.Invoke();
+            ErrorAnyAdEvent?.Invoke();
         }
 
         static public void OnCancel()
         {
             Debug.Log("AdsManager: OnCancel", Instance.gameObject);
 
-            if (callbackCancelMain != null)
-                callbackCancelMain();
-            if (CancelAnyAdEvent != null)
-                CancelAnyAdEvent();
+            callbackCancelMain?.Invoke();
+            CancelAnyAdEvent?.Invoke();
         }
 
 

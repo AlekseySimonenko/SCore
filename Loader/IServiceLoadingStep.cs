@@ -60,11 +60,8 @@ namespace SCore.Loading
             if (!completed)
             {
                 completed = true;
-                if (OnCompleted != null)
-                {
-                    OnCompleted();
-                    OnCompleted = null;
-                }
+                OnCompleted?.Invoke();
+                OnCompleted = null;
             }
         }
 

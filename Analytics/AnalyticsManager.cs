@@ -41,7 +41,7 @@ namespace SCore.Analytics
 
         private void Start()
         {
-            IAnalyticSystem[] initSystems = new IAnalyticSystem[ 0 ];
+            IAnalyticSystem[] initSystems = new IAnalyticSystem[0];
 
             switch (Application.platform)
             {
@@ -87,8 +87,7 @@ namespace SCore.Analytics
                 else
                 {
                     Debug.LogWarning("AnalyticsManager NOT ENABLED", Instance.gameObject);
-                    if (Instance.OnInitActions != null)
-                        Instance.OnInitActions.Invoke();
+                    Instance.OnInitActions?.Invoke();
                 }
 
             }
@@ -130,10 +129,9 @@ namespace SCore.Analytics
         {
             if (!isInitComplete)
             {
-                    Debug.Log("AnalyticsManager.InitCompleted", Instance.gameObject);
-                    isInitComplete = true;
-                    if (Instance.OnInitActions != null)
-                        Instance.OnInitActions.Invoke();
+                Debug.Log("AnalyticsManager.InitCompleted", Instance.gameObject);
+                isInitComplete = true;
+                Instance.OnInitActions?.Invoke();
             }
         }
 
