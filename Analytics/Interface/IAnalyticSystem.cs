@@ -5,7 +5,8 @@ using UnityEngine;
 namespace SCore.Analytics
 {
     /// <summary>
-    /// Base abstract class for analytics platforms. By standart most of the features are disabled.
+    /// Abstract class for Monobehavior fields polymorphism realisation
+    /// Base abstract class for analytics platforms.
     /// </summary>
     [Serializable]
     public abstract class IAnalyticSystem : MonoBehaviour

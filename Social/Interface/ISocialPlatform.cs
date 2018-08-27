@@ -6,6 +6,7 @@ using UnityEngine;
 namespace SCore.Social
 {
     /// <summary>
+    /// Abstract class works like for Unity Monobehavior fields polymorhism
     /// Interface of social platforms
     /// </summary>
     [Serializable]

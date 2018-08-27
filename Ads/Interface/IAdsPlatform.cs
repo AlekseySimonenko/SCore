@@ -6,7 +6,8 @@ using UnityEngine;
 namespace SCore.Ads
 {
     /// <summary>
-    /// Interface of ads platforms
+    /// Abstract class for Monobehavior fields polymorphism realisation
+    /// Interface for ads platform control
     /// </summary>
     [Serializable]
     public abstract class IAdsPlatform : MonoBehaviour
