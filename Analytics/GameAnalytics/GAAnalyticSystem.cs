@@ -68,6 +68,8 @@ namespace SCore.Analytics
 
             try
             {
+                GameAnalytics.Initialize();
+
                 if (useCustomInit)
                 {
 

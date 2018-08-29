@@ -42,10 +42,10 @@ namespace SCore.Analytics
             try
             {
 #if UNITY_ANDROID && !UNITY_EDITOR
-                FirebaseGPServicesResolver.ServicesAvailableEvent += Init;
-                FirebaseGPServicesResolver.ServicesErrorEvent += InitError;
-                if (!FirebaseGPServicesResolver.IsAvaliable())
+                if (!FirebaseGPServicesResolver.IsAvaliable()){
+                    InitError();
                     return;
+                }
 #endif
                 //Configuration
                 TimeSpan sessionTimeout = new TimeSpan(sessionTimeoutDurationMS * TimeSpan.TicksPerMillisecond);
