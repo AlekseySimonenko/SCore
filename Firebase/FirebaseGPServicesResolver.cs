@@ -11,21 +11,27 @@ namespace SCore.FirebaseSDK
 {
     public class FirebaseGPServicesResolver
     {
+        static public event Action ServicesAvailableEvent;
+        static public event Action ServicesErrorEvent;
         static private bool available;
+        static private bool checkRunning;
 
         // Use this for initialization
-        static public bool IsAvaliable(Action _onServicesAvailableCallback = null, Action _onServicesErrorCallback = null)
+        static public bool IsAvaliable()
         {
             if (!available)
             {
 #if CORE_FIREBASE
-                Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+                if (!checkRunning)
                 {
-                    var dependencyStatus = task.Result;
-                    if (dependencyStatus == Firebase.DependencyStatus.Available)
+                    checkRunning = true;
+                    Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
                     {
-                        available = true;
-                        _onServicesAvailableCallback?.Invoke();
+                        var dependencyStatus = task.Result;
+                        if (dependencyStatus == Firebase.DependencyStatus.Available)
+                        {
+                            available = true;
+                            ServicesAvailableEvent?.Invoke();
                         // Create and hold a reference to your FirebaseApp, i.e.
                         //   app = Firebase.FirebaseApp.DefaultInstance;
                         // where app is a Firebase.FirebaseApp property of your application class.
@@ -33,14 +39,15 @@ namespace SCore.FirebaseSDK
                         // Set a flag here indicating that Firebase is ready to use by your
                         // application.
                     }
-                    else
-                    {
-                        UnityEngine.Debug.LogError(System.String.Format(
-                          "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                        else
+                        {
+                            UnityEngine.Debug.LogError(System.String.Format(
+                              "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
                         // Firebase Unity SDK is not safe to use here.
-                        _onServicesErrorCallback?.Invoke();
-                    }
-                });
+                        ServicesErrorEvent?.Invoke();
+                        }
+                    });
+                }
 #endif
                 return false;
             }
