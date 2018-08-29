@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
-using SCore.FirebaseSDK;
+using SCore.Utils;
 
 #if CORE_FIREBASE
 using Firebase.Analytics;
@@ -41,8 +41,8 @@ namespace SCore.Analytics
             Debug.Log("FirebaseAnalyticSystem init");
             try
             {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                if (!FirebaseGPServicesResolver.IsAvaliable()){
+#if UNITY_ANDROID 
+                if (!GooglePlayServicesState.IsAvaliable()){
                     InitError();
                     return;
                 }
