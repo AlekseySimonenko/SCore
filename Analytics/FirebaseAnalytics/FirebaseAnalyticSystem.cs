@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using SCore.FirebaseSDK;
 
 #if CORE_FIREBASE
 using Firebase.Analytics;
@@ -40,6 +41,10 @@ namespace SCore.Analytics
             Debug.Log("FirebaseAnalyticSystem init");
             try
             {
+#if UNITY_ANDROID
+                if (!FirebaseGPServicesResolver.IsAvaliable(Init, InitError))
+                    return;
+#endif
                 //Configuration
                 TimeSpan sessionTimeout = new TimeSpan(sessionTimeoutDurationMS * TimeSpan.TicksPerMillisecond);
                 FirebaseAnalytics.SetSessionTimeoutDuration(sessionTimeout);
@@ -56,6 +61,10 @@ namespace SCore.Analytics
 
         }
 
+        private void InitError()
+        {
+            InitErrorEvent?.Invoke(this, "FirebaseAnalyticSystem failed to load. Play servises is not avaliable");
+        }
 
         private void OnApplicationPause(bool pause)
         {
