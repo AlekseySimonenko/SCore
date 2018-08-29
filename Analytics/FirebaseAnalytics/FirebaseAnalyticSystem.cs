@@ -44,7 +44,7 @@ namespace SCore.Analytics
 #if UNITY_ANDROID && !UNITY_EDITOR
                 FirebaseGPServicesResolver.ServicesAvailableEvent += Init;
                 FirebaseGPServicesResolver.ServicesErrorEvent += InitError;
-                if (!FirebaseGPServicesResolver.IsAvaliable(Init, InitError))
+                if (!FirebaseGPServicesResolver.IsAvaliable())
                     return;
 #endif
                 //Configuration
