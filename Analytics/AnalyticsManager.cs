@@ -64,6 +64,29 @@ namespace SCore.Analytics
             Init(initSystems);
         }
 
+        /// <summary>
+        /// Async event queues for each system
+        /// </summary>
+        private void Update()
+        {
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                try
+                {
+                    if (asystem.IsInited && asystem.EventQueue != null && asystem.EventQueue.Count > 0)
+                    {
+                        asystem.EventQueue[0]();
+                        asystem.EventQueue.RemoveAt(0);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log(e.ToString());
+                    throw;
+                }
+            }
+        }
 
         /// <summary>
         /// Only one init can will be called
@@ -77,6 +100,12 @@ namespace SCore.Analytics
                 {
                     asystems = _asystems;
 
+                    //Pre init event queues
+                    foreach (IAnalyticSystem asystem in asystems)
+                    {
+                        asystem.EventQueue = new List<Action>();
+                    }
+                    //Init each system
                     foreach (IAnalyticSystem asystem in asystems)
                     {
                         asystem.InitCompletedEvent += OnSystemInitComleted;
@@ -101,7 +130,7 @@ namespace SCore.Analytics
         static public void OnSystemInitComleted(IAnalyticSystem asystem)
         {
             Debug.Log("AnalyticsManager.OnSystemInitComleted");
-            asystem.isInited = true;
+            asystem.IsInited = true;
             systemInitedCount++;
             CheckInitCompleted();
         }
@@ -150,8 +179,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.SocialSignUp();
+                    });
                 }
                 catch (Exception e)
                 {
@@ -172,8 +203,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.OpenLevel(_level, _type);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -194,8 +227,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.StartLevel(_level, _type);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -216,8 +251,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.FailLevel(_level, _type, _score);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -238,8 +275,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.CompleteLevel(_level, _type, _score);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -260,8 +299,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.NewScore(_level, _score);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -282,8 +323,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.AchievenemntUnlocked(_achievementID);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -305,8 +348,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.TutorialStart();
+                    });
                 }
                 catch (Exception e)
                 {
@@ -327,8 +372,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.TutorialCompleted();
+                    });
                 }
                 catch (Exception e)
                 {
@@ -350,8 +397,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.PaymentInfoTry(_currency, _amount, _itemID, _itemType, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -372,8 +421,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.PaymentInfoSuccess(_currency, _amount, _itemID, _itemType, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -394,8 +445,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.PaymentReal(_currency, _amount, _itemID, _itemType, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -416,8 +469,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.ResourceAdd(_currency, _amount, _itemID, _itemType, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -438,8 +493,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.ResourceRemove(_currency, _amount, _itemID, _itemType, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -460,8 +517,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.InviteTry(_area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -482,8 +541,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.ShareTry(_id, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -504,8 +565,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.ShareSuccess(_id, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -526,8 +589,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.RequestTry(_type, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -548,8 +613,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.RequestSuccess(_type, _area);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -570,8 +637,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.DesignEvent(_id, _amount);
+                    });
                 }
                 catch (Exception e)
                 {
@@ -592,8 +661,10 @@ namespace SCore.Analytics
             {
                 try
                 {
-                    if (asystem.isInited)
+                    asystem.EventQueue.Add(() =>
+                    {
                         asystem.DesignEvent(_id, parameters);
+                    });
                 }
                 catch (Exception e)
                 {

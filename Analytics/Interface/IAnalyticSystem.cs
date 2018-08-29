@@ -15,7 +15,9 @@ namespace SCore.Analytics
         public abstract event Action<IAnalyticSystem, string> InitErrorEvent;
 
         [HideInInspector]
-        public bool isInited;
+        public bool IsInited;
+        [HideInInspector]
+        public List<Action> EventQueue;
 
         public abstract void Init();
         public abstract void SocialSignUp();
@@ -41,4 +43,7 @@ namespace SCore.Analytics
         public abstract void DesignEvent(string _id, Dictionary<string, object> parameters);
 
     }
+
+
+
 }
