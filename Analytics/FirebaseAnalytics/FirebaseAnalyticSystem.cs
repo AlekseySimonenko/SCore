@@ -41,7 +41,7 @@ namespace SCore.Analytics
             Debug.Log("FirebaseAnalyticSystem init");
             try
             {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
                 if (!FirebaseGPServicesResolver.IsAvaliable(Init, InitError))
                     return;
 #endif

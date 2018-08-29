@@ -14,6 +14,7 @@ namespace SCore.Loading
         //PUBLIC EVENTS
 
         //PUBLIC VARIABLES
+        public bool forceLoading = false;
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
@@ -52,13 +53,13 @@ namespace SCore.Loading
         void Update()
         {
             //Sync steps
-            if (syncLoadingStepReady)
+            if (!forceLoading && syncLoadingStepReady)
             {
                 syncLoadingStepReady = false;
                 NextSyncLoadingStep();
             }
             //ASync steps
-            if (asyncLoadingStepReady)
+            if (!forceLoading && asyncLoadingStepReady)
             {
                 asyncLoadingStepReady = false;
                 NextASyncLoadingStep();
@@ -91,7 +92,10 @@ namespace SCore.Loading
 
         public void OnSyncLoadingStepCompleted()
         {
-            syncLoadingStepReady = true;
+            if (!forceLoading)
+                syncLoadingStepReady = true;
+            else
+                NextSyncLoadingStep();
         }
 
         /// <summary>
@@ -107,9 +111,12 @@ namespace SCore.Loading
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
                 Debug.Log("ServiceLoader: Loading: " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + asyncLoadingSteps[asyncLoadingStep].gameObject.name, gameObject);
-                //Run next step
                 Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
-                asyncLoadingStepReady = true;
+                //Run next step
+                if (!forceLoading)
+                    asyncLoadingStepReady = true;
+                else
+                    NextASyncLoadingStep();
             }
             else
             {
