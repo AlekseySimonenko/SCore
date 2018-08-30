@@ -19,37 +19,6 @@ namespace SCore.Analytics
         public override event Action<IAnalyticSystem> InitCompletedEvent;
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
-        //PUBLIC VARIABLES
-        public bool useCustomInit = true;
-
-        [Header("InEditor")]
-        public string EditorGame;
-        public string EditorKey;
-
-        [Header("Android")]
-        public string AndroidDevGame;
-        public string AndroidDevKey;
-        public string AndroidProdGame;
-        public string AndroidProdKey;
-
-        [Header("IOS")]
-        public string IosDevGame;
-        public string IosDevKey;
-        public string IosProdGame;
-        public string IosProdKey;
-
-        [Header("Steam")]
-        public string SteamDevGame;
-        public string SteamDevKey;
-        public string SteamProdGame;
-        public string SteamProdKey;
-
-        [Header("Gear")]
-        public string GearDevGame;
-        public string GearDevKey;
-        public string GearProdGame;
-        public string GearProdKey;
-
         //PRIVATE STATIC
 
         //PRIVATE VARIABLES
@@ -69,80 +38,6 @@ namespace SCore.Analytics
             try
             {
                 GameAnalytics.Initialize();
-
-                if (useCustomInit)
-                {
-
-                    //Init GA
-                    switch (Application.platform)
-                    {
-                        case RuntimePlatform.WindowsEditor:
-                            targetGameKey = EditorGame;
-                            targetSecretKey = EditorKey;
-                            break;
-
-                        case RuntimePlatform.WindowsPlayer:
-                        case RuntimePlatform.OSXPlayer:
-                        case RuntimePlatform.LinuxPlayer:
-                            if (Debug.isDebugBuild)
-                            {
-                                targetGameKey = SteamDevGame;
-                                targetSecretKey = SteamDevKey;
-                            }
-                            else
-                            {
-                                targetGameKey = SteamProdGame;
-                                targetSecretKey = SteamProdKey;
-                            }
-                            break;
-
-                        case RuntimePlatform.IPhonePlayer:
-                            if (Debug.isDebugBuild)
-                            {
-                                targetGameKey = IosDevGame;
-                                targetSecretKey = IosDevKey;
-                            }
-                            else
-                            {
-                                targetGameKey = IosProdGame;
-                                targetSecretKey = IosProdKey;
-                            }
-                            break;
-                        case RuntimePlatform.Android:
-
-#if COREVR_GEAR
-                    if (Debug.isDebugBuild)
-                    {
-                        targetGameKey = GearDevGame;
-                        targetSecretKey = GearDevKey;
-                    }
-                    else
-                    {
-                        targetGameKey = GearProdGame;
-                        targetSecretKey = GearProdKey;
-                    }
-#else
-                            if (Debug.isDebugBuild)
-                            {
-                                targetGameKey = AndroidDevGame;
-                                targetSecretKey = AndroidDevKey;
-                            }
-                            else
-                            {
-                                targetGameKey = AndroidProdGame;
-                                targetSecretKey = AndroidProdKey;
-                            }
-#endif
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    GA_Wrapper.Initialize(targetGameKey, targetSecretKey);
-                    //GameAnalytics.SettingsGA.SetCustomUserID(PlatformManager.GetUserID());
-                }
-
                 Debug.Log("GameAnalytics InitComplete");
                 InitCompletedEvent?.Invoke(this);
             }
@@ -150,10 +45,7 @@ namespace SCore.Analytics
             {
                 InitErrorEvent?.Invoke(this, e.Message);
             }
-
-
         }
-
 
 
         public override void SocialSignUp()
