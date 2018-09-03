@@ -104,41 +104,49 @@ namespace SCore
         }
         public static GameObject Spawn(GameObject prefab, Transform parent, Vector3 position, Quaternion rotation)
         {
-            List<GameObject> list;
-            Transform trans;
-            GameObject obj;
-            if (instance.pooledObjects.TryGetValue(prefab, out list))
+            if (prefab != null)
             {
-                obj = null;
-                if (list.Count > 0)
+                List<GameObject> list;
+                Transform trans;
+                GameObject obj;
+                if (instance.pooledObjects.TryGetValue(prefab, out list))
                 {
-                    while (obj == null && list.Count > 0)
+                    obj = null;
+                    if (list.Count > 0)
                     {
-                        obj = list[0];
-                        list.RemoveAt(0);
+                        while (obj == null && list.Count > 0)
+                        {
+                            obj = list[0];
+                            list.RemoveAt(0);
+                        }
+                        if (obj != null)
+                        {
+                            trans = obj.transform;
+                            if (trans.GetType() == typeof(RectTransform))
+                                trans.SetParent(parent, false);
+                            else
+                                trans.parent = parent;
+                            trans.localPosition = position;
+                            trans.localRotation = rotation;
+                            obj.SetActive(true);
+                            instance.spawnedObjects.Add(obj, prefab);
+                            return obj;
+                        }
                     }
-                    if (obj != null)
-                    {
-                        trans = obj.transform;
-                        if (trans.GetType() == typeof(RectTransform))
-                            trans.SetParent(parent, false);
-                        else
-                            trans.parent = parent;
-                        trans.localPosition = position;
-                        trans.localRotation = rotation;
-                        obj.SetActive(true);
-                        instance.spawnedObjects.Add(obj, prefab);
-                        return obj;
-                    }
+                    obj = NewObject(prefab, parent, position, rotation);
+                    return obj;
                 }
-                obj = NewObject(prefab, parent, position, rotation);
-                return obj;
+                else
+                {
+                    CreatePool(prefab, 1);
+                    obj = NewObject(prefab, parent, position, rotation);
+                    return obj;
+                }
             }
             else
             {
-                CreatePool(prefab, 1);
-                obj = NewObject(prefab, parent, position, rotation);
-                return obj;
+                Debug.LogError("ObjectPool: Prefab is null!");
+                return null;
             }
         }
 
