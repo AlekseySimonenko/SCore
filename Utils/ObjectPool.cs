@@ -53,7 +53,10 @@ namespace SCore
 
         public static void CreatePool<T>(T prefab, int initialPoolSize) where T : Component
         {
-            CreatePool(prefab.gameObject, initialPoolSize);
+            if (prefab != null)
+                CreatePool(prefab.gameObject, initialPoolSize);
+            else
+                Debug.LogError("ObjectPool:CreatePool prefab is null!");
         }
         public static void CreatePool(GameObject prefab, int initialPoolSize)
         {
@@ -150,13 +153,22 @@ namespace SCore
         public static GameObject NewObject(GameObject prefab, Transform parent, Vector3 position, Quaternion rotation)
         {
             Transform trans;
-            GameObject obj;
-            obj = (GameObject)Object.Instantiate(prefab);
-            trans = obj.transform;
-            trans.SetParent(parent, false);
-            trans.localPosition = position;
-            trans.localRotation = rotation;
-            instance.spawnedObjects.Add(obj, prefab);
+            GameObject obj = null;
+
+            if (prefab != null)
+            {
+                obj = (GameObject)Object.Instantiate(prefab);
+                trans = obj.transform;
+                trans.SetParent(parent, false);
+                trans.localPosition = position;
+                trans.localRotation = rotation;
+                instance.spawnedObjects.Add(obj, prefab);
+            }
+            else
+            {
+                Debug.LogError("ObjectPool:NewObject Prefab is null!");
+            }
+
             return obj;
         }
 
@@ -183,23 +195,40 @@ namespace SCore
 
         public static void Recycle<T>(T obj) where T : Component
         {
-            Recycle(obj.gameObject);
+            if (obj != null)
+                Recycle(obj.gameObject);
+            else
+                Debug.LogWarning("ObjectPool:Recycle obj or GameObject is null!");
         }
         public static void Recycle(GameObject obj)
         {
-            GameObject prefab;
-            if (instance.spawnedObjects.TryGetValue(obj, out prefab))
-                Recycle(obj, prefab);
+            if (obj != null)
+            {
+                GameObject prefab;
+                if (instance.spawnedObjects.TryGetValue(obj, out prefab))
+                    Recycle(obj, prefab);
+                else
+                    Object.Destroy(obj);
+            }
             else
-                Object.Destroy(obj);
+            {
+                Debug.LogWarning("ObjectPool:Recycle obj or GameObject is null!");
+            }
         }
         static void Recycle(GameObject obj, GameObject prefab)
         {
-            instance.pooledObjects[prefab].Add(obj);
-            instance.spawnedObjects.Remove(obj);
+            if (obj != null && prefab != null)
+            {
+                instance.pooledObjects[prefab].Add(obj);
+                instance.spawnedObjects.Remove(obj);
 
-            obj.transform.SetParent(instance.transform, false);
-            obj.SetActive(false);
+                obj.transform.SetParent(instance.transform, false);
+                obj.SetActive(false);
+            }
+            else
+            {
+                Debug.LogWarning("ObjectPool:Recycle obj or GameObject is null!");
+            }
         }
 
         public static void RecycleAll<T>(T prefab) where T : Component
