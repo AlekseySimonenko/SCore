@@ -70,7 +70,7 @@ namespace SCore
                     while (list.Count < initialPoolSize)
                     {
                         var obj = (GameObject)Object.Instantiate(prefab);
-                        obj.transform.SetParent(parent);
+                        obj.transform.SetParent(parent, false);
                         list.Add(obj);
                     }
                     prefab.SetActive(active);
@@ -122,10 +122,7 @@ namespace SCore
                         if (obj != null)
                         {
                             trans = obj.transform;
-                            if (trans.GetType() == typeof(RectTransform))
-                                trans.SetParent(parent, false);
-                            else
-                                trans.parent = parent;
+                            trans.SetParent(parent, false);
                             trans.localPosition = position;
                             trans.localRotation = rotation;
                             obj.SetActive(true);
@@ -156,10 +153,7 @@ namespace SCore
             GameObject obj;
             obj = (GameObject)Object.Instantiate(prefab);
             trans = obj.transform;
-            if (trans.GetType() == typeof(RectTransform))
-                trans.SetParent(parent, false);
-            else
-                trans.parent = parent;
+            trans.SetParent(parent, false);
             trans.localPosition = position;
             trans.localRotation = rotation;
             instance.spawnedObjects.Add(obj, prefab);
@@ -204,7 +198,7 @@ namespace SCore
             instance.pooledObjects[prefab].Add(obj);
             instance.spawnedObjects.Remove(obj);
 
-            obj.transform.parent = instance.transform;
+            obj.transform.SetParent(instance.transform, false);
             obj.SetActive(false);
         }
 
