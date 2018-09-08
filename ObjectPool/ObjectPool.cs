@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace SCore
+namespace SCore.ObjectPool
 {
+    /// <summary>
+    /// Static class provided service for ObjectPool pattern realisation and control
+    /// Extend GameObjects methods
+    /// When we return object in pool we need reinit all components with ILoadableContent Clear realisation
+    /// </summary>
     public sealed class ObjectPool : MonoBehaviour
     {
-        public enum StartupPoolMode { Awake, Start, CallManually };
-
         [System.Serializable]
         public class StartupPool
         {
@@ -15,16 +18,23 @@ namespace SCore
             public GameObject prefab;
         }
 
+        //PUBLIC STATIC
+        public enum StartupPoolMode { Awake, Start, CallManually };
         static ObjectPool _instance;
         static List<GameObject> tempList = new List<GameObject>();
 
-        Dictionary<GameObject, List<GameObject>> pooledObjects = new Dictionary<GameObject, List<GameObject>>();
-        Dictionary<GameObject, GameObject> spawnedObjects = new Dictionary<GameObject, GameObject>();
+        //PUBLIC EVENTS
 
+        //PUBLIC VARIABLES
         public StartupPoolMode startupPoolMode;
         public StartupPool[] startupPools;
 
-        bool startupPoolsCreated;
+        //PRIVATE STATIC
+
+        //PRIVATE VARIABLES
+        private Dictionary<GameObject, List<GameObject>> pooledObjects = new Dictionary<GameObject, List<GameObject>>();
+        private Dictionary<GameObject, GameObject> spawnedObjects = new Dictionary<GameObject, GameObject>();
+        private bool startupPoolsCreated;
 
         void Awake()
         {
@@ -222,6 +232,12 @@ namespace SCore
                 instance.pooledObjects[prefab].Add(obj);
                 instance.spawnedObjects.Remove(obj);
 
+                //Call all IObjectPoolReusable to ClearForReuse
+                IObjectPoolReusable[] allReusableComponents = obj.GetComponents<IObjectPoolReusable>();
+                foreach (IObjectPoolReusable reusableComponent in allReusableComponents)
+                {
+                    reusableComponent.ClearForReuse();
+                }
                 obj.transform.SetParent(instance.transform, false);
                 obj.SetActive(false);
             }
