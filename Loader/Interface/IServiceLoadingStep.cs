@@ -41,7 +41,7 @@ namespace SCore.Loading
             }
             if (initTimerlimit > 0 && !completed)
             {
-                initTimerlimit -= Time.deltaTime;
+                initTimerlimit -= Time.unscaledDeltaTime;
                 if (initTimerlimit <= 0)
                 {
                     CompleteStep("TimeLimit");
