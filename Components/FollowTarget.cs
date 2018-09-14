@@ -11,12 +11,21 @@ namespace SCore
     {
 
         public GameObject target;
+        public float lerpTime = 0;
+        public bool unscaledTime = false;
 
         void Update()
         {
             if (target != null)
             {
-                transform.position = target.transform.position;
+                if (lerpTime > 0)
+                {
+                    transform.position = Vector3.Lerp(transform.position, target.transform.position, (unscaledTime ? Time.deltaTime : Time.unscaledDeltaTime) / lerpTime);
+                }
+                else
+                {
+                    transform.position = target.transform.position;
+                }
             }
         }
 
