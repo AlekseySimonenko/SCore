@@ -242,18 +242,11 @@ namespace SCore.Analytics
             Debug.Log("FirebaseAnalyticSystem:RequestSuccess not implemented event!");
         }
 
-        override public void DesignEvent(string _id, int _amount)
+        override public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters)
         {
             string _event = PrepareEventValue(_id);
 
-            FirebaseAnalytics.LogEvent(_event, FirebaseAnalytics.ParameterValue, _amount);
-            Debug.Log("FirebaseAnalyticSystem.DesignEvent " + _event + " " + _amount);
-        }
-
-        override public void DesignEvent(string _id, Dictionary<string, object> parameters)
-        {
-            string _event = PrepareEventValue(_id);
-
+            parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
             try
             {
                 Parameter[] eventParameters = new Parameter[parameters.Count];

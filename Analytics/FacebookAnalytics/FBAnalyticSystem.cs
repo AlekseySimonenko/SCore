@@ -210,19 +210,12 @@ namespace SCore.Analytics
         /// <summary>
         /// Track optional game design event
         /// </summary>
-        override public void DesignEvent(string _id, int _amount)
-        {
-            string _event = PrepareEventValue(_id);
-            FB.LogAppEvent(_event, _amount);
-            Debug.Log("FBAnalytics.DesignEvent " + _event + " " + _amount, gameObject);
-        }
-
-        override public void DesignEvent(string _id, Dictionary<string, object> parameters)
+        override public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters)
         {
             string _event = PrepareEventValue(_id);
             try
             {
-                FB.LogAppEvent(_event, 0, parameters);
+                FB.LogAppEvent(_event, _amount, parameters);
             }
             catch (Exception e)
             {
@@ -230,7 +223,7 @@ namespace SCore.Analytics
                 Debug.Log(e.ToString());
                 throw;
             }
-            Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event, gameObject);
+            Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event + " " + _amount, gameObject);
         }
 
 

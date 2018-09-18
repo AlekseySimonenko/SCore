@@ -630,7 +630,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track optional game design event
         /// </summary>
-        static public void DesignEvent(string _id, int _amount)
+        static public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
         {
             Debug.Log("AnalyticsManager.DesignEvent " + _id + " " + _amount.ToString(), Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -639,7 +639,7 @@ namespace SCore.Analytics
                 {
                     asystem.EventQueue.Add(() =>
                     {
-                        asystem.DesignEvent(_id, _amount);
+                        asystem.DesignEvent(_id, _amount, parameters);
                     });
                 }
                 catch (Exception e)
@@ -651,29 +651,6 @@ namespace SCore.Analytics
             }
         }
 
-        /// <summary>
-        /// Track optional game design event
-        /// </summary>
-        static public void DesignEvent(string _id, Dictionary<string, object> parameters)
-        {
-            Debug.Log("AnalyticsManager.DesignEvent " + _id, Instance.gameObject);
-            foreach (IAnalyticSystem asystem in asystems)
-            {
-                try
-                {
-                    asystem.EventQueue.Add(() =>
-                    {
-                        asystem.DesignEvent(_id, parameters);
-                    });
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
-                    Debug.Log(e.ToString());
-                    throw;
-                }
-            }
-        }
 
 
     }

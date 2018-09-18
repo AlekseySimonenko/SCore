@@ -199,16 +199,12 @@ namespace SCore.Analytics
         /// <summary>
         /// Track optional game design event
         /// </summary>
-        override public void DesignEvent(string _id, int _amount)
+        public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters)
         {
             Debug.Log("GameAnalytics.NewDesignEvent " + _id + " " + _amount);
+            if (parameters != null)
+                Debug.Log("GameAnalytics.NewDesignEvent NotImplemented with parameters");
             GameAnalytics.NewDesignEvent(_id, _amount);
-        }
-
-        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
-        {
-            Debug.Log("GameAnalytics.NewDesignEvent NotImplemented with parameters");
-            GameAnalytics.NewDesignEvent(_id, 0);
         }
 
 
