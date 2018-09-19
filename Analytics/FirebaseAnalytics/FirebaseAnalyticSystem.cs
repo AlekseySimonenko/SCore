@@ -42,7 +42,8 @@ namespace SCore.Analytics
             try
             {
 #if UNITY_ANDROID 
-                if (!GooglePlayServicesState.IsAvaliable()){
+                if (!GooglePlayServicesState.IsAvaliable())
+                {
                     InitError();
                     return;
                 }
@@ -249,7 +250,11 @@ namespace SCore.Analytics
             if (parameters == null)
                 parameters = new Dictionary<string, object>();
 
-            parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
+            if (!parameters.ContainsKey(FirebaseAnalytics.ParameterValue))
+                parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
+            else
+                parameters[FirebaseAnalytics.ParameterValue] = _amount;
+
             try
             {
                 Parameter[] eventParameters = new Parameter[parameters.Count];

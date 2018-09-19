@@ -71,20 +71,22 @@ namespace SCore.Analytics
         {
             foreach (IAnalyticSystem asystem in asystems)
             {
-                try
+                if (asystem.IsInited && asystem.EventQueue != null && asystem.EventQueue.Count > 0)
                 {
-                    if (asystem.IsInited && asystem.EventQueue != null && asystem.EventQueue.Count > 0)
+                    try
                     {
                         asystem.EventQueue[0]();
-                        asystem.EventQueue.RemoveAt(0);
                     }
+                    catch (Exception e)
+                    {
+                        Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                        Debug.Log(e.ToString());
+                        throw;
+                    }
+                    asystem.EventQueue.RemoveAt(0);
                 }
-                catch (Exception e)
-                {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
-                    Debug.Log(e.ToString());
-                    throw;
-                }
+
+
             }
         }
 
