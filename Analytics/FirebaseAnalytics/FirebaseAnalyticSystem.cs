@@ -246,6 +246,9 @@ namespace SCore.Analytics
         {
             string _event = PrepareEventValue(_id);
 
+            if (parameters == null)
+                parameters = new Dictionary<string, object>();
+
             parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
             try
             {
@@ -380,12 +383,7 @@ namespace SCore.Analytics
             throw new System.NotImplementedException();
         }
 
-        public override void DesignEvent(string _id, int _amount)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters)
         {
             throw new NotImplementedException();
         }
