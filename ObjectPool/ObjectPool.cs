@@ -217,8 +217,6 @@ namespace SCore.ObjectPool
                 GameObject prefab;
                 if (instance.spawnedObjects.TryGetValue(obj, out prefab))
                     Recycle(obj, prefab);
-                else
-                    Object.Destroy(obj);
             }
             else
             {
