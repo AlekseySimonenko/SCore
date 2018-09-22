@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using NikaCoreGame.SceneLoading;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SCore.ObjectPool
 {
@@ -28,6 +29,7 @@ namespace SCore.ObjectPool
         //PUBLIC VARIABLES
         public StartupPoolMode startupPoolMode;
         public StartupPool[] startupPools;
+        public GameObject[] ReturnInPoolOnSceneLoading;
 
         //PRIVATE STATIC
 
@@ -47,6 +49,17 @@ namespace SCore.ObjectPool
         {
             if (startupPoolMode == StartupPoolMode.Start)
                 CreateStartupPools();
+            if (SceneLoadingHandler.IsNotNull())
+                SceneLoadingHandler.Instance.LoadBeginEvent += OnLoadingSceneBegin;
+        }
+
+        private void OnLoadingSceneBegin()
+        {
+            for (int i = 0; i < ReturnInPoolOnSceneLoading.Length; i++)
+            {
+                if (ReturnInPoolOnSceneLoading[i] != null)
+                    RecycleAll(ReturnInPoolOnSceneLoading[i]);
+            }
         }
 
         public static void CreateStartupPools()
@@ -68,6 +81,7 @@ namespace SCore.ObjectPool
             else
                 Debug.LogError("ObjectPool:CreatePool prefab is null!");
         }
+
         public static void CreatePool(GameObject prefab, int initialPoolSize)
         {
             if (prefab != null && !instance.pooledObjects.ContainsKey(prefab))
