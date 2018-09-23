@@ -309,12 +309,7 @@ namespace SCore.Analytics
             throw new System.NotImplementedException();
         }
 
-        public override void DesignEvent(string _id, int _amount)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void DesignEvent(string _id, Dictionary<string, object> parameters)
+        public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
         {
             throw new NotImplementedException();
         }
