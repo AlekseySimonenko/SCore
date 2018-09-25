@@ -247,16 +247,19 @@ namespace SCore.Analytics
         {
             string _event = PrepareEventValue(_id);
 
-            if (parameters == null)
-                parameters = new Dictionary<string, object>();
-
-            if (!parameters.ContainsKey(FirebaseAnalytics.ParameterValue))
-                parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
-            else
-                parameters[FirebaseAnalytics.ParameterValue] = _amount;
-
             try
             {
+                //Prepare parameters
+                if (parameters == null)
+                    parameters = new Dictionary<string, object>();
+
+                //Main parameter is value (amount)
+                if (!parameters.ContainsKey(FirebaseAnalytics.ParameterValue))
+                    parameters.Add(FirebaseAnalytics.ParameterValue, _amount);
+                else
+                    parameters[FirebaseAnalytics.ParameterValue] = _amount;
+
+                //Convert to array firebase parameters
                 Parameter[] eventParameters = new Parameter[parameters.Count];
                 int i = 0;
                 foreach (KeyValuePair<string, object> kvp in parameters)
