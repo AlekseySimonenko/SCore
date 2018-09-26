@@ -14,20 +14,25 @@ namespace SCore.Analytics
     public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
         //PUBLIC STATIC
+        [Serializable]
+        public struct PlatformConfig
+        {
+            public RuntimePlatform Platform;
+            public IAnalyticSystem[] AnalyticsSystems;
+        }
 
         //PUBLIC EVENTS
         public UnityEvent OnInitActions;
 
         //PUBLIC VARIABLES
-        [Header("Android platform Analytics")]
+        public PlatformConfig[] PlatformConfigs;
+
+        //TODO remove legacy config
+        [Header("LEGACY configs, please use platfromsConfigs instead")]
         public IAnalyticSystem[] androidSystems;
-        [Header("iOS platform Analytics")]
         public IAnalyticSystem[] iosSystems;
-        [Header("WebGL platform Analytics")]
         public IAnalyticSystem[] webglSystems;
-        [Header("Editor platform Analytics")]
         public IAnalyticSystem[] editorSystems;
-        [Header("Default platform Analytics")]
         public IAnalyticSystem[] defaultSystems;
 
         //PRIVATE STATIC
@@ -43,24 +48,23 @@ namespace SCore.Analytics
         {
             IAnalyticSystem[] initSystems = new IAnalyticSystem[0];
 
-            switch (Application.platform)
+            foreach (var platformConfig in PlatformConfigs)
             {
-                case RuntimePlatform.WindowsEditor:
-                    initSystems = editorSystems;
-                    break;
-                case RuntimePlatform.IPhonePlayer:
-                    initSystems = iosSystems;
-                    break;
-                case RuntimePlatform.Android:
-                    initSystems = androidSystems;
-                    break;
-                case RuntimePlatform.WebGLPlayer:
-                    initSystems = webglSystems;
-                    break;
-                default:
-                    initSystems = defaultSystems;
-                    break;
+                if (platformConfig.Platform == Application.platform)
+                    initSystems = platformConfig.AnalyticsSystems;
             }
+
+            if (initSystems.Length == 0)
+            {
+                Debug.LogWarning("Analytics Manager: not any analytics system setuped for platform : " + Application.platform.ToString());
+            }
+
+            //Legacy format warning
+            if (androidSystems.Length + iosSystems.Length + webglSystems.Length + editorSystems.Length + defaultSystems.Length > 0)
+            {
+                Debug.LogWarning("Analytics Manager: LEGACY configs, please use platfromsConfigs instead");
+            }
+
             Init(initSystems);
         }
 
