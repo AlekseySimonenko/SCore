@@ -27,8 +27,8 @@ namespace SCore
         void Update()
         {
             //FPS
-            timeleft -= Time.deltaTime;
-            accum += Time.timeScale / Time.deltaTime;
+            timeleft -= Time.unscaledDeltaTime;
+            accum += 1.0f / Time.unscaledDeltaTime;
             ++frames;
             if (timeleft <= 0.0F)
             {
