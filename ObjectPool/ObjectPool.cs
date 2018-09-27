@@ -55,10 +55,13 @@ namespace SCore.ObjectPool
 
         private void OnLoadingSceneBegin()
         {
-            for (int i = 0; i < ReturnInPoolOnSceneLoading.Length; i++)
+            if (ReturnInPoolOnSceneLoading != null && ReturnInPoolOnSceneLoading.Length > 0)
             {
-                if (ReturnInPoolOnSceneLoading[i] != null)
-                    RecycleAll(ReturnInPoolOnSceneLoading[i]);
+                for (int i = 0; i < ReturnInPoolOnSceneLoading.Length; i++)
+                {
+                    if (ReturnInPoolOnSceneLoading[i] != null)
+                        RecycleAll(ReturnInPoolOnSceneLoading[i]);
+                }
             }
         }
 
