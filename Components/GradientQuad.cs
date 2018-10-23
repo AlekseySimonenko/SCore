@@ -7,7 +7,9 @@ using UnityEngine;
 public class GradientQuad : MonoBehaviour
 {
     public Color topColor = Color.blue;
+    public Color topColor2 = Color.blue;
     public Color bottomColor = Color.white;
+    public Color bottomColor2 = Color.white;
 
     private MeshFilter meshQuadComponent;
 
@@ -34,7 +36,7 @@ public class GradientQuad : MonoBehaviour
 
     public void ResetToBaseColor()
     {
-        UpdateColor(topColor, topColor, bottomColor, bottomColor);
+        UpdateColor(topColor, topColor2, bottomColor, bottomColor2);
     }
 
     public void UpdateColor(Color _topLeft, Color _topRight, Color _downLeft, Color _downRight)
