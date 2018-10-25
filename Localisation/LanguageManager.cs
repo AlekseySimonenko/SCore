@@ -315,7 +315,7 @@ namespace SCore.Localisation
         }
 
 
-        public static string Get(string _id, string[] args = null)
+        public static string Get(string _id, params string[] args)
         {
             if (xmlDoc.ContainsKey(_id) == true)
             {
