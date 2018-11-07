@@ -657,6 +657,54 @@ namespace SCore.Analytics
             }
         }
 
+        /// <summary>
+        /// Set optional user property value
+        /// </summary>
+        static public void SetUserStringProperty(string _id, string _value)
+        {
+            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                try
+                {
+                    asystem.EventQueue.Add(() =>
+                    {
+                        asystem.SetUserStringProperty(_id, _value);
+                    });
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log(e.ToString());
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set optional user property value
+        /// </summary>
+        static public void SetUserIntProperty(string _id, int _value)
+        {
+            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
+            foreach (IAnalyticSystem asystem in asystems)
+            {
+                try
+                {
+                    asystem.EventQueue.Add(() =>
+                    {
+                        asystem.SetUserIntProperty(_id, _value);
+                    });
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log(e.ToString());
+                    throw;
+                }
+            }
+        }
+
 
 
     }

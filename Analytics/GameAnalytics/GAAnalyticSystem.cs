@@ -208,9 +208,22 @@ namespace SCore.Analytics
         }
 
 
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            Debug.Log("GameAnalytics.SetUserStringProperty (NOT SUPPORTED) " + _id + " " + _value);
+            //GameAnalytics platform not support properties yet
+        }
+
+        public override void SetUserIntProperty(string _id, int _value)
+        {
+            Debug.Log("GameAnalytics.SetUserIntProperty (NOT SUPPORTED) " + _id + " " + _value);
+            //GameAnalytics platform not support properties yet
+        }
+
 #else
         public override void Init()
         {
+            InitErrorEvent(this, "CORE_GA not added in compilation constants");
         }
 
 
@@ -310,6 +323,16 @@ namespace SCore.Analytics
         }
 
         public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserIntProperty(string _id, int _value)
         {
             throw new NotImplementedException();
         }

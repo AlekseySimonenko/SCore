@@ -240,7 +240,17 @@ namespace SCore.Analytics
             //Facebook platform already has this info
         }
 
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            Debug.Log("FBAnalytics.SetUserStringProperty (NOT SUPPORTED) " + _id + " " + _value);
+            //Facebook platform not support properties yet
+        }
 
+        public override void SetUserIntProperty(string _id, int _value)
+        {
+            Debug.Log("FBAnalytics.SetUserIntProperty (NOT SUPPORTED) " + _id + " " + _value);
+            //Facebook platform not support properties yet
+        }
 
 
 #else
@@ -346,6 +356,16 @@ namespace SCore.Analytics
         }
 
         public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserIntProperty(string _id, int _value)
         {
             throw new NotImplementedException();
         }

@@ -290,10 +290,22 @@ namespace SCore.Analytics
             return _event;
         }
 
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            Debug.Log("FirebaseAnalyticSystem.SetUserStringProperty " + _id + " " + _value);
+            FirebaseAnalytics.SetUserProperty(_id, _value);
+        }
+
+        public override void SetUserIntProperty(string _id, int _value)
+        {
+            Debug.Log("FirebaseAnalyticSystem.SetUserIntProperty " + _id + " " + _value);
+            FirebaseAnalytics.SetUserProperty(_id, _value.ToString());
+        }
 
 #else
         public override void Init()
         {
+            InitErrorEvent(this, "CORE_FIREBASE not added in compilation constants");
         }
 
         public override void SocialSignUp()
@@ -392,6 +404,16 @@ namespace SCore.Analytics
         }
 
         public override void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserStringProperty(string _id, string _value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserIntProperty(string _id, int _value)
         {
             throw new NotImplementedException();
         }
