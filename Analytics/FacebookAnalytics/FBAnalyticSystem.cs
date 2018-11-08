@@ -248,8 +248,8 @@ namespace SCore.Analytics
 
         public override void SetUserIntProperty(string _id, int _value)
         {
-            Debug.Log("FBAnalytics.SetUserIntProperty (NOT SUPPORTED) " + _id + " " + _value);
-            //Facebook platform not support properties yet
+            Debug.Log("FBAnalytics.SetUserIntProperty " + _id + " " + _value);
+            DesignEvent(_id, _value, null);
         }
 
 

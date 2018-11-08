@@ -216,8 +216,8 @@ namespace SCore.Analytics
 
         public override void SetUserIntProperty(string _id, int _value)
         {
-            Debug.Log("GameAnalytics.SetUserIntProperty (NOT SUPPORTED) " + _id + " " + _value);
-            //GameAnalytics platform not support properties yet
+            Debug.Log("GameAnalytics.SetUserIntProperty " + _id + " " + _value);
+            DesignEvent(_id, _value, null);
         }
 
 #else
