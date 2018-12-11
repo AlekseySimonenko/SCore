@@ -179,7 +179,7 @@ namespace SCore.Analytics
             Debug.Log("AdjustAnalyticSystem.DesignEvent with Parameters ");
 
             AdjustAnalyticEvent targetEvent = FindEventByName(_id);
-            if (targetEvent != null && !string.IsNullOrEmpty(targetEvent.Token))
+            if (!string.IsNullOrEmpty(targetEvent.Token))
             {
                 AdjustEvent adjustEvent = new AdjustEvent(targetEvent.Token);
                 Adjust.trackEvent(adjustEvent);
@@ -198,7 +198,7 @@ namespace SCore.Analytics
 
         public AdjustAnalyticEvent FindEventByName(string _name)
         {
-            AdjustAnalyticEvent returned = null;
+            AdjustAnalyticEvent returned = new AdjustAnalyticEvent();
             for (int i = 0; i < EventsConfig.Length; i++)
             {
                 if (EventsConfig[i].Name == _name)
@@ -329,7 +329,7 @@ namespace SCore.Analytics
 
 #if CORE_ADJUST
     [Serializable]
-    public class AdjustAnalyticEvent
+    public struct AdjustAnalyticEvent
     {
         public string Name;
         public string Token;
