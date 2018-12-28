@@ -23,7 +23,7 @@ namespace SCore
                 return false;
 #endif
             else
-                return DeviceDiagonalSizeInInches() > 6.5F;
+                return DeviceDiagonalSizeInInches() > 7.0F;
         }
     }
 }
