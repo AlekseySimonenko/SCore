@@ -6,6 +6,7 @@ namespace SCore.Loading
 {
     /// <summary>
     /// Control loading any services on game start
+    /// Contains loaded service's GameObjects at self
     /// </summary>
     public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
     {
