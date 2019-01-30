@@ -18,8 +18,8 @@ namespace SCore.Web
 
             //Construct new gameobject for corountine usage
             GameObject requestObject = new GameObject();
-            DontDestroyOnLoad(requestObject);
-
+            GameObject.DontDestroyOnLoad(requestObject);
+            
             //Construct new gameobject for corountine usage
             WebRequest request = requestObject.AddComponent<WebRequest>();
             request.url = _url;
