@@ -4,7 +4,9 @@ using System;
 using SCore.Utils;
 
 #if CORE_FIREBASE
+
 using Firebase.Analytics;
+
 #endif
 
 namespace SCore.Analytics
@@ -18,6 +20,7 @@ namespace SCore.Analytics
 
         //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
+
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
         //PUBLIC VARIABLES
@@ -28,10 +31,10 @@ namespace SCore.Analytics
 
         //PRIVATE VARIABLES
         private string targetGameKey;
+
         private string targetSecretKey;
 
 #if CORE_FIREBASE
-
 
         /// <summary>
         /// Constructor
@@ -41,7 +44,7 @@ namespace SCore.Analytics
             Debug.Log("FirebaseAnalyticSystem init");
             try
             {
-#if UNITY_ANDROID 
+#if UNITY_ANDROID
                 if (!GooglePlayServicesState.IsAvaliable())
                 {
                     InitError();
@@ -61,7 +64,6 @@ namespace SCore.Analytics
             {
                 InitErrorEvent?.Invoke(this, e.Message);
             }
-
         }
 
         private void InitError()
@@ -151,7 +153,6 @@ namespace SCore.Analytics
             FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventUnlockAchievement, FirebaseAnalytics.ParameterAchievementId, _achievementID);
         }
 
-
         public override void TutorialStart()
         {
             FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventTutorialBegin);
@@ -172,7 +173,6 @@ namespace SCore.Analytics
             );
 
             Debug.Log("FirebaseAnalyticSystem.PaymentInfoTry " + _currency + " " + _amount / 100.0F + " " + _itemID + " " + _itemType);
-
         }
 
         override public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
@@ -277,10 +277,8 @@ namespace SCore.Analytics
                 throw;
             }
 
-
             Debug.Log("FirebaseAnalyticSystem.DesignEvent with Parameters " + _event);
         }
-
 
         private string PrepareEventValue(string _event)
         {
@@ -419,5 +417,4 @@ namespace SCore.Analytics
         }
 #endif
     }
-
 }

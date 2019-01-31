@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Framework
 {
     /// <summary>
     /// Singleton.
@@ -12,7 +12,7 @@ namespace SCore
         /// </summary>
         private static T instance;
 
-        void Awake()
+        private void Awake()
         {
             if (instance == null)
                 instance = this.GetComponent<T>();
@@ -54,6 +54,5 @@ namespace SCore
         {
             return instance != null;
         }
-
     }
 }

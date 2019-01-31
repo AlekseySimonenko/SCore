@@ -1,4 +1,5 @@
-﻿using SCore.Loading;
+﻿using SCore.Framework;
+using SCore.Loading;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,13 @@ namespace SCore.Social
         public UnityEvent OnInitActions;
 
         static public event Action InitCompletedEvent;
+
         static public event Action InitErrorEvent;
+
         static public event Action LoginEvent;
+
         static public event Action LoginErrorEvent;
+
         static public event Action LogoutEvent;
 
         static public bool LoginCompleted { get; protected set; }
@@ -27,8 +32,8 @@ namespace SCore.Social
 
         static private ISocialPlatform platform;
 
-
         #region Init
+
         private void Start()
         {
             Debug.Log("SocialManager.Start");
@@ -58,12 +63,11 @@ namespace SCore.Social
             platform.Init();
         }
 
-        void Update()
+        private void Update()
         {
-
         }
-        #endregion
 
+        #endregion Init
 
         #region Static realisation of ISocialPlatform interface
 
@@ -109,7 +113,6 @@ namespace SCore.Social
             LogoutEvent?.Invoke();
         }
 
-
         static public string GetPlatformID()
         {
             return platform.GetPlatformID();
@@ -145,7 +148,6 @@ namespace SCore.Social
             return platform.GetUserInfo();
         }
 
-
         static public List<SocialUser> GetInAppFriends()
         {
             Debug.Log("SocialManager.GetInAppFriends");
@@ -164,6 +166,6 @@ namespace SCore.Social
             platform.Share(title, message, url, imageUrl, completedCallback, errorCallback, shareID, area);
         }
 
-        #endregion
+        #endregion Static realisation of ISocialPlatform interface
     }
 }

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
 #if CORE_GA
 using GameAnalyticsSDK;
 using GameAnalyticsSDK.Wrapper;
@@ -17,16 +17,17 @@ namespace SCore.Analytics
 
         //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
+
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
         //PRIVATE STATIC
 
         //PRIVATE VARIABLES
         private string targetGameKey;
+
         private string targetSecretKey;
 
 #if CORE_GA
-
 
         /// <summary>
         /// Constructor
@@ -46,7 +47,6 @@ namespace SCore.Analytics
                 InitErrorEvent?.Invoke(this, e.Message);
             }
         }
-
 
         public override void SocialSignUp()
         {
@@ -111,7 +111,6 @@ namespace SCore.Analytics
             GameAnalytics.NewDesignEvent("Payment:Try:" + _itemID + ":" + _area, _amount);
         }
 
-
         /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
@@ -121,7 +120,6 @@ namespace SCore.Analytics
             GameAnalytics.NewDesignEvent("Payment:Success:" + _itemID + ":" + _area, _amount);
         }
 
-
         /// <summary>
         /// Track business real payment with currency and value
         /// </summary>
@@ -130,7 +128,6 @@ namespace SCore.Analytics
             Debug.Log("GameAnalytics.PaymentReal " + _itemID + " " + _amount + " " + _currency);
             GameAnalytics.NewBusinessEvent(_currency, _amount, _itemType, _itemID, _area);
         }
-
 
         /// <summary>
         /// Track resource event
@@ -149,7 +146,6 @@ namespace SCore.Analytics
             Debug.Log("GameAnalytics.ResourceRemove " + _itemID + " " + _amount + " " + _currency);
             GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, _currency, _amount, _itemType, _itemID);
         }
-
 
         /// <summary>
         /// Track open invite window
@@ -207,7 +203,6 @@ namespace SCore.Analytics
             GameAnalytics.NewDesignEvent(_id, _amount);
         }
 
-
         public override void SetUserStringProperty(string _id, string _value)
         {
             Debug.Log("GameAnalytics.SetUserStringProperty (NOT SUPPORTED) " + _id + " " + _value);
@@ -221,11 +216,11 @@ namespace SCore.Analytics
         }
 
 #else
+
         public override void Init()
         {
             InitErrorEvent(this, "CORE_GA not added in compilation constants");
         }
-
 
         public override void SocialSignUp()
         {
@@ -339,5 +334,4 @@ namespace SCore.Analytics
 
 #endif
     }
-
 }

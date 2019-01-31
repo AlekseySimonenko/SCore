@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System;
+﻿using SCore.Utils;
 using SCore.Web;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace SCore.Saves
 {
@@ -18,6 +19,7 @@ namespace SCore.Saves
 
         /// PRIVATE VARIABLES
         static private string app_id;
+
         static private string user_id;
         static private string server_key;
         static private string auth_key;
@@ -27,7 +29,6 @@ namespace SCore.Saves
 
         private static Action<object> gameLoadSuccessCallbackFunction;
         private static Action<object> gameLoadFailCallbackFunction;
-
 
         /// <summary>
         /// Game load profile from server storage
@@ -110,7 +111,6 @@ namespace SCore.Saves
                             {
                                 LoadNewSave("SaveBackendStorage Server does't have save file");
                             }
-
                         }
                         else
                             LoadError("SaveBackendStorage ERROR validate protection fail");
@@ -186,7 +186,6 @@ namespace SCore.Saves
             gameSaveSuccessCallbackFunction?.Invoke();
         }
 
-
         /// <summary>
         /// Game save error when loading
         /// </summary>
@@ -196,7 +195,6 @@ namespace SCore.Saves
             Debug.LogError(_message);
             gameSaveFailCallbackFunction?.Invoke(_message);
         }
-
 
         static private bool CheckExceptions()
         {
@@ -217,10 +215,5 @@ namespace SCore.Saves
         {
             Debug.LogError("SaveBackendStorage Not inited!");
         }
-
-
     }
-
-
-
 }

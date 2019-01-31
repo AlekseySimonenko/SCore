@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Activate or deactivate by platform dependency
@@ -13,7 +13,7 @@ namespace SCore
 
         private bool deactivated = false;
 
-        void Start()
+        private void Start()
         {
             if (Array.IndexOf(platforms, Application.platform) >= 0)
             {
@@ -27,7 +27,7 @@ namespace SCore
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (deactivated && gameObject.activeInHierarchy)
             {

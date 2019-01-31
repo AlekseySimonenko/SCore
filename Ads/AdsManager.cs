@@ -1,6 +1,5 @@
+using SCore.Framework;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SCore.Ads
@@ -15,18 +14,23 @@ namespace SCore.Ads
 
         //PUBLIC EVENTS
         static public event Action StartAnyAdEvent;
+
         static public event Action CompletedAnyAdEvent;
+
         static public event Action ErrorAnyAdEvent;
+
         static public event Action CancelAnyAdEvent;
 
         //PUBLIC VARIABLES
         [SerializeField]
         private bool isEnabled = true;
+
         [SerializeField]
         public IAdsPlatform[] AdsPlatforms;
 
         //PRIVATE STATIC
         static private int TargetAdsPlatformID;
+
         static private ADSTYPES TargetAdsType;
         static private float timeLimit;
         static private Action callbackCompletedMain;
@@ -34,7 +38,6 @@ namespace SCore.Ads
         static private Action callbackCancelMain;
 
         //PRIVATE VARIABLES
-
 
         private void Start()
         {
@@ -53,7 +56,7 @@ namespace SCore.Ads
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //Timelimit
             if (timeLimit > 0)
@@ -71,7 +74,6 @@ namespace SCore.Ads
         {
             return Instance.isEnabled;
         }
-
 
         static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
         {
@@ -97,6 +99,7 @@ namespace SCore.Ads
                     case ADSTYPES.INTERSTITIAL:
                         AdsPlatform.ShowInterstitial();
                         break;
+
                     case ADSTYPES.REWARDED:
                         AdsPlatform.ShowRewarded();
                         break;
@@ -122,6 +125,7 @@ namespace SCore.Ads
                         if (AdsPlatform.IsInterstitialReady())
                             return true;
                         break;
+
                     case ADSTYPES.REWARDED:
                         if (AdsPlatform.IsRewardedReady())
                             return true;
@@ -131,7 +135,6 @@ namespace SCore.Ads
 
             return false;
         }
-
 
         static public void OnStarted()
         {
@@ -163,7 +166,5 @@ namespace SCore.Ads
             callbackCancelMain?.Invoke();
             CancelAnyAdEvent?.Invoke();
         }
-
-
     }
 }

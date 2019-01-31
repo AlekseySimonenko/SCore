@@ -1,23 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SCore.Analytics
 {
     public class SceneTracker : MonoBehaviour
     {
-
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             SceneManager.activeSceneChanged += OnSceneChanged;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         public void OnSceneChanged(Scene oldScene, Scene newScene)

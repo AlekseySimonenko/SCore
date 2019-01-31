@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using SCore.Framework;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace SCore.Music
@@ -13,19 +13,22 @@ namespace SCore.Music
 
         //PUBLIC VARIABLES
         public MusicPlaylist[] playlists;
+
         public AudioMixer audioMixer;
         public int PlayOnAwakeID = -1;
 
         //PRIVATE STATIC
         private AudioSource audioSource;
+
         // Playing now track in playlist.
         private int playtrack = 0;
+
         private int playlistID = -1;
         private bool pause = false;
 
         //PRIVATE VARIABLES
 
-        void Start()
+        private void Start()
         {
             audioSource = GetComponent<AudioSource>();
 
@@ -33,7 +36,7 @@ namespace SCore.Music
                 StartPlaylist(PlayOnAwakeID);
         }
 
-        void Update()
+        private void Update()
         {
             if (playlistID > -1 && pause == false && audioSource.isPlaying == false)
             {

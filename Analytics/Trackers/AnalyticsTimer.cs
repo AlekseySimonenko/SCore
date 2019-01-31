@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SCore.Analytics
 {
@@ -17,18 +14,20 @@ namespace SCore.Analytics
 
         //PRIVATE STATIC
         private const string PREFS_KEY_LAUNCHTIME = "secondsFromFirstLaunch";
+
         private const string PREFS_KEY_TRACKEDMINUTES = "trackedMinutes";
         private const float TRACK_TIME = 1.0F;
 
         //PRIVATE VARIABLES
         private float trackTimer;
+
         private float timeFromFirstLaunch;
         private int trackedMinutes;
 
         private bool timerEnabled = false;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             trackedMinutes = PlayerPrefs.GetInt(PREFS_KEY_TRACKEDMINUTES);
             timerEnabled = false;
@@ -47,7 +46,7 @@ namespace SCore.Analytics
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (timerEnabled)
             {
@@ -61,7 +60,7 @@ namespace SCore.Analytics
             }
         }
 
-        void CheckPoint()
+        private void CheckPoint()
         {
             for (int i = 0; i < trackMinutePoints.Length; i++)
             {
@@ -70,14 +69,14 @@ namespace SCore.Analytics
             }
         }
 
-        void TrackNewPoint(int _minutes)
+        private void TrackNewPoint(int _minutes)
         {
             AnalyticsManager.DesignEvent("lifetime" + _minutes, _minutes);
             trackedMinutes = _minutes;
             SaveValues();
         }
 
-        void SaveValues()
+        private void SaveValues()
         {
             PlayerPrefs.SetInt(PREFS_KEY_TRACKEDMINUTES, trackedMinutes);
             PlayerPrefs.SetFloat(PREFS_KEY_LAUNCHTIME, timeFromFirstLaunch);
@@ -88,7 +87,5 @@ namespace SCore.Analytics
             if (pause && timerEnabled)
                 SaveValues();
         }
-
     }
 }
-

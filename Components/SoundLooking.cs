@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Sound volume fallof when main camera not looking on sound
@@ -15,16 +15,17 @@ namespace SCore
 
         //How othen we check looking on sound
         private float timer = 0.0f;
+
         private const float timerDelay = 0.5f;
 
-        void Start()
+        private void Start()
         {
             audioSource = gameObject.GetComponent<AudioSource>();
             startVolume = audioSource.volume;
             audioSource.volume = 0.0F;
         }
 
-        void Update()
+        private void Update()
         {
             //Looking timer
             timer -= Time.unscaledDeltaTime;
@@ -58,11 +59,11 @@ namespace SCore
                     isLookingOn = true;
                 else
                     isLookingOn = false;
-            }else
+            }
+            else
             {
                 isLookingOn = false;
             }
         }
-
     }
 }

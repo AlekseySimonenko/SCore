@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SCore.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SCore.Templates
 {
@@ -9,21 +9,24 @@ namespace SCore.Templates
     /// </summary>
     public class TemplateSingletone : MonoBehaviourSingleton<TemplateSingletone>
     {
-        //PUBLIC STATIC
+        //STATIC VARIABLES
+        public static int PublicStaticVariable;
 
-        //PUBLIC EVENTS
+        private static int _privateStaticVariable;
+
+        //EVENTS
+        public UnityEvent Event;
 
         //PUBLIC VARIABLES
-
-        //PRIVATE STATIC
+        public static int PublicVariable;
 
         //PRIVATE VARIABLES
-
+        private int _privateVariable;
 
         /// <summary>
         /// Function description
         /// </summary>
-        void Start()
+        private void Start()
         {
             Debug.Log("TemplateSingletone:" + "Start", Instance.gameObject);
         }
@@ -31,9 +34,8 @@ namespace SCore.Templates
         /// <summary>
         /// Function description
         /// </summary>
-        void Update()
+        private void Update()
         {
-
         }
     }
 }

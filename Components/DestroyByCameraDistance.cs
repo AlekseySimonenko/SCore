@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Destroy or recycle object by distance to camera
@@ -21,15 +21,14 @@ namespace SCore
         /// <summary>
         /// Only one time
         /// </summary>
-        void Start()
+        private void Start()
         {
-
         }
 
         /// <summary>
         /// Every object pool recreated or enable/disable time
         /// </summary>
-        void OnEnable()
+        private void OnEnable()
         {
             startTimer = checkInterval;
 
@@ -37,13 +36,13 @@ namespace SCore
             StartCoroutine(UpdateStatus());
         }
 
-        void Update()
+        private void Update()
         {
             if (startTimer > 0)
                 startTimer -= Time.unscaledDeltaTime;
         }
 
-        IEnumerator UpdateStatus()
+        private IEnumerator UpdateStatus()
         {
             for (; ; )
             {
@@ -79,6 +78,5 @@ namespace SCore
                 }
             }
         }
-
     }
 }

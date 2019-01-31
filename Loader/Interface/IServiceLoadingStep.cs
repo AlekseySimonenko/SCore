@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SCore.Loading
@@ -18,22 +16,24 @@ namespace SCore.Loading
 
         //PUBLIC VARIABLES
         public bool autoCompleteEventOnStart = false;
+
         public float InitTimelimit = 5.0F;
 
         //PRIVATE STATIC
 
         //PRIVATE VARIABLES
         private float initTimerlimit = 0.0F;
+
         private bool completed = false;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             initTimerlimit = InitTimelimit;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (autoCompleteEventOnStart && !completed)
             {

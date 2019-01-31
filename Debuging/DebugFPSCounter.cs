@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-namespace SCore
+namespace SCore.Debuging
 {
     public class DebugFPSCounter : MonoBehaviour
     {
@@ -10,13 +9,14 @@ namespace SCore
         public TextMesh TextMesh;
 
         //FPS метр
-        float updateInterval = 0.5F;
+        private float updateInterval = 0.5F;
+
         private float accum = 0.0F; // FPS accumulated over the interval
         private float frames = 0F; // Frames drawn over the interval
         private float timeleft; // Left time for current interval
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             TextUI = GetComponent<Text>();
             TextMesh = GetComponent<TextMesh>();
@@ -24,7 +24,7 @@ namespace SCore
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //FPS
             timeleft -= Time.unscaledDeltaTime;
@@ -32,7 +32,7 @@ namespace SCore
             ++frames;
             if (timeleft <= 0.0F)
             {
-                if(TextUI != null)
+                if (TextUI != null)
                     TextUI.text = "FPS " + (accum / frames).ToString("f2");
                 if (TextMesh != null)
                     TextMesh.text = "FPS " + (accum / frames).ToString("f2");
@@ -42,8 +42,5 @@ namespace SCore
                 frames = 0;
             }
         }
-
-
-
     }
 }

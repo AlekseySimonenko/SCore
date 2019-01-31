@@ -8,7 +8,6 @@ namespace SCore.Web
     /// </summary>
     public class WebRequestManager
     {
-
         /// <summary>
         /// Static method for web request processing
         /// </summary>
@@ -19,7 +18,7 @@ namespace SCore.Web
             //Construct new gameobject for corountine usage
             GameObject requestObject = new GameObject();
             GameObject.DontDestroyOnLoad(requestObject);
-            
+
             //Construct new gameobject for corountine usage
             WebRequest request = requestObject.AddComponent<WebRequest>();
             request.url = _url;

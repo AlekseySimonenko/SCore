@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,15 +12,19 @@ namespace SCore.Social
     public abstract class ISocialPlatform : MonoBehaviour
     {
         public abstract event Action InitCompletedEvent;
+
         public abstract event Action InitErrorEvent;
+
         public abstract event Action LoginEvent;
+
         public abstract event Action LoginErrorEvent;
+
         public abstract event Action LogoutEvent;
 
         /// <summary>
         /// Init social platform with custom parameters
         /// </summary>
-        public abstract void Init(Dictionary<string,object> parameters = null);
+        public abstract void Init(Dictionary<string, object> parameters = null);
 
         /// <summary>
         /// Get unique platform ID for platform dependency logic realisation
@@ -64,5 +67,4 @@ namespace SCore.Social
         /// </summary>
         public abstract void Share(string title, string message, string url, string imageUrl, Action completedCallback, Action errorCallback, string shareID, string area = "");
     }
-
 }

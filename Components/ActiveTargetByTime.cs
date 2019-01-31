@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Activate or deactivate target (linked) gameobject by time
@@ -12,17 +11,16 @@ namespace SCore
         public float activateOnTime = 0;
         public bool deactivate = false;
 
-        void Start()
+        private void Start()
         {
             Invoke("ActivateObject", activateOnTime);
         }
 
-        void Update()
+        private void Update()
         {
-
         }
 
-        void ActivateObject()
+        private void ActivateObject()
         {
             if (TargetObject != null)
             {

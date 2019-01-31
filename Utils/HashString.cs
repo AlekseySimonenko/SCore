@@ -2,14 +2,13 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SCore
+namespace SCore.Utils
 {
     /// <summary>
     /// Static class for hashing string to MD5 string
     /// </summary>
     public class HashString
     {
-
         static public string Hash(string _string)
         {
             MD5CryptoServiceProvider cryptography = new MD5CryptoServiceProvider();
@@ -18,6 +17,5 @@ namespace SCore
             string hash = BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             return hash;
         }
-
     }
 }

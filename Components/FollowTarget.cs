@@ -1,20 +1,18 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
-
     /// <summary>
     /// Object follow another object by some rules
     /// </summary>
     [DisallowMultipleComponent]
     public class FollowTarget : MonoBehaviour
     {
-
         public GameObject target;
         public float lerpTime = 0;
         public bool unscaledTime = false;
 
-        void Update()
+        private void Update()
         {
             if (target != null)
             {
@@ -28,6 +26,5 @@ namespace SCore
                 }
             }
         }
-
     }
 }

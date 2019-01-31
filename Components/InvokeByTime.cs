@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class InvokeByTime : MonoBehaviour
+namespace SCore.Components
 {
-
-    public float TimeToInvoke;
-    public UnityEvent EventsToInvoke;
-
-    // Use this for initialization
-    void Start()
+    public class InvokeByTime : MonoBehaviour
     {
-        if (TimeToInvoke == 0f)
-            InvokeEvents();
-    }
+        public float TimeToInvoke;
+        public UnityEvent EventsToInvoke;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (TimeToInvoke > 0f)
+        // Use this for initialization
+        private void Start()
         {
-            TimeToInvoke -= Time.unscaledDeltaTime;
-            if (TimeToInvoke <= 0f)
+            if (TimeToInvoke == 0f)
                 InvokeEvents();
         }
-    }
 
-    void InvokeEvents()
-    {
-        EventsToInvoke?.Invoke();
+        // Update is called once per frame
+        private void Update()
+        {
+            if (TimeToInvoke > 0f)
+            {
+                TimeToInvoke -= Time.unscaledDeltaTime;
+                if (TimeToInvoke <= 0f)
+                    InvokeEvents();
+            }
+        }
+
+        private void InvokeEvents()
+        {
+            EventsToInvoke?.Invoke();
+        }
     }
 }

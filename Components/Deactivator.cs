@@ -1,25 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-/// <summary>
-/// Deactivate gameobject
-/// </summary>
-public class Deactivator : MonoBehaviour
+namespace SCore.Components
 {
-    public bool deactiveOnStart = false;
-    public bool deactiveOnUpdate = false;
-
-    // Use this for initialization
-    void Start()
+    /// <summary>
+    /// Deactivate gameobject
+    /// </summary>
+    public class Deactivator : MonoBehaviour
     {
-        gameObject.SetActive(!deactiveOnStart);
-    }
+        public bool deactiveOnStart = false;
+        public bool deactiveOnUpdate = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (deactiveOnUpdate)
-            gameObject.SetActive(!deactiveOnUpdate);
+        // Use this for initialization
+        private void Start()
+        {
+            gameObject.SetActive(!deactiveOnStart);
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            if (deactiveOnUpdate)
+                gameObject.SetActive(!deactiveOnUpdate);
+        }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-namespace SCore
+namespace SCore.Debuging
 {
     public class DebugMemoryCounter : MonoBehaviour
     {
@@ -11,17 +10,18 @@ namespace SCore
 
         //FPS метр
         private float updateTimer;
+
         private const float updateInterval = 1.0f;
         // Use this for initialization
 
-        void Start()
+        private void Start()
         {
             TextUI = GetComponent<Text>();
             TextMesh = GetComponent<TextMesh>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             updateTimer -= Time.unscaledDeltaTime;
             if (updateTimer < 0)
@@ -33,8 +33,5 @@ namespace SCore
                     TextMesh.text = "MB " + (UnityEngine.Profiling.Profiler.GetTotalReservedMemoryLong() / 1000000).ToString();
             }
         }
-
-
-
     }
 }

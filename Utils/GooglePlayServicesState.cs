@@ -1,12 +1,13 @@
 ﻿using System;
-using UnityEngine;
 
 namespace SCore.Utils
 {
     public class GooglePlayServicesState
     {
         static public event Action ServicesAvailableEvent;
+
         static public event Action ServicesErrorEvent;
+
         static private bool available;
         static private bool checkRunning;
 
@@ -49,16 +50,22 @@ namespace SCore.Utils
             {
                 case 0:
                     return PlayServicesState.Available;
+
                 case 1:
                     return PlayServicesState.Service_missing;
+
                 case 2:
                     return PlayServicesState.UpdateRequired;
+
                 case 3:
                     return PlayServicesState.ServiceDisabled;
+
                 case 9:
                     return PlayServicesState.Invalid;
+
                 case 18:
                     return PlayServicesState.Updating;
+
                 default:
                     return PlayServicesState.Null;
             }
@@ -66,7 +73,6 @@ namespace SCore.Utils
             return PlayServicesState.Null;
 #endif
         }
-
 
         // Use this for initialization
         static public bool IsAvaliable()
@@ -76,6 +82,5 @@ namespace SCore.Utils
             else
                 return false;
         }
-
     }
 }

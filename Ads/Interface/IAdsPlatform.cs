@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SCore.Ads
@@ -13,8 +11,11 @@ namespace SCore.Ads
     public abstract class IAdsPlatform : MonoBehaviour
     {
         public abstract event Action StartEvent;
+
         public abstract event Action CompletedEvent;
+
         public abstract event Action ErrorEvent;
+
         public abstract event Action CancelEvent;
 
         /// <summary>
@@ -32,7 +33,6 @@ namespace SCore.Ads
         /// </summary>
         public abstract void ShowInterstitial();
 
-
         /// <summary>
         /// Is Interstitial ad was loading and ready
         /// </summary>
@@ -47,9 +47,5 @@ namespace SCore.Ads
         /// Show Rewarded ads that can't be skiped
         /// </summary>
         public abstract void ShowBanner();
-
-        
-
     }
-
 }

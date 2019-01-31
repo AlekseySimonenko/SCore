@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace SCore.Loading
@@ -14,15 +12,14 @@ namespace SCore.Loading
         public Image progressBar;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             GetComponent<ServiceLoader>().OnSyncStepLoadingEvent += OnSyncStepLoadingEvent;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         public void OnSyncStepLoadingEvent(int step, int maxstep)

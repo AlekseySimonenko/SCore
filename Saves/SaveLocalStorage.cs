@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using SCore.Utils;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace SCore.Saves
 {
@@ -13,7 +13,6 @@ namespace SCore.Saves
     {
         //Universal path for quick saved games
         private const string fileSavePath = "/save.qs";
-
 
         static public void Save(Dictionary<string, object> _saveVO)
         {
@@ -51,10 +50,5 @@ namespace SCore.Saves
 
             return _saveVO;
         }
-
-
-  
-
-
-}
+    }
 }

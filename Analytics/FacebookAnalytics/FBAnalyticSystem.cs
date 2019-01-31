@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+
 #if CORE_FB
+
 using Facebook.Unity;
+
 #endif
 
 namespace SCore.Analytics
@@ -16,6 +19,7 @@ namespace SCore.Analytics
 
         //PUBLIC EVENTS
         public override event Action<IAnalyticSystem> InitCompletedEvent;
+
         public override event Action<IAnalyticSystem, string> InitErrorEvent;
 
         //PUBLIC VARIABLES
@@ -24,6 +28,7 @@ namespace SCore.Analytics
 
         //PRIVATE VARIABLES
         private string targetGameKey;
+
         private string targetSecretKey;
 
 #if CORE_FB
@@ -48,7 +53,6 @@ namespace SCore.Analytics
                 InitErrorEvent?.Invoke(this, e.Message);
             }
         }
-
 
         /// <summary>
         /// Track when mission/level/quest open and view
@@ -126,7 +130,6 @@ namespace SCore.Analytics
             FB.LogAppEvent(AppEventName.InitiatedCheckout, _amount / 100.0F, new Dictionary<string, object>() { { AppEventParameterName.Currency, _currency } });
         }
 
-
         /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
@@ -134,7 +137,6 @@ namespace SCore.Analytics
         {
             //Facebook platform already has this info
         }
-
 
         /// <summary>
         /// Track business real payment with currency and value
@@ -144,7 +146,6 @@ namespace SCore.Analytics
             FB.LogPurchase(_amount / 100.0F, _currency);
             Debug.LogFormat(gameObject, "FBAnalytics.PaymentReal {0} {1} {2} {3}", new object[] { _currency, _amount / 100.0F, _itemID, _itemType });
         }
-
 
         /// <summary>
         /// Track resource event
@@ -165,7 +166,6 @@ namespace SCore.Analytics
             Debug.Log("FBAnalytics.ResourceRemove " + _currency + " " + _amount + " " + _itemID + " " + _itemType, gameObject);
             FB.LogAppEvent(_event, _amount);
         }
-
 
         /// <summary>
         /// Track open invite window
@@ -226,7 +226,6 @@ namespace SCore.Analytics
             Debug.Log("FBAnalytics.DesignEvent with Parameters" + _event + " " + _amount, gameObject);
         }
 
-
         private string PrepareEventValue(string _event)
         {
             _event.Replace(':', '_');
@@ -251,7 +250,6 @@ namespace SCore.Analytics
             Debug.Log("FBAnalytics.SetUserIntProperty " + _id + " " + _value);
             DesignEvent(_id, _value, null);
         }
-
 
 #else
 
@@ -371,5 +369,4 @@ namespace SCore.Analytics
         }
 #endif
     }
-
 }

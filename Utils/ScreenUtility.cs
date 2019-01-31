@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
-namespace SCore
+namespace SCore.Utils
 {
     public class ScreenUtility
     {

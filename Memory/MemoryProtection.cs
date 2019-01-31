@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Memory
 {
     /// <summary>
     /// Protected variables by key offset
@@ -40,7 +40,5 @@ namespace SCore
             float value = (_value - key) / key;
             return value;
         }
-
-
     }
 }

@@ -1,20 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 
-public static class ExtensionMethods
+namespace SCore.Utils
 {
-    // Deep clone
-    public static T DeepClone<T>(this T a)
+    public static class ExtensionMethods
     {
-        using (MemoryStream stream = new MemoryStream())
+        // Deep clone
+        public static T DeepClone<T>(this T a)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, a);
-            stream.Position = 0;
-            return (T)formatter.Deserialize(stream);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, a);
+                stream.Position = 0;
+                return (T)formatter.Deserialize(stream);
+            }
         }
     }
 }

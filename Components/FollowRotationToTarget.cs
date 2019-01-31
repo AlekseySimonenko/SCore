@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Follow rotation to look target by time/speed
@@ -13,12 +13,11 @@ namespace SCore
         public float angleSnap = 30.0F;
         public float speed = 5.0F;
 
-        void Start()
+        private void Start()
         {
-
         }
 
-        void Update()
+        private void Update()
         {
             if (targetPosition != null)
                 gameObject.transform.position = targetPosition.transform.position;
@@ -34,4 +33,3 @@ namespace SCore
         }
     }
 }
-

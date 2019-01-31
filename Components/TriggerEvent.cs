@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Do something when collider is triggered
@@ -11,7 +11,7 @@ namespace SCore
     {
         public UnityEvent EnterEvent;
 
-        void OnTriggerEnter(Collider collision)
+        private void OnTriggerEnter(Collider collision)
         {
             EnterEvent?.Invoke();
         }

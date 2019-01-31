@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace SCore.ObjectPool
+﻿namespace SCore.ObjectPool
 {
-    public interface IObjectPoolReusable 
+    public interface IObjectPoolReusable
     {
         void ClearForReuse();
     }

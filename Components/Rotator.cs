@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Rotate object by axes
@@ -13,13 +13,12 @@ namespace SCore
         public bool unscaledTime;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             float timeAnimation = unscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
             transform.Rotate(xspeed * timeAnimation, yspeed * timeAnimation, zspeed * timeAnimation);

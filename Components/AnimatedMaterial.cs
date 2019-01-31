@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimatedMaterial : MonoBehaviour
+namespace SCore.Components
 {
-
-    public string MaterialProperty = "";
-    public Image targetImage;
-    public float AnimationSpeed = 1f;
-    public bool UnscaledTime;
-
-    private Material targetMaterial;
-
-    // Use this for initialization
-    void Start()
+    public class AnimatedMaterial : MonoBehaviour
     {
-        if (targetImage != null)
+        public string MaterialProperty = "";
+        public Image targetImage;
+        public float AnimationSpeed = 1f;
+        public bool UnscaledTime;
+
+        private Material targetMaterial;
+
+        // Use this for initialization
+        private void Start()
         {
-            targetMaterial = new Material(targetImage.material);
-            targetImage.material = targetMaterial;
+            if (targetImage != null)
+            {
+                targetMaterial = new Material(targetImage.material);
+                targetImage.material = targetMaterial;
+            }
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!string.IsNullOrEmpty(MaterialProperty) && targetMaterial != null)
+        // Update is called once per frame
+        private void Update()
         {
-            targetMaterial.SetFloat(MaterialProperty, UnscaledTime ? Time.unscaledTime * AnimationSpeed : Time.time * AnimationSpeed);
+            if (!string.IsNullOrEmpty(MaterialProperty) && targetMaterial != null)
+            {
+                targetMaterial.SetFloat(MaterialProperty, UnscaledTime ? Time.unscaledTime * AnimationSpeed : Time.time * AnimationSpeed);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SCore.Loading;
+﻿using SCore.Framework;
+using SCore.Loading;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.Events;
 namespace SCore.Analytics
 {
     /// <summary>
-    /// Static class controlling analytic system choosing. 
+    /// Static class controlling analytic system choosing.
     /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
     /// </summary>
     [RequireComponent(typeof(IServiceLoadingStep))]
@@ -30,6 +31,7 @@ namespace SCore.Analytics
         //TODO remove legacy config
         [Header("LEGACY configs, please use platfromsConfigs instead")]
         public IAnalyticSystem[] androidSystems;
+
         public IAnalyticSystem[] iosSystems;
         public IAnalyticSystem[] webglSystems;
         public IAnalyticSystem[] editorSystems;
@@ -37,12 +39,11 @@ namespace SCore.Analytics
 
         //PRIVATE STATIC
         private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
+
         private static int systemInitedCount = 0;
         private static bool isInitComplete = false;
 
         //PRIVATE VARIABLES
-
-
 
         private void Start()
         {
@@ -89,8 +90,6 @@ namespace SCore.Analytics
                     }
                     asystem.EventQueue.RemoveAt(0);
                 }
-
-
             }
         }
 
@@ -124,14 +123,12 @@ namespace SCore.Analytics
                     Debug.LogWarning("AnalyticsManager NOT ENABLED", Instance.gameObject);
                     Instance.OnInitActions?.Invoke();
                 }
-
             }
             else
             {
                 Debug.LogError("AnalyticsManager:Repeating static class Init!", Instance.gameObject);
             }
         }
-
 
         static public void OnSystemInitComleted(IAnalyticSystem asystem)
         {
@@ -169,11 +166,6 @@ namespace SCore.Analytics
                 Instance.OnInitActions?.Invoke();
             }
         }
-
-
-
-
-
 
         /// <summary>
         /// Track when first login in social network
@@ -343,7 +335,6 @@ namespace SCore.Analytics
             }
         }
 
-
         /// <summary>
         /// Track when game tutorial started
         /// </summary>
@@ -391,7 +382,6 @@ namespace SCore.Analytics
                 }
             }
         }
-
 
         /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
@@ -704,9 +694,5 @@ namespace SCore.Analytics
                 }
             }
         }
-
-
-
     }
-
 }

@@ -1,8 +1,7 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Utils
 {
     /// <summary>
     /// Static class for recursive finding childs of objects by tag
@@ -33,6 +32,5 @@ namespace SCore
                 }
             }
         }
-
     }
 }

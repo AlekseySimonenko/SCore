@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Utils
 {
     /// <summary>
     /// Static class for dictionary converter (from unknow to selected type)
     /// </summary>
     public class DictionaryConverter
     {
-
         static public string ConvertStrObjToString(Dictionary<string, object> _saveVO)
         {
             string _string = "";
@@ -21,7 +20,6 @@ namespace SCore
 
             return _string;
         }
-
 
         static public Dictionary<string, object> ConvertStringToStrObj(string _data)
         {
@@ -35,8 +33,7 @@ namespace SCore
             return _saveVO;
         }
 
-
-        static public Dictionary<string,string> ConvertStrObjToStrStr(Dictionary<string,object> _objectDictionary)
+        static public Dictionary<string, string> ConvertStrObjToStrStr(Dictionary<string, object> _objectDictionary)
         {
             Dictionary<string, string> strDictionary = new Dictionary<string, string>();
             if (_objectDictionary != null)

@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using SCore.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace SCore.Memory
 {
@@ -26,12 +25,13 @@ namespace SCore.Memory
             public List<object> Refferences = new List<object>();
             public bool DestroyFlag = false;
         };
+
         private Dictionary<Texture, SharedTextureVariables> sharedTextures = new Dictionary<Texture, SharedTextureVariables>();
 
         /// <summary>
         /// Function description
         /// </summary>
-        void Start()
+        private void Start()
         {
             Debug.Log("SharedTextureManager:" + "Start", Instance.gameObject);
         }
@@ -39,9 +39,8 @@ namespace SCore.Memory
         /// <summary>
         /// Function description
         /// </summary>
-        void Update()
+        private void Update()
         {
-
         }
 
         /// <summary>
@@ -109,9 +108,5 @@ namespace SCore.Memory
                 }
             }
         }
-
-
-
-
     }
 }

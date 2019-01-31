@@ -1,9 +1,10 @@
 using UnityEngine;
-using System.Collections;
-using SCore;
 using UnityEngine.UI;
+
 #if MESHPRO
+
 using TMPro;
+
 #endif
 
 namespace SCore.Localisation
@@ -13,7 +14,6 @@ namespace SCore.Localisation
     /// </summary>
     public class TextLocalization : MonoBehaviour
     {
-
         public string idLocaleVar;
         public TextMesh textMesh;
 #if MESHPRO
@@ -22,7 +22,7 @@ namespace SCore.Localisation
         public Text textUI;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             if (textMesh == null)
                 textMesh = GetComponent<TextMesh>();
@@ -39,11 +39,8 @@ namespace SCore.Localisation
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
-
-
     }
 }

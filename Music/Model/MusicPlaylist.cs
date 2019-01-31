@@ -9,6 +9,5 @@ namespace SCore.Music
     {
         public AudioClip[] tracks;
         public int[] playlist;
-
     }
 }

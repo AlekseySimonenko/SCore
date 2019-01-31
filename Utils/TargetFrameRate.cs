@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Utils
 {
     public class TargetFrameRate : MonoBehaviour
     {
@@ -10,7 +8,7 @@ namespace SCore
         public bool inEditor = false;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             if (!Application.isEditor || inEditor)
             {
@@ -18,6 +16,5 @@ namespace SCore
                 Application.targetFrameRate = targetFrameRate;
             }
         }
-
     }
 }

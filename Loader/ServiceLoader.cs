@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCore.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,11 +17,15 @@ namespace SCore.Loading
 
         //PUBLIC VARIABLES
         public bool forceLoading = false;
+
         [Header("Synchronous loading")]
         [Tooltip("Steps with complete event")]
         public IServiceLoadingStep[] syncLoadingSteps;
+
         public event Action<int, int> OnSyncStepLoadingEvent;
+
         public event Action<int, int> OnAsyncStepLoadingEvent;
+
         public event Action OnLoadingCompletedEvent;
 
         [Header("Asynchronous loading")]
@@ -34,14 +39,14 @@ namespace SCore.Loading
 
         //PRIVATE VARIABLES
         private int syncLoadingStep;
+
         private bool syncLoadingStepReady;
         private int asyncLoadingStep;
         private bool asyncLoadingStepReady;
         private System.Diagnostics.Stopwatch stopwatch;
 
-
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             Debug.Log("ServiceLoader: Start", gameObject);
             stopwatch = System.Diagnostics.Stopwatch.StartNew();
@@ -51,7 +56,7 @@ namespace SCore.Loading
 
         // Update is called once per frame
         //We used that to prevent from frame locked on low devices with only one work thread
-        void Update()
+        private void Update()
         {
             //Sync steps
             if (!forceLoading && syncLoadingStepReady)
@@ -70,7 +75,7 @@ namespace SCore.Loading
         /// <summary>
         /// First load all important services step by step
         /// </summary>
-        void NextSyncLoadingStep()
+        private void NextSyncLoadingStep()
         {
             syncLoadingStep++;
 
@@ -103,7 +108,7 @@ namespace SCore.Loading
         /// Final load all not important services whose can be loaded async.
         /// Run final steps without waiting end of loading!
         /// </summary>
-        void NextASyncLoadingStep()
+        private void NextASyncLoadingStep()
         {
             asyncLoadingStep++;
 
@@ -129,7 +134,5 @@ namespace SCore.Loading
                 finalActions.Invoke();
             }
         }
-
     }
-
 }

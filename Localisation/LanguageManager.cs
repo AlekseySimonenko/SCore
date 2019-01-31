@@ -1,4 +1,6 @@
+using SCore.Framework;
 using SCore.Loading;
+using SCore.Utils;
 using SCore.Web;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +27,7 @@ namespace SCore.Localisation
         //PUBLIC VARIABLES
         [Header("Remote/Local version updater")]
         public int buildConfigVersion = 0;
+
         public int remoteConfigVersion = 0;
         public string remoteUrl;
         public float remoteUrlTimelimit = 5F;
@@ -49,7 +52,6 @@ namespace SCore.Localisation
 
         //PRIVATE VARIABLES
         private int localConfigVersion = 0;
-
 
         private void Start()
         {
@@ -109,7 +111,6 @@ namespace SCore.Localisation
                         language = "it";
                     if (Application.systemLanguage == SystemLanguage.Spanish)
                         language = "es-419";
-
                 }
                 Debug.Log("LanguageManager:language " + language, Instance.gameObject);
 
@@ -147,7 +148,6 @@ namespace SCore.Localisation
                 Debug.LogError("LanguageManager:Repeating static class Init Completed!", Instance.gameObject);
             }
         }
-
 
         private static void LoadBuildVersion()
         {
@@ -314,7 +314,6 @@ namespace SCore.Localisation
             return Application.persistentDataPath + "/" + _language + ".xml";
         }
 
-
         public static string Get(string _id, params string[] args)
         {
             if (xmlDoc.ContainsKey(_id) == true)
@@ -375,13 +374,10 @@ namespace SCore.Localisation
      return "Not supported";
 #endif
         }
-
     }
 
-
-    class Handler : SmallXmlParser.IContentHandler
+    internal class Handler : SmallXmlParser.IContentHandler
     {
-
         public Dictionary<string, string> content = new Dictionary<string, string>();
         private string lastKey = "";
 
@@ -425,8 +421,4 @@ namespace SCore.Localisation
         {
         }
     }
-
-
-
-
 }

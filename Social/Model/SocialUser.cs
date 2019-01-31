@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
-namespace SCore.Social
+﻿namespace SCore.Social
 {
     public class SocialUser
     {

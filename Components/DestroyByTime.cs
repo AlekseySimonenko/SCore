@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
     /// <summary>
     /// Destroy or recycle object by timer
@@ -22,7 +22,7 @@ namespace SCore
         /// <summary>
         /// Only one time
         /// </summary>
-        void Start()
+        private void Start()
         {
             Init();
         }
@@ -30,7 +30,7 @@ namespace SCore
         /// <summary>
         /// Every object pool recreated or enable/disable time
         /// </summary>
-        void OnEnable()
+        private void OnEnable()
         {
             Init();
         }
@@ -38,12 +38,12 @@ namespace SCore
         /// <summary>
         /// Object like new!
         /// </summary>
-        void Init()
+        private void Init()
         {
             timer = lifetime;
         }
 
-        void Update()
+        private void Update()
         {
             if (timer > 0.0F)
             {
@@ -53,7 +53,6 @@ namespace SCore
                     DestroyObject();
                 }
             }
-
         }
 
         /// <summary>
@@ -77,6 +76,5 @@ namespace SCore
                 Destroy(gameObject);
             }
         }
-
     }
 }

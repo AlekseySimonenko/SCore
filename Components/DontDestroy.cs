@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-namespace SCore
+namespace SCore.Components
 {
-
     /// <summary>
     /// DontDestroyOnLoad to this object
     /// </summary>
@@ -11,11 +10,9 @@ namespace SCore
         /// <summary>
         /// Only one time
         /// </summary>
-        void Start()
+        private void Start()
         {
             DontDestroyOnLoad(gameObject);
         }
-
-
     }
 }

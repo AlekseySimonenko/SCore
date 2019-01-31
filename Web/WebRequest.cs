@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace SCore.Web
 {
-
     /// <summary>
-    /// This behavior attached to dummy object on the scene. 
+    /// This behavior attached to dummy object on the scene.
     /// When  get response this object self-destroyed.
     /// </summary>
     public class WebRequest : MonoBehaviour
@@ -18,7 +17,7 @@ namespace SCore.Web
         private WWW www;
         private float timeLimit;
 
-        void Start()
+        private void Start()
         {
             Debug.Log("RequestWeb Start");
             www = new WWW(url);
@@ -43,7 +42,7 @@ namespace SCore.Web
             timeLimit = _timeLimitSeconds;
         }
 
-        IEnumerator WaitForRequest(WWW www)
+        private IEnumerator WaitForRequest(WWW www)
         {
             yield return www;
 

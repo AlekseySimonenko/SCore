@@ -1,5 +1,4 @@
 ﻿using NikaCoreGame.SceneLoading;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,13 +20,15 @@ namespace SCore.ObjectPool
 
         //PUBLIC STATIC
         public enum StartupPoolMode { Awake, Start, CallManually };
-        static ObjectPool _instance;
-        static List<GameObject> tempList = new List<GameObject>();
+
+        private static ObjectPool _instance;
+        private static List<GameObject> tempList = new List<GameObject>();
 
         //PUBLIC EVENTS
 
         //PUBLIC VARIABLES
         public StartupPoolMode startupPoolMode;
+
         public StartupPool[] startupPools;
         public GameObject[] ReturnInPoolOnSceneLoading;
 
@@ -35,17 +36,18 @@ namespace SCore.ObjectPool
 
         //PRIVATE VARIABLES
         private Dictionary<GameObject, List<GameObject>> pooledObjects = new Dictionary<GameObject, List<GameObject>>();
+
         private Dictionary<GameObject, GameObject> spawnedObjects = new Dictionary<GameObject, GameObject>();
         private bool startupPoolsCreated;
 
-        void Awake()
+        private void Awake()
         {
             _instance = this;
             if (startupPoolMode == StartupPoolMode.Awake)
                 CreateStartupPools();
         }
 
-        void Start()
+        private void Start()
         {
             if (startupPoolMode == StartupPoolMode.Start)
                 CreateStartupPools();
@@ -112,26 +114,32 @@ namespace SCore.ObjectPool
         {
             return Spawn(prefab.gameObject, parent, position, rotation).GetComponent<T>();
         }
+
         public static T Spawn<T>(T prefab, Vector3 position, Quaternion rotation) where T : Component
         {
             return Spawn(prefab.gameObject, null, position, rotation).GetComponent<T>();
         }
+
         public static T Spawn<T>(T prefab, Transform parent, Vector3 position) where T : Component
         {
             return Spawn(prefab.gameObject, parent, position, Quaternion.identity).GetComponent<T>();
         }
+
         public static T Spawn<T>(T prefab, Vector3 position) where T : Component
         {
             return Spawn(prefab.gameObject, null, position, Quaternion.identity).GetComponent<T>();
         }
+
         public static T Spawn<T>(T prefab, Transform parent) where T : Component
         {
             return Spawn(prefab.gameObject, parent, Vector3.zero, Quaternion.identity).GetComponent<T>();
         }
+
         public static T Spawn<T>(T prefab) where T : Component
         {
             return Spawn(prefab.gameObject, null, Vector3.zero, Quaternion.identity).GetComponent<T>();
         }
+
         public static GameObject Spawn(GameObject prefab, Transform parent, Vector3 position, Quaternion rotation)
         {
             if (prefab != null)
@@ -203,18 +211,22 @@ namespace SCore.ObjectPool
         {
             return Spawn(prefab, parent, position, Quaternion.identity);
         }
+
         public static GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation)
         {
             return Spawn(prefab, null, position, rotation);
         }
+
         public static GameObject Spawn(GameObject prefab, Transform parent)
         {
             return Spawn(prefab, parent, Vector3.zero, Quaternion.identity);
         }
+
         public static GameObject Spawn(GameObject prefab, Vector3 position)
         {
             return Spawn(prefab, null, position, Quaternion.identity);
         }
+
         public static GameObject Spawn(GameObject prefab)
         {
             return Spawn(prefab, null, Vector3.zero, Quaternion.identity);
@@ -227,6 +239,7 @@ namespace SCore.ObjectPool
             else
                 Debug.LogWarning("ObjectPool:Recycle obj or GameObject is null!");
         }
+
         public static void Recycle(GameObject obj)
         {
             if (obj != null)
@@ -240,7 +253,8 @@ namespace SCore.ObjectPool
                 Debug.LogWarning("ObjectPool:Recycle obj or GameObject is null!");
             }
         }
-        static void Recycle(GameObject obj, GameObject prefab)
+
+        private static void Recycle(GameObject obj, GameObject prefab)
         {
             if (obj != null && prefab != null)
             {
@@ -266,6 +280,7 @@ namespace SCore.ObjectPool
         {
             RecycleAll(prefab.gameObject);
         }
+
         public static void RecycleAll(GameObject prefab)
         {
             foreach (var item in instance.spawnedObjects)
@@ -275,6 +290,7 @@ namespace SCore.ObjectPool
                 Recycle(tempList[i]);
             tempList.Clear();
         }
+
         public static void RecycleAll()
         {
             tempList.AddRange(instance.spawnedObjects.Keys);
@@ -292,6 +308,7 @@ namespace SCore.ObjectPool
         {
             return CountPooled(prefab.gameObject);
         }
+
         public static int CountPooled(GameObject prefab)
         {
             List<GameObject> list;
@@ -304,6 +321,7 @@ namespace SCore.ObjectPool
         {
             return CountSpawned(prefab.gameObject);
         }
+
         public static int CountSpawned(GameObject prefab)
         {
             int count = 0;
@@ -332,6 +350,7 @@ namespace SCore.ObjectPool
                 list.AddRange(pooled);
             return list;
         }
+
         public static List<T> GetPooled<T>(T prefab, List<T> list, bool appendList) where T : Component
         {
             if (list == null)
@@ -356,6 +375,7 @@ namespace SCore.ObjectPool
                     list.Add(item.Key);
             return list;
         }
+
         public static List<T> GetSpawned<T>(T prefab, List<T> list, bool appendList) where T : Component
         {
             if (list == null)
@@ -379,6 +399,7 @@ namespace SCore.ObjectPool
                 pooled.Clear();
             }
         }
+
         public static void DestroyPooled<T>(T prefab) where T : Component
         {
             DestroyPooled(prefab.gameObject);
@@ -389,6 +410,7 @@ namespace SCore.ObjectPool
             RecycleAll(prefab);
             DestroyPooled(prefab);
         }
+
         public static void DestroyAll<T>(T prefab) where T : Component
         {
             DestroyAll(prefab.gameObject);
@@ -421,14 +443,17 @@ namespace SCore.ObjectPool
         {
             ObjectPool.CreatePool(prefab, 0);
         }
+
         public static void CreatePool<T>(this T prefab, int initialPoolSize) where T : Component
         {
             ObjectPool.CreatePool(prefab, initialPoolSize);
         }
+
         public static void CreatePool(this GameObject prefab)
         {
             ObjectPool.CreatePool(prefab, 0);
         }
+
         public static void CreatePool(this GameObject prefab, int initialPoolSize)
         {
             ObjectPool.CreatePool(prefab, initialPoolSize);
@@ -438,46 +463,57 @@ namespace SCore.ObjectPool
         {
             return ObjectPool.Spawn(prefab, parent, position, rotation);
         }
+
         public static T Spawn<T>(this T prefab, Vector3 position, Quaternion rotation) where T : Component
         {
             return ObjectPool.Spawn(prefab, null, position, rotation);
         }
+
         public static T Spawn<T>(this T prefab, Transform parent, Vector3 position) where T : Component
         {
             return ObjectPool.Spawn(prefab, parent, position, Quaternion.identity);
         }
+
         public static T Spawn<T>(this T prefab, Vector3 position) where T : Component
         {
             return ObjectPool.Spawn(prefab, null, position, Quaternion.identity);
         }
+
         public static T Spawn<T>(this T prefab, Transform parent) where T : Component
         {
             return ObjectPool.Spawn(prefab, parent, Vector3.zero, Quaternion.identity);
         }
+
         public static T Spawn<T>(this T prefab) where T : Component
         {
             return ObjectPool.Spawn(prefab, null, Vector3.zero, Quaternion.identity);
         }
+
         public static GameObject Spawn(this GameObject prefab, Transform parent, Vector3 position, Quaternion rotation)
         {
             return ObjectPool.Spawn(prefab, parent, position, rotation);
         }
+
         public static GameObject Spawn(this GameObject prefab, Vector3 position, Quaternion rotation)
         {
             return ObjectPool.Spawn(prefab, null, position, rotation);
         }
+
         public static GameObject Spawn(this GameObject prefab, Transform parent, Vector3 position)
         {
             return ObjectPool.Spawn(prefab, parent, position, Quaternion.identity);
         }
+
         public static GameObject Spawn(this GameObject prefab, Vector3 position)
         {
             return ObjectPool.Spawn(prefab, null, position, Quaternion.identity);
         }
+
         public static GameObject Spawn(this GameObject prefab, Transform parent)
         {
             return ObjectPool.Spawn(prefab, parent, Vector3.zero, Quaternion.identity);
         }
+
         public static GameObject Spawn(this GameObject prefab)
         {
             return ObjectPool.Spawn(prefab, null, Vector3.zero, Quaternion.identity);
@@ -487,6 +523,7 @@ namespace SCore.ObjectPool
         {
             ObjectPool.Recycle(obj);
         }
+
         public static void Recycle(this GameObject obj)
         {
             ObjectPool.Recycle(obj);
@@ -496,6 +533,7 @@ namespace SCore.ObjectPool
         {
             ObjectPool.RecycleAll(prefab);
         }
+
         public static void RecycleAll(this GameObject prefab)
         {
             ObjectPool.RecycleAll(prefab);
@@ -505,6 +543,7 @@ namespace SCore.ObjectPool
         {
             return ObjectPool.CountPooled(prefab);
         }
+
         public static int CountPooled(this GameObject prefab)
         {
             return ObjectPool.CountPooled(prefab);
@@ -514,6 +553,7 @@ namespace SCore.ObjectPool
         {
             return ObjectPool.CountSpawned(prefab);
         }
+
         public static int CountSpawned(this GameObject prefab)
         {
             return ObjectPool.CountSpawned(prefab);
@@ -523,22 +563,27 @@ namespace SCore.ObjectPool
         {
             return ObjectPool.GetSpawned(prefab, list, appendList);
         }
+
         public static List<GameObject> GetSpawned(this GameObject prefab, List<GameObject> list)
         {
             return ObjectPool.GetSpawned(prefab, list, false);
         }
+
         public static List<GameObject> GetSpawned(this GameObject prefab)
         {
             return ObjectPool.GetSpawned(prefab, null, false);
         }
+
         public static List<T> GetSpawned<T>(this T prefab, List<T> list, bool appendList) where T : Component
         {
             return ObjectPool.GetSpawned(prefab, list, appendList);
         }
+
         public static List<T> GetSpawned<T>(this T prefab, List<T> list) where T : Component
         {
             return ObjectPool.GetSpawned(prefab, list, false);
         }
+
         public static List<T> GetSpawned<T>(this T prefab) where T : Component
         {
             return ObjectPool.GetSpawned(prefab, null, false);
@@ -548,22 +593,27 @@ namespace SCore.ObjectPool
         {
             return ObjectPool.GetPooled(prefab, list, appendList);
         }
+
         public static List<GameObject> GetPooled(this GameObject prefab, List<GameObject> list)
         {
             return ObjectPool.GetPooled(prefab, list, false);
         }
+
         public static List<GameObject> GetPooled(this GameObject prefab)
         {
             return ObjectPool.GetPooled(prefab, null, false);
         }
+
         public static List<T> GetPooled<T>(this T prefab, List<T> list, bool appendList) where T : Component
         {
             return ObjectPool.GetPooled(prefab, list, appendList);
         }
+
         public static List<T> GetPooled<T>(this T prefab, List<T> list) where T : Component
         {
             return ObjectPool.GetPooled(prefab, list, false);
         }
+
         public static List<T> GetPooled<T>(this T prefab) where T : Component
         {
             return ObjectPool.GetPooled(prefab, null, false);
@@ -573,6 +623,7 @@ namespace SCore.ObjectPool
         {
             ObjectPool.DestroyPooled(prefab);
         }
+
         public static void DestroyPooled<T>(this T prefab) where T : Component
         {
             ObjectPool.DestroyPooled(prefab.gameObject);
@@ -582,6 +633,7 @@ namespace SCore.ObjectPool
         {
             ObjectPool.DestroyAll(prefab);
         }
+
         public static void DestroyAll<T>(this T prefab) where T : Component
         {
             ObjectPool.DestroyAll(prefab.gameObject);
