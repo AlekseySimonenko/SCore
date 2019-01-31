@@ -1,5 +1,9 @@
 ﻿using System;
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+using UnityEngine;
+#endif
+
 namespace SCore.Utils
 {
     public class GooglePlayServicesState
