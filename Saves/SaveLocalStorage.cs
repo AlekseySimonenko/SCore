@@ -14,7 +14,7 @@ namespace SCore.Saves
         //Universal path for quick saved games
         private const string fileSavePath = "/save.qs";
 
-        static public void Save(Dictionary<string, object> _saveVO)
+        public void Save(Dictionary<string, object> _saveVO)
         {
             string saveString = DictionaryConverter.ConvertStrObjToString(_saveVO);
 
@@ -24,7 +24,7 @@ namespace SCore.Saves
             file.Close();
         }
 
-        static public Dictionary<string, object> Load()
+        public Dictionary<string, object> Load()
         {
             Dictionary<string, object> _saveVO = null;
 

@@ -18,7 +18,7 @@ namespace SCore.Analytics
 
         public void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            AnalyticsManager.DesignEvent("Scene_" + SceneManager.GetActiveScene().name, 0);
+            AnalyticsManager.Instance.DesignEvent("Scene_" + SceneManager.GetActiveScene().name, 0);
         }
     }
 }

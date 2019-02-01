@@ -11,9 +11,13 @@ namespace SCore.Web
         /// <summary>
         /// Static method for web request processing
         /// </summary>
-        public static void Request(string _url, Action<object> successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        public static void Request(string _url,
+            Action<object> successCallbackFunction = null,
+            Action<object> failCallbackFunction = null,
+            float timeLimitSeconds = 10.0F,
+            [System.Runtime.CompilerServices.CallerMemberName] string callerName = "")
         {
-            Debug.Log("WebRequestManager.Request " + _url);
+            Debug.LogFormat("WebRequestManager.Request url:{0} caller{1}", _url, callerName);
 
             //Construct new gameobject for corountine usage
             GameObject requestObject = new GameObject();

@@ -17,22 +17,20 @@ namespace SCore.Social
         public ISocialPlatform platformAutoInit;
         public UnityEvent OnInitActions;
 
-        static public event Action InitCompletedEvent;
+        public event Action InitCompletedEvent;
 
-        static public event Action InitErrorEvent;
+        public event Action InitErrorEvent;
 
-        static public event Action LoginEvent;
+        public event Action LoginEvent;
 
-        static public event Action LoginErrorEvent;
+        public event Action LoginErrorEvent;
 
-        static public event Action LogoutEvent;
+        public event Action LogoutEvent;
 
-        static public bool LoginCompleted { get; protected set; }
-        static public bool LoginProcessed { get; protected set; }
+        public bool LoginCompleted { get; protected set; }
+        public bool LoginProcessed { get; protected set; }
 
-        static private ISocialPlatform platform;
-
-        #region Init
+        private ISocialPlatform platform;
 
         private void Start()
         {
@@ -47,7 +45,7 @@ namespace SCore.Social
             OnInitActions?.Invoke();
         }
 
-        static public void Init(ISocialPlatform _platform, Action callbackCompleted, Action callbackError)
+        public void Init(ISocialPlatform _platform, Action callbackCompleted, Action callbackError)
         {
             Debug.Log("SocialManager Init platform " + _platform.GetPlatformID());
             platform = _platform;
@@ -67,11 +65,7 @@ namespace SCore.Social
         {
         }
 
-        #endregion Init
-
-        #region Static realisation of ISocialPlatform interface
-
-        static public void OnInitComleted()
+        public void OnInitComleted()
         {
             Debug.Log("SocialManager.OnInitComleted");
             //Remove listeners
@@ -81,7 +75,7 @@ namespace SCore.Social
             InitCompletedEvent?.Invoke();
         }
 
-        static public void OnInitErrorEvent()
+        public void OnInitErrorEvent()
         {
             Debug.Log("SocialManager.OnInitErrorEvent");
             //Remove listeners
@@ -91,7 +85,7 @@ namespace SCore.Social
             InitErrorEvent?.Invoke();
         }
 
-        static public void OnLogin()
+        public void OnLogin()
         {
             Debug.Log("SocialManager.OnLogin");
             LoginCompleted = true;
@@ -99,26 +93,26 @@ namespace SCore.Social
             LoginEvent?.Invoke();
         }
 
-        static public void OnLoginError()
+        public void OnLoginError()
         {
             Debug.Log("SocialManager.OnLoginError");
             LoginProcessed = false;
             LoginErrorEvent?.Invoke();
         }
 
-        static public void OnLogout()
+        public void OnLogout()
         {
             Debug.Log("SocialManager.OnLogout");
             LoginCompleted = false;
             LogoutEvent?.Invoke();
         }
 
-        static public string GetPlatformID()
+        public string GetPlatformID()
         {
             return platform.GetPlatformID();
         }
 
-        static public void Login(Dictionary<string, object> parameters = null)
+        public void Login(Dictionary<string, object> parameters = null)
         {
             Debug.Log("SocialManager.Login");
             if (!LoginCompleted)
@@ -132,40 +126,38 @@ namespace SCore.Social
             }
         }
 
-        static public void Logout()
+        public void Logout()
         {
             Debug.Log("SocialManager.Logout");
             platform.Logout();
         }
 
-        static public string GetUserID()
+        public string GetUserID()
         {
             return platform.GetUserID();
         }
 
-        static public SocialUser GetUserInfo()
+        public SocialUser GetUserInfo()
         {
             return platform.GetUserInfo();
         }
 
-        static public List<SocialUser> GetInAppFriends()
+        public List<SocialUser> GetInAppFriends()
         {
             Debug.Log("SocialManager.GetInAppFriends");
             return platform.GetInAppFriends();
         }
 
-        static public void InviteFriends(string inviteText = "", string area = "")
+        public void InviteFriends(string inviteText = "", string area = "")
         {
             Debug.Log("SocialManager.InviteFriends");
             platform.InviteFriends(inviteText, area);
         }
 
-        static public void Share(string title, string message, string url, string imageUrl, Action completedCallback, Action errorCallback, string shareID, string area = "")
+        public void Share(string title, string message, string url, string imageUrl, Action completedCallback, Action errorCallback, string shareID, string area = "")
         {
             Debug.Log("SocialManager.Share");
             platform.Share(title, message, url, imageUrl, completedCallback, errorCallback, shareID, area);
         }
-
-        #endregion Static realisation of ISocialPlatform interface
     }
 }

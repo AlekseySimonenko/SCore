@@ -8,13 +8,13 @@ using UnityEngine.Events;
 namespace SCore.Analytics
 {
     /// <summary>
-    /// Static class controlling analytic system choosing.
+    /// Singletone class controlling analytic system choosing.
     /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
     /// </summary>
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
     {
-        //PUBLIC STATIC
+        //STATIC
         [Serializable]
         public struct PlatformConfig
         {
@@ -22,28 +22,17 @@ namespace SCore.Analytics
             public IAnalyticSystem[] AnalyticsSystems;
         }
 
-        //PUBLIC EVENTS
+        //EVENTS
         public UnityEvent OnInitActions;
 
         //PUBLIC VARIABLES
         public PlatformConfig[] PlatformConfigs;
 
-        //TODO remove legacy config
-        [Header("LEGACY configs, please use platfromsConfigs instead")]
-        public IAnalyticSystem[] androidSystems;
-
-        public IAnalyticSystem[] iosSystems;
-        public IAnalyticSystem[] webglSystems;
-        public IAnalyticSystem[] editorSystems;
-        public IAnalyticSystem[] defaultSystems;
-
-        //PRIVATE STATIC
-        private static IAnalyticSystem[] asystems = new IAnalyticSystem[0];
-
-        private static int systemInitedCount = 0;
-        private static bool isInitComplete = false;
-
         //PRIVATE VARIABLES
+        private IAnalyticSystem[] asystems = new IAnalyticSystem[0];
+
+        private int systemInitedCount = 0;
+        private bool isInitComplete = false;
 
         private void Start()
         {
@@ -58,12 +47,6 @@ namespace SCore.Analytics
             if (initSystems.Length == 0)
             {
                 Debug.LogWarning("Analytics Manager: not any analytics system setuped for platform : " + Application.platform.ToString());
-            }
-
-            //Legacy format warning
-            if (androidSystems.Length + iosSystems.Length + webglSystems.Length + editorSystems.Length + defaultSystems.Length > 0)
-            {
-                Debug.LogWarning("Analytics Manager: LEGACY configs, please use platfromsConfigs instead");
             }
 
             Init(initSystems);
@@ -96,7 +79,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Only one init can will be called
         /// </summary>
-        private static void Init(IAnalyticSystem[] _asystems)
+        private void Init(IAnalyticSystem[] _asystems)
         {
             if (!isInitComplete)
             {
@@ -130,7 +113,7 @@ namespace SCore.Analytics
             }
         }
 
-        static public void OnSystemInitComleted(IAnalyticSystem asystem)
+        public void OnSystemInitComleted(IAnalyticSystem asystem)
         {
             Debug.Log("AnalyticsManager.OnSystemInitComleted");
             asystem.IsInited = true;
@@ -138,14 +121,14 @@ namespace SCore.Analytics
             CheckInitCompleted();
         }
 
-        static public void OnSystemInitErrorEvent(IAnalyticSystem asystem, string message)
+        public void OnSystemInitErrorEvent(IAnalyticSystem asystem, string message)
         {
             Debug.Log("AnalyticsManager.OnSystemInitErrorEvent: " + message, Instance.gameObject);
             systemInitedCount++;
             CheckInitCompleted();
         }
 
-        static private void CheckInitCompleted()
+        private void CheckInitCompleted()
         {
             Debug.Log("AnalyticsManager.CheckInitCompleted", Instance.gameObject);
             if (!isInitComplete)
@@ -157,7 +140,7 @@ namespace SCore.Analytics
             }
         }
 
-        static private void InitCompleted()
+        private void InitCompleted()
         {
             if (!isInitComplete)
             {
@@ -170,7 +153,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when first login in social network
         /// </summary>
-        static public void SocialSignUp()
+        public void SocialSignUp()
         {
             Debug.Log("AnalyticsManager.SocialSignUp", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -194,7 +177,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when mission/level/quest opened for player
         /// </summary>
-        static public void OpenLevel(int _level, string _type)
+        public void OpenLevel(int _level, string _type)
         {
             Debug.Log("AnalyticsManager.OpenMission", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -218,7 +201,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when mission/level/quest started by player
         /// </summary>
-        static public void StartLevel(int _level, string _type)
+        public void StartLevel(int _level, string _type)
         {
             Debug.Log("AnalyticsManager.StartMission", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -242,7 +225,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when mission/level/quest failed
         /// </summary>
-        static public void FailLevel(int _level, string _type, int _score)
+        public void FailLevel(int _level, string _type, int _score)
         {
             Debug.Log("AnalyticsManager.FailMission", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -266,7 +249,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when mission/level/quest completed
         /// </summary>
-        static public void CompleteLevel(int _level, string _type, int _score)
+        public void CompleteLevel(int _level, string _type, int _score)
         {
             Debug.Log("AnalyticsManager.CompleteMission", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -290,7 +273,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when player get some record or score
         /// </summary>
-        static public void NewScore(int _level, int _score)
+        public void NewScore(int _level, int _score)
         {
             Debug.Log("AnalyticsManager.PostScore", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -314,7 +297,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when player get some record or score
         /// </summary>
-        static public void AchievenemntUnlocked(string _achievementID)
+        public void AchievenemntUnlocked(string _achievementID)
         {
             Debug.Log("AnalyticsManager.AchievenemntUnlocked", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -338,7 +321,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when game tutorial started
         /// </summary>
-        static public void TutorialStart()
+        public void TutorialStart()
         {
             Debug.Log("AnalyticsManager.TutorialStart", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -362,7 +345,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track when game tutorial ended (only one time!)
         /// </summary>
-        static public void TutorialCompleted()
+        public void TutorialCompleted()
         {
             Debug.Log("AnalyticsManager.TutorialCompleted", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -386,7 +369,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about try real payment
         /// </summary>
-        static public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("AnalyticsManager.PaymentInfoTry", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -410,7 +393,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info (NOT BUSINESS JUST INFO) about sucess real payment
         /// </summary>
-        static public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("AnalyticsManager.PaymentInfoSuccess", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -434,7 +417,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track business real payment with currency and value
         /// </summary>
-        static public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("AnalyticsManager.PaymentReal", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -458,7 +441,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track resource event
         /// </summary>
-        static public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("AnalyticsManager.ResourceAdd", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -482,7 +465,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track resource event
         /// </summary>
-        static public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
+        public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
             Debug.Log("AnalyticsManager.ResourceRemove", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -506,7 +489,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info about invite try
         /// </summary>
-        static public void InviteTry(string _area)
+        public void InviteTry(string _area)
         {
             Debug.Log("AnalyticsManager.InviteTry", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -530,7 +513,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info about share try
         /// </summary>
-        static public void ShareTry(string _id, string _area)
+        public void ShareTry(string _id, string _area)
         {
             Debug.Log("AnalyticsManager.ShareTry", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -554,7 +537,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info about share success
         /// </summary>
-        static public void ShareSuccess(string _id, string _area)
+        public void ShareSuccess(string _id, string _area)
         {
             Debug.Log("AnalyticsManager.ShareSuccess", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -578,7 +561,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info about request try
         /// </summary>
-        static public void RequestTry(string _type, string _area)
+        public void RequestTry(string _type, string _area)
         {
             Debug.Log("AnalyticsManager.RequestTry", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -602,7 +585,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track info about request success
         /// </summary>
-        static public void RequestSuccess(string _type, string _area)
+        public void RequestSuccess(string _type, string _area)
         {
             Debug.Log("AnalyticsManager.RequestSuccess", Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -626,7 +609,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Track optional game design event
         /// </summary>
-        static public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
+        public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
         {
             Debug.Log("AnalyticsManager.DesignEvent " + _id + " " + _amount.ToString(), Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -650,7 +633,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Set optional user property value
         /// </summary>
-        static public void SetUserStringProperty(string _id, string _value)
+        public void SetUserStringProperty(string _id, string _value)
         {
             Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)
@@ -674,7 +657,7 @@ namespace SCore.Analytics
         /// <summary>
         /// Set optional user property value
         /// </summary>
-        static public void SetUserIntProperty(string _id, int _value)
+        public void SetUserIntProperty(string _id, int _value)
         {
             Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
             foreach (IAnalyticSystem asystem in asystems)

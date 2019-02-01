@@ -13,13 +13,13 @@ namespace SCore.Ads
         public enum ADSTYPES { INTERSTITIAL, REWARDED };
 
         //PUBLIC EVENTS
-        static public event Action StartAnyAdEvent;
+        public event Action StartAnyAdEvent;
 
-        static public event Action CompletedAnyAdEvent;
+        public event Action CompletedAnyAdEvent;
 
-        static public event Action ErrorAnyAdEvent;
+        public event Action ErrorAnyAdEvent;
 
-        static public event Action CancelAnyAdEvent;
+        public event Action CancelAnyAdEvent;
 
         //PUBLIC VARIABLES
         [SerializeField]
@@ -29,13 +29,13 @@ namespace SCore.Ads
         public IAdsPlatform[] AdsPlatforms;
 
         //PRIVATE STATIC
-        static private int TargetAdsPlatformID;
+        private int TargetAdsPlatformID;
 
-        static private ADSTYPES TargetAdsType;
-        static private float timeLimit;
-        static private Action callbackCompletedMain;
-        static private Action callbackErrorMain;
-        static private Action callbackCancelMain;
+        private ADSTYPES TargetAdsType;
+        private float timeLimit;
+        private Action callbackCompletedMain;
+        private Action callbackErrorMain;
+        private Action callbackCancelMain;
 
         //PRIVATE VARIABLES
 
@@ -70,12 +70,12 @@ namespace SCore.Ads
             }
         }
 
-        static public bool IsEnabled()
+        public bool IsEnabled()
         {
-            return Instance.isEnabled;
+            return isEnabled;
         }
 
-        static public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
+        public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
         {
             Debug.Log("AdsManager: ShowAds", Instance.gameObject);
             TargetAdsPlatformID = -1;
@@ -87,7 +87,7 @@ namespace SCore.Ads
             TryShowAds();
         }
 
-        static private void TryShowAds()
+        private void TryShowAds()
         {
             Debug.Log("AdsManager: TryShowAds", Instance.gameObject);
             TargetAdsPlatformID++;
@@ -112,7 +112,7 @@ namespace SCore.Ads
             }
         }
 
-        static public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
+        public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
         {
             Debug.Log("AdsManager: IsAnyAdsReady " + adstype.ToString(), Instance.gameObject);
 
@@ -136,14 +136,14 @@ namespace SCore.Ads
             return false;
         }
 
-        static public void OnStarted()
+        public void OnStarted()
         {
             Debug.Log("AdsManager: OnStarted", Instance.gameObject);
 
             StartAnyAdEvent?.Invoke();
         }
 
-        static public void OnCompleted()
+        public void OnCompleted()
         {
             Debug.Log("AdsManager: OnCompleted", Instance.gameObject);
 
@@ -151,7 +151,7 @@ namespace SCore.Ads
             CompletedAnyAdEvent?.Invoke();
         }
 
-        static public void OnError()
+        public void OnError()
         {
             Debug.Log("AdsManager: OnError", Instance.gameObject);
 
@@ -159,7 +159,7 @@ namespace SCore.Ads
             ErrorAnyAdEvent?.Invoke();
         }
 
-        static public void OnCancel()
+        public void OnCancel()
         {
             Debug.Log("AdsManager: OnCancel", Instance.gameObject);
 

@@ -19,12 +19,14 @@ namespace SCore.Localisation
     [RequireComponent(typeof(IServiceLoadingStep))]
     public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
     {
-        //PUBLIC STATIC
-        public static string language;
+        //STATIC VARIABLES
 
-        //PUBLIC EVENTS
+        //EVENTS
 
         //PUBLIC VARIABLES
+        [HideInInspector]
+        public string language;
+
         [Header("Remote/Local version updater")]
         public int buildConfigVersion = 0;
 
@@ -38,17 +40,19 @@ namespace SCore.Localisation
         [Header("Debug")]
         public string languageManual;
 
+        //PRIVATE VARIABLES
+
         //PRIVATE STATIC
         private const string LOCAL_CONFIG_VERSION = "sCore_language_local_v";
 
-        private static TextAsset xmlAsset;
-        private static SmallXmlParser xmlParser = new SmallXmlParser();
-        private static Handler xmlDoc = new Handler();
+        private TextAsset xmlAsset;
+        private SmallXmlParser xmlParser = new SmallXmlParser();
+        private Handler xmlDoc = new Handler();
 
-        private static XmlDocument remoteXmlDocument;
+        private XmlDocument remoteXmlDocument;
 
         // Only one init calling protect variables
-        private static bool isInitComplete = false;
+        private bool isInitComplete = false;
 
         //PRIVATE VARIABLES
         private int localConfigVersion = 0;
@@ -58,7 +62,7 @@ namespace SCore.Localisation
             Init();
         }
 
-        public static void Init()
+        public void Init()
         {
             if (!isInitComplete)
             {
@@ -135,7 +139,7 @@ namespace SCore.Localisation
             }
         }
 
-        public static void InitCompleted()
+        public void InitCompleted()
         {
             if (!isInitComplete)
             {
@@ -149,7 +153,7 @@ namespace SCore.Localisation
             }
         }
 
-        private static void LoadBuildVersion()
+        private void LoadBuildVersion()
         {
             Debug.Log("LanguageManager: LoadBuildVersion " + language, Instance.gameObject);
             if (!LoadResource(language))
@@ -163,7 +167,7 @@ namespace SCore.Localisation
             }
         }
 
-        private static bool LoadResource(string _name)
+        private bool LoadResource(string _name)
         {
             xmlAsset = Resources.Load(language) as TextAsset;
             if (xmlAsset)
@@ -177,7 +181,7 @@ namespace SCore.Localisation
                 return false;
         }
 
-        private static bool LoadLocalMax()
+        private bool LoadLocalMax()
         {
             string defaultLang = "ru";
             string[] langs = { "ar", "de", "en", "es-419", "fr", "hi", "id", "it", "ja", "ko", "nl", "pt", "tc", "th", "tr", "zh-CN" };
@@ -223,7 +227,7 @@ namespace SCore.Localisation
             return true;
         }
 
-        private static void LoadLocalVersion()
+        private void LoadLocalVersion()
         {
             Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(language), Instance.gameObject);
             if (File.Exists(GetLocalConfigName(language)))
@@ -239,7 +243,7 @@ namespace SCore.Localisation
             }
         }
 
-        private static void LoadRemoteVersion()
+        private void LoadRemoteVersion()
         {
             string configUrl = Instance.remoteUrl + language + ".xml" + "?v=" + Instance.remoteConfigVersion;
             Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl, Instance.gameObject);
@@ -257,7 +261,7 @@ namespace SCore.Localisation
             */
         }
 
-        private static void OnLoadRemoteCompleted(object _object)
+        private void OnLoadRemoteCompleted(object _object)
         {
             Debug.Log("LanguageManager: OnLoadRemoteCompleted", Instance.gameObject);
 
@@ -285,36 +289,36 @@ namespace SCore.Localisation
             InitCompleted();
         }
 
-        private static void OnLoadRemoteError(object data)
+        private void OnLoadRemoteError(object data)
         {
             Debug.LogWarning("LanguageManager: OnLoadRemoteError", Instance.gameObject);
             LoadLocalVersion();
         }
 
-        private static void LoadFromFile(string _file)
+        private void LoadFromFile(string _file)
         {
             TextReader textReader = File.OpenText(_file);
             xmlParser.Parse(textReader, xmlDoc);
         }
 
-        private static void LoadFromString(string _data)
+        private void LoadFromString(string _data)
         {
             TextReader textReader = new StreamReader(GenerateStreamFromString(_data));
             xmlParser.Parse(textReader, xmlDoc);
         }
 
-        private static void SaveLocalConfig(string _data, string _language)
+        private void SaveLocalConfig(string _data, string _language)
         {
             string path = GetLocalConfigName(_language);
             File.WriteAllText(path, _data);
         }
 
-        private static string GetLocalConfigName(string _language)
+        private string GetLocalConfigName(string _language)
         {
             return Application.persistentDataPath + "/" + _language + ".xml";
         }
 
-        public static string Get(string _id, params string[] args)
+        public string Get(string _id, params string[] args)
         {
             if (xmlDoc.ContainsKey(_id) == true)
             {
@@ -330,7 +334,7 @@ namespace SCore.Localisation
             }
         }
 
-        public static string Replace(string _text, string[] args)
+        public string Replace(string _text, string[] args)
         {
             if (args != null)
                 for (int i = 0; i < args.Length; i++)
@@ -340,12 +344,12 @@ namespace SCore.Localisation
             return _text;
         }
 
-        public static bool ContainsKey(string _id)
+        public bool ContainsKey(string _id)
         {
             return xmlDoc.ContainsKey(_id);
         }
 
-        public static Stream GenerateStreamFromString(string s)
+        public Stream GenerateStreamFromString(string s)
         {
             MemoryStream stream = new MemoryStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -356,7 +360,7 @@ namespace SCore.Localisation
         }
 
         // Returns system language from java enviroment (Android only)
-        public static string GetLanguage()
+        public string GetLanguage()
         {
 #if UNITY_ANDROID
             try

@@ -1,4 +1,5 @@
-﻿using SCore.Utils;
+﻿using SCore.Framework;
+using SCore.Utils;
 using SCore.Web;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace SCore.Saves
     //s/ <summary>
     /// Static class controlling work with server saves
     /// </summary>
-    static public class SaveBackendStorage
+    public class SaveBackendStorage : MonoBehaviourSingleton<SaveBackendStorage>
     {
         /// PUBLIC VARIABLES
 
@@ -18,22 +19,22 @@ namespace SCore.Saves
         /// PRIVATE CONSTANTS
 
         /// PRIVATE VARIABLES
-        static private string app_id;
+        private string app_id;
 
-        static private string user_id;
-        static private string server_key;
-        static private string auth_key;
-        static private string server_request_url;
+        private string user_id;
+        private string server_key;
+        private string auth_key;
+        private string server_request_url;
 
-        static private bool isInited = false;
+        private bool isInited = false;
 
-        private static Action<object> gameLoadSuccessCallbackFunction;
-        private static Action<object> gameLoadFailCallbackFunction;
+        private Action<object> gameLoadSuccessCallbackFunction;
+        private Action<object> gameLoadFailCallbackFunction;
 
         /// <summary>
         /// Game load profile from server storage
         /// </summary>
-        static public void Init(string _app_id, string _user_id, string _server_key, string _auth_key, string _server_request_url)
+        public void Init(string _app_id, string _user_id, string _server_key, string _auth_key, string _server_request_url)
         {
             app_id = _app_id;
             user_id = _user_id;
@@ -47,7 +48,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game load profile from server storage
         /// </summary>
-        static public void Load(Action<object> successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        public void Load(Action<object> successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
         {
             Debug.Log("SaveBackendStorage.Load");
             if (!CheckExceptions())
@@ -73,7 +74,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game load profile completed. Additionaly we take daily bonus and currency bonus.
         /// </summary>
-        static public void Loaded(object _object)
+        public void Loaded(object _object)
         {
             Debug.Log("SaveBackendStorage.Loaded");
 
@@ -128,7 +129,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game load error when loading
         /// </summary>
-        static public void LoadError(object _object)
+        public void LoadError(object _object)
         {
             string _message = _object as string;
             Debug.LogError(_message);
@@ -138,7 +139,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game load error when loading
         /// </summary>
-        static public void LoadNewSave(object _object)
+        public void LoadNewSave(object _object)
         {
             string _message = _object as string;
             Debug.Log(_message);
@@ -151,7 +152,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game save profile push to server storage
         /// </summary>
-        static public void Save(Dictionary<string, object> _saveVO, Dictionary<string, object> _meta = null, Action successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
+        public void Save(Dictionary<string, object> _saveVO, Dictionary<string, object> _meta = null, Action successCallbackFunction = null, Action<object> failCallbackFunction = null, float timeLimitSeconds = 10.0F)
         {
             if (!CheckExceptions())
                 return;
@@ -181,7 +182,7 @@ namespace SCore.Saves
         /// <summary>
         /// Game save error when loading
         /// </summary>
-        static public void SaveSuccess(object _object)
+        public void SaveSuccess(object _object)
         {
             gameSaveSuccessCallbackFunction?.Invoke();
         }
@@ -189,14 +190,14 @@ namespace SCore.Saves
         /// <summary>
         /// Game save error when loading
         /// </summary>
-        static public void SaveError(object _object)
+        public void SaveError(object _object)
         {
             string _message = _object as string;
             Debug.LogError(_message);
             gameSaveFailCallbackFunction?.Invoke(_message);
         }
 
-        static private bool CheckExceptions()
+        private bool CheckExceptions()
         {
             if (!isInited)
             {
@@ -211,7 +212,7 @@ namespace SCore.Saves
             return true;
         }
 
-        static private void ThrowNotInited()
+        private void ThrowNotInited()
         {
             Debug.LogError("SaveBackendStorage Not inited!");
         }

@@ -27,7 +27,7 @@ namespace SCore.Analytics
         public int sessionTimeoutDurationMS = 180000;
 
         //PRIVATE STATIC
-        private static Action initCallbackFunction;
+        private Action initCallbackFunction;
 
         //PRIVATE VARIABLES
         private string targetGameKey;

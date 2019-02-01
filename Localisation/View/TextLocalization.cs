@@ -27,14 +27,14 @@ namespace SCore.Localisation
             if (textMesh == null)
                 textMesh = GetComponent<TextMesh>();
             if (textMesh != null)
-                textMesh.text = LanguageManager.Get(idLocaleVar);
+                textMesh.text = LanguageManager.Instance.Get(idLocaleVar);
             if (textUI == null)
                 textUI = GetComponent<Text>();
             if (textUI != null)
-                textUI.text = LanguageManager.Get(idLocaleVar);
+                textUI.text = LanguageManager.Instance.Get(idLocaleVar);
 #if MESHPRO
             if (textMeshProUGUI != null)
-                textMeshProUGUI.text = LanguageManager.Get(idLocaleVar);
+                textMeshProUGUI.text = LanguageManager.Instance.Get(idLocaleVar);
 #endif
         }
 

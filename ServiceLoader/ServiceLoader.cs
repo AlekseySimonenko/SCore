@@ -131,7 +131,7 @@ namespace SCore.Loading
                 OnLoadingCompletedEvent?.Invoke();
 
                 stopwatch.Stop();
-                finalActions.Invoke();
+                finalActions?.Invoke();
             }
         }
     }

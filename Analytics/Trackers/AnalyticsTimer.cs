@@ -71,7 +71,7 @@ namespace SCore.Analytics
 
         private void TrackNewPoint(int _minutes)
         {
-            AnalyticsManager.DesignEvent("lifetime" + _minutes, _minutes);
+            AnalyticsManager.Instance.DesignEvent("lifetime" + _minutes, _minutes);
             trackedMinutes = _minutes;
             SaveValues();
         }
