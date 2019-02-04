@@ -8,10 +8,6 @@ namespace SCore.Utils
 {
     public class GooglePlayServicesState
     {
-        static public event Action ServicesAvailableEvent;
-
-        static public event Action ServicesErrorEvent;
-
         static private bool available;
         static private bool checkRunning;
 

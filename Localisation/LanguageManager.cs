@@ -372,6 +372,7 @@ namespace SCore.Localisation
             }
             catch (System.Exception e)
             {
+                Debug.LogError(e.Message);
                 return "Error";
             }
 #else
