@@ -363,17 +363,24 @@ namespace SCore.Localisation
         public string GetLanguage()
         {
 #if UNITY_ANDROID
-            try
+            if (!Application.isEditor)
             {
-                var locale = new AndroidJavaClass("java.util.Locale");
-                var localeInst = locale.CallStatic<AndroidJavaObject>("getDefault");
-                var name = localeInst.Call<string>("getLanguage");
-                return name;
+                try
+                {
+                    var locale = new AndroidJavaClass("java.util.Locale");
+                    var localeInst = locale.CallStatic<AndroidJavaObject>("getDefault");
+                    var name = localeInst.Call<string>("getLanguage");
+                    return name;
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError(e.Message);
+                    return "Error";
+                }
             }
-            catch (System.Exception e)
+            else
             {
-                Debug.LogError(e.Message);
-                return "Error";
+                return "Not supported";
             }
 #else
      return "Not supported";
