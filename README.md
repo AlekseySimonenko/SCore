@@ -1,28 +1,25 @@
 # SCore
-SCore it is a simple solution included utilites and framework for multiplatform games on Unity.
+SCore it is a simple solution for module design pattern for games on Unity.
+Score's ServiceLoader is App entry point, loading controller and Service Locator pattern.
 
-# Main systems
-* Game initializing control (sync and async) - ServiceLoader.cs
-* Social platform interfaces
+# Modules
+* ServiceLoader
+* Social platforms
 * Localisation
 * Analytics
 * Ads
 * Saving
 * Web requests
 * Music playlists
-
-# Framework components
-* Singletone
+* GameObject pool
 
 # Utils
-* GameObject pool - ObjectPool.cs
 * Hash game variables in memory - MemoryProtection.cs
 * Hash string to MD5 string - HashString.cs
-* XMLparser included
-* MiniJSON included
+* XMLparser
+* MiniJSON
 * Datetime human read - DateTime.cs
 * Color lerp - ColorUtility.cs
-* FPSCounter.cs
 
 # Platforms support
 * Android
@@ -37,4 +34,4 @@ SCore it is a simple solution included utilites and framework for multiplatform 
 * MESHPRO - use mesh pro plugin
 
 # Additional
-* Collection of components for fast development in Components folder
+* Collection of components for fast prototyping in Components folder
