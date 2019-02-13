@@ -6,16 +6,15 @@ using UnityEngine.Events;
 namespace SCore.Loading
 {
     /// <summary>
-    /// Control loading any services on game start
-    /// Contains loaded service's GameObjects at self
+    /// Control loading of any services on game start
+    /// Contains loaded service's GameObjects as trasform childs
     /// </summary>
     public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
     {
-        //PUBLIC STATIC
-
-        //PUBLIC EVENTS
-
-        //PUBLIC VARIABLES
+        //DEPENDENCIES
+        //STATIC
+        //EVENTS
+        //EDITOR VARIABLES
         public bool forceLoading = false;
 
         [Header("Synchronous loading")]
@@ -34,8 +33,6 @@ namespace SCore.Loading
 
         [Header("Final")]
         public UnityEvent finalActions;
-
-        //PRIVATE STATIC
 
         //PRIVATE VARIABLES
         private int syncLoadingStep;

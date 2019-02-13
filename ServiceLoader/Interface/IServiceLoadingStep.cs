@@ -11,7 +11,7 @@ namespace SCore.Loading
     {
         //PUBLIC STATIC
 
-        //PUBLIC EVENTS
+        //EVENTS
         public event Action OnCompleted;
 
         //PUBLIC VARIABLES

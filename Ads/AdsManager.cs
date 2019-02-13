@@ -1,55 +1,57 @@
-using SCore.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SCore.Ads
 {
     /// <summary>
-    /// Static class controlling all ads platforms
+    /// Controlling all ads platforms mediation
     /// </summary>
-    public class AdsManager : MonoBehaviourSingleton<AdsManager>
+    public class AdsManager : MonoBehaviour, IAdsManager
     {
-        //PUBLIC STATIC
-        public enum ADSTYPES { INTERSTITIAL, REWARDED };
+        //EVENTS
 
-        //PUBLIC EVENTS
-        public event Action StartAnyAdEvent;
+        public event Action AdStarted;
 
-        public event Action CompletedAnyAdEvent;
+        public event Action AdCompleted;
 
-        public event Action ErrorAnyAdEvent;
+        public event Action AdErrorShowed;
 
-        public event Action CancelAnyAdEvent;
+        public event Action AdCanceled;
 
-        //PUBLIC VARIABLES
+        //EDITOR VARIABLES
         [SerializeField]
-        private bool isEnabled = true;
+        private bool _isEnabled = true;
 
         [SerializeField]
-        public IAdsPlatform[] AdsPlatforms;
-
-        //PRIVATE STATIC
-        private int TargetAdsPlatformID;
-
-        private ADSTYPES TargetAdsType;
-        private float timeLimit;
-        private Action callbackCompletedMain;
-        private Action callbackErrorMain;
-        private Action callbackCancelMain;
+        private GameObject[] _adsPlatformsObjects;
 
         //PRIVATE VARIABLES
+        protected List<IAdsPlatform> _adsPlatforms = new List<IAdsPlatform>();
+
+        protected float _timeLimit;
 
         private void Start()
         {
-            foreach (IAdsPlatform adsPlatform in AdsPlatforms)
+            foreach (GameObject adsPlatformObject in _adsPlatformsObjects)
             {
+                IAdsPlatform adsPlatform = adsPlatformObject.GetComponent<IAdsPlatform>();
+
                 if (adsPlatform != null)
                 {
-                    adsPlatform.StartEvent += OnStarted;
-                    adsPlatform.CompletedEvent += OnCompleted;
-                    adsPlatform.ErrorEvent += OnError;
-                    adsPlatform.CancelEvent += OnCancel;
+                    //Manager public events
+                    adsPlatform.AdStarted += AdStarted;
+                    adsPlatform.AdCompleted += AdCompleted;
+                    adsPlatform.AdErrorShowed += AdErrorShowed;
+                    adsPlatform.AdCanceled += AdCanceled;
 
+                    //Manager private delegates
+                    adsPlatform.AdStarted += OnAdStarted;
+
+                    //Registrate platform for manager
+                    _adsPlatforms.Add(adsPlatform);
+
+                    //Init platform
                     adsPlatform.Init();
                 }
             }
@@ -59,112 +61,92 @@ namespace SCore.Ads
         private void Update()
         {
             //Timelimit
-            if (timeLimit > 0)
+            if (_timeLimit > 0)
             {
-                timeLimit -= Time.unscaledDeltaTime;
-                if (timeLimit <= 0)
+                _timeLimit -= Time.unscaledDeltaTime;
+                if (_timeLimit <= 0)
                 {
-                    Debug.Log("AdsManager: timeLimit", Instance.gameObject);
-                    callbackErrorMain();
+                    Debug.Log("AdsManager: timeLimit", gameObject);
+                    AdErrorShowed?.Invoke();
                 }
             }
         }
 
-        public bool IsEnabled()
+        public virtual bool IsEnabled()
         {
-            return isEnabled;
+            return _isEnabled;
         }
 
-        public void ShowAd(ADSTYPES adstype = ADSTYPES.INTERSTITIAL, Action callbackCompleted = null, Action callbackError = null, Action callbackCancel = null, float _timeLimit = 0)
+        public virtual bool IsInterstitialReady()
         {
-            Debug.Log("AdsManager: ShowAds", Instance.gameObject);
-            TargetAdsPlatformID = -1;
-            TargetAdsType = adstype;
-            callbackCompletedMain = callbackCompleted;
-            callbackErrorMain = callbackError;
-            callbackCancelMain = callbackCancel;
-            timeLimit = _timeLimit;
-            TryShowAds();
-        }
+            Debug.Log("AdsManager: IsInterstitialReady ", gameObject);
 
-        private void TryShowAds()
-        {
-            Debug.Log("AdsManager: TryShowAds", Instance.gameObject);
-            TargetAdsPlatformID++;
-            if (TargetAdsPlatformID < Instance.AdsPlatforms.Length)
+            for (int i = 0; i < _adsPlatforms.Count; i++)
             {
-                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[TargetAdsPlatformID];
-                switch (TargetAdsType)
-                {
-                    case ADSTYPES.INTERSTITIAL:
-                        AdsPlatform.ShowInterstitial();
-                        break;
-
-                    case ADSTYPES.REWARDED:
-                        AdsPlatform.ShowRewarded();
-                        break;
-                }
+                IAdsPlatform AdsPlatform = _adsPlatforms[i];
+                if (AdsPlatform.IsInterstitialReady())
+                    return true;
             }
-            else
-            {
-                Debug.LogWarning("AdsManager: no more ads platforms", Instance.gameObject);
-                callbackErrorMain?.Invoke();
-            }
-        }
-
-        public bool IsAnyAdsReady(ADSTYPES adstype = ADSTYPES.INTERSTITIAL)
-        {
-            Debug.Log("AdsManager: IsAnyAdsReady " + adstype.ToString(), Instance.gameObject);
-
-            for (int i = 0; i < Instance.AdsPlatforms.Length; i++)
-            {
-                IAdsPlatform AdsPlatform = Instance.AdsPlatforms[i];
-                switch (adstype)
-                {
-                    case ADSTYPES.INTERSTITIAL:
-                        if (AdsPlatform.IsInterstitialReady())
-                            return true;
-                        break;
-
-                    case ADSTYPES.REWARDED:
-                        if (AdsPlatform.IsRewardedReady())
-                            return true;
-                        break;
-                }
-            }
-
             return false;
         }
 
-        public void OnStarted()
+        public virtual bool IsRewardedReady()
         {
-            Debug.Log("AdsManager: OnStarted", Instance.gameObject);
+            Debug.Log("AdsManager: IsRewardedReady ", gameObject);
 
-            StartAnyAdEvent?.Invoke();
+            for (int i = 0; i < _adsPlatforms.Count; i++)
+            {
+                IAdsPlatform AdsPlatform = _adsPlatforms[i];
+                if (AdsPlatform.IsRewardedReady())
+                    return true;
+            }
+            return false;
         }
 
-        public void OnCompleted()
+        public virtual void ShowInterstitial(float timeLimit = 0)
         {
-            Debug.Log("AdsManager: OnCompleted", Instance.gameObject);
+            Debug.Log("AdsManager: ShowInterstitial", gameObject);
 
-            callbackCompletedMain?.Invoke();
-            CompletedAnyAdEvent?.Invoke();
+            for (int i = 0; i < _adsPlatforms.Count; i++)
+            {
+                IAdsPlatform AdsPlatform = _adsPlatforms[i];
+                if (AdsPlatform.IsInterstitialReady())
+                {
+                    AdsPlatform.ShowInterstitial();
+                    _timeLimit = timeLimit;
+                    return;
+                }
+            }
+
+            //If no any ad showed
+            Debug.Log("AdsManager: no any interstitial ads ready", gameObject);
+            AdErrorShowed?.Invoke();
         }
 
-        public void OnError()
+        public virtual void ShowRewarded(float timeLimit = 0)
         {
-            Debug.Log("AdsManager: OnError", Instance.gameObject);
+            Debug.Log("AdsManager: ShowRewarded", gameObject);
 
-            callbackErrorMain?.Invoke();
-            ErrorAnyAdEvent?.Invoke();
+            for (int i = 0; i < _adsPlatforms.Count; i++)
+            {
+                IAdsPlatform AdsPlatform = _adsPlatforms[i];
+                if (AdsPlatform.IsRewardedReady())
+                {
+                    AdsPlatform.ShowRewarded();
+                    _timeLimit = timeLimit;
+                    return;
+                }
+            }
+
+            //If no any ad showed
+            Debug.Log("AdsManager: no any reward ads ready", gameObject);
+            AdErrorShowed?.Invoke();
         }
 
-        public void OnCancel()
+        private void OnAdStarted()
         {
-            Debug.Log("AdsManager: OnCancel", Instance.gameObject);
-
-            callbackCancelMain?.Invoke();
-            CancelAnyAdEvent?.Invoke();
+            Debug.Log("AdsManager: OnAdStarted", gameObject);
+            _timeLimit = 0;
         }
     }
 }

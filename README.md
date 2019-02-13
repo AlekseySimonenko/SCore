@@ -1,9 +1,11 @@
 # SCore
-SCore it is a simple solution for module design pattern for games on Unity.
-Score's ServiceLoader is App entry point, loading controller and Service Locator pattern.
+SCore it is a simple pack of base modules for games on Unity.
+
+REQURED Zenject framework https://github.com/modesttree/Zenject
+REQURED UniRX extension https://github.com/neuecc/UniRx
 
 # Modules
-* ServiceLoader
+* Services loader
 * Social platforms
 * Localisation
 * Analytics
