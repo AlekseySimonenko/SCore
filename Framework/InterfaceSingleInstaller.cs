@@ -2,6 +2,9 @@
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Bind to project contex dependency container first interface implemented by target component
+/// </summary>
 public class InterfaceSingleInstaller : MonoBehaviour
 {
     public Component BindedComponent;
