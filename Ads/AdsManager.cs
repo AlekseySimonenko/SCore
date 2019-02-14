@@ -46,7 +46,7 @@ namespace SCore.Ads
                     adsPlatform.AdCanceled += AdCanceled;
 
                     //Manager private delegates
-                    adsPlatform.AdStarted += OnAdStarted;
+                    adsPlatform.AdStarted += OnPlatformAdStarted;
 
                     //Registrate platform for manager
                     _adsPlatforms.Add(adsPlatform);
@@ -67,7 +67,7 @@ namespace SCore.Ads
                 if (_timeLimit <= 0)
                 {
                     Debug.Log("AdsManager: timeLimit", gameObject);
-                    AdErrorShowed?.Invoke();
+                    OnAdErrorShowed();
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace SCore.Ads
 
             //If no any ad showed
             Debug.Log("AdsManager: no any interstitial ads ready", gameObject);
-            AdErrorShowed?.Invoke();
+            OnAdErrorShowed();
         }
 
         public virtual void ShowRewarded(float timeLimit = 0)
@@ -140,13 +140,45 @@ namespace SCore.Ads
 
             //If no any ad showed
             Debug.Log("AdsManager: no any reward ads ready", gameObject);
-            AdErrorShowed?.Invoke();
+            OnAdErrorShowed();
         }
 
-        private void OnAdStarted()
+        private void OnPlatformAdStarted()
         {
             Debug.Log("AdsManager: OnAdStarted", gameObject);
             _timeLimit = 0;
+        }
+
+        /// <summary>
+        /// The event-invoking method that derived classes can use.
+        /// </summary>
+        protected void OnAdStarted()
+        {
+            AdStarted?.Invoke();
+        }
+
+        /// <summary>
+        /// The event-invoking method that derived classes can use.
+        /// </summary>
+        protected void OnAdCompleted()
+        {
+            AdCompleted?.Invoke();
+        }
+
+        /// <summary>
+        /// The event-invoking method that derived classes can use.
+        /// </summary>
+        protected void OnAdErrorShowed()
+        {
+            AdErrorShowed?.Invoke();
+        }
+
+        /// <summary>
+        /// The event-invoking method that derived classes can use.
+        /// </summary>
+        protected void OnAdCanceled()
+        {
+            AdCanceled?.Invoke();
         }
     }
 }
