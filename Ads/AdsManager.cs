@@ -40,10 +40,10 @@ namespace SCore.Ads
                 if (adsPlatform != null)
                 {
                     //Manager public events
-                    adsPlatform.AdStarted += AdStarted;
-                    adsPlatform.AdCompleted += AdCompleted;
-                    adsPlatform.AdErrorShowed += AdErrorShowed;
-                    adsPlatform.AdCanceled += AdCanceled;
+                    adsPlatform.AdStarted += OnAdStarted;
+                    adsPlatform.AdCompleted += OnAdCompleted;
+                    adsPlatform.AdErrorShowed += OnAdErrorShowed;
+                    adsPlatform.AdCanceled += OnAdCanceled;
 
                     //Manager private delegates
                     adsPlatform.AdStarted += OnPlatformAdStarted;
@@ -154,6 +154,7 @@ namespace SCore.Ads
         /// </summary>
         protected void OnAdStarted()
         {
+            Debug.Log("AdsManager: OnAdStarted", gameObject);
             AdStarted?.Invoke();
         }
 
@@ -162,6 +163,7 @@ namespace SCore.Ads
         /// </summary>
         protected void OnAdCompleted()
         {
+            Debug.Log("AdsManager: OnAdCompleted", gameObject);
             AdCompleted?.Invoke();
         }
 
@@ -170,6 +172,7 @@ namespace SCore.Ads
         /// </summary>
         protected void OnAdErrorShowed()
         {
+            Debug.Log("AdsManager: OnAdErrorShowed", gameObject);
             AdErrorShowed?.Invoke();
         }
 
@@ -178,6 +181,7 @@ namespace SCore.Ads
         /// </summary>
         protected void OnAdCanceled()
         {
+            Debug.Log("AdsManager: OnAdCanceled", gameObject);
             AdCanceled?.Invoke();
         }
     }
