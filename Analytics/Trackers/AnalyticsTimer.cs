@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace SCore.Analytics
 {
@@ -7,54 +8,54 @@ namespace SCore.Analytics
     /// </summary>
     public class AnalyticsTimer : MonoBehaviour
     {
-        //PUBLIC STATIC
-        //PUBLIC EVENTS
-        //PUBLIC VARIABLES
+        //DEPENDENCIES
+
+        [Inject] private IAnalyticsManager _analyticsManager;
+
+        //EDITOR VARIABLES
+
         public int[] trackMinutePoints;
 
-        //PRIVATE STATIC
-        private const string PREFS_KEY_LAUNCHTIME = "secondsFromFirstLaunch";
+        //PRIVATE VARIABLES
 
+        private const string PREFS_KEY_LAUNCHTIME = "secondsFromFirstLaunch";
         private const string PREFS_KEY_TRACKEDMINUTES = "trackedMinutes";
         private const float TRACK_TIME = 1.0F;
 
-        //PRIVATE VARIABLES
-        private float trackTimer;
-
-        private float timeFromFirstLaunch;
-        private int trackedMinutes;
-
-        private bool timerEnabled = false;
+        private float _trackTimer;
+        private float _timeFromFirstLaunch;
+        private int _trackedMinutes;
+        private bool _timerEnabled = false;
 
         // Use this for initialization
         private void Start()
         {
-            trackedMinutes = PlayerPrefs.GetInt(PREFS_KEY_TRACKEDMINUTES);
-            timerEnabled = false;
+            _trackedMinutes = PlayerPrefs.GetInt(PREFS_KEY_TRACKEDMINUTES);
+            _timerEnabled = false;
 
             for (int i = 0; i < trackMinutePoints.Length; i++)
             {
-                if (trackMinutePoints[i] > trackedMinutes)
+                if (trackMinutePoints[i] > _trackedMinutes)
                 {
-                    timerEnabled = true;
+                    _timerEnabled = true;
                     break;
                 }
             }
 
-            if (timerEnabled)
-                timeFromFirstLaunch = PlayerPrefs.GetFloat(PREFS_KEY_LAUNCHTIME);
+            if (_timerEnabled)
+                _timeFromFirstLaunch = PlayerPrefs.GetFloat(PREFS_KEY_LAUNCHTIME);
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (timerEnabled)
+            if (_timerEnabled)
             {
-                trackTimer += Time.unscaledDeltaTime;
-                timeFromFirstLaunch += Time.unscaledDeltaTime;
-                if (trackTimer > TRACK_TIME)
+                _trackTimer += Time.unscaledDeltaTime;
+                _timeFromFirstLaunch += Time.unscaledDeltaTime;
+                if (_trackTimer > TRACK_TIME)
                 {
-                    trackTimer = 0;
+                    _trackTimer = 0;
                     CheckPoint();
                 }
             }
@@ -64,27 +65,27 @@ namespace SCore.Analytics
         {
             for (int i = 0; i < trackMinutePoints.Length; i++)
             {
-                if (trackMinutePoints[i] > trackedMinutes && Mathf.CeilToInt(timeFromFirstLaunch / 60) > trackMinutePoints[i])
+                if (trackMinutePoints[i] > _trackedMinutes && Mathf.CeilToInt(_timeFromFirstLaunch / 60) > trackMinutePoints[i])
                     TrackNewPoint(trackMinutePoints[i]);
             }
         }
 
         private void TrackNewPoint(int _minutes)
         {
-            AnalyticsManager.Instance.DesignEvent("lifetime" + _minutes, _minutes);
-            trackedMinutes = _minutes;
+            _analyticsManager.DesignEvent("lifetime" + _minutes, _minutes);
+            _trackedMinutes = _minutes;
             SaveValues();
         }
 
         private void SaveValues()
         {
-            PlayerPrefs.SetInt(PREFS_KEY_TRACKEDMINUTES, trackedMinutes);
-            PlayerPrefs.SetFloat(PREFS_KEY_LAUNCHTIME, timeFromFirstLaunch);
+            PlayerPrefs.SetInt(PREFS_KEY_TRACKEDMINUTES, _trackedMinutes);
+            PlayerPrefs.SetFloat(PREFS_KEY_LAUNCHTIME, _timeFromFirstLaunch);
         }
 
         private void OnApplicationPause(bool pause)
         {
-            if (pause && timerEnabled)
+            if (pause && _timerEnabled)
                 SaveValues();
         }
     }

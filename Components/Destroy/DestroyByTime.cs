@@ -1,6 +1,7 @@
 ﻿using SCore.ObjectPool;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace SCore.Components
 {
@@ -9,11 +10,21 @@ namespace SCore.Components
     /// </summary>
     public class DestroyByTime : MonoBehaviour
     {
+        //DEPENDENCIES
+
+        [Inject] private DiContainer _container;
+
+        //EVENTS
+
+        public event Action<object> DestroyEvent;
+
+        //EDITOR VARIABLES
+
         public float lifetime;
         public bool isRecycle;
         public GameObject destroyEffect;
 
-        public event Action<object> DestroyEvent;
+        //PRIVATE VARIABLES
 
         [HideInInspector]
         [SerializeField]
@@ -62,7 +73,7 @@ namespace SCore.Components
         {
             if (destroyEffect != null)
             {
-                Instantiate(destroyEffect, transform.position, new Quaternion());
+                _container.InstantiatePrefab(destroyEffect, transform.position, new Quaternion(), transform.parent);
             }
 
             DestroyEvent?.Invoke(gameObject);

@@ -1,5 +1,4 @@
-﻿using SCore.Framework;
-using SCore.Loading;
+﻿using SCore.Loading;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +7,11 @@ using UnityEngine.Events;
 namespace SCore.Analytics
 {
     /// <summary>
-    /// Singletone class controlling analytic system choosing.
-    /// AnalyticsManager it's a bridge between private AnalyticSystem class and events from App.
+    /// Controlling analytic system choosing.
+    /// AnalyticsManager it's a bridge between Analytic Systems and events from App.
     /// </summary>
     [RequireComponent(typeof(IServiceLoadingStep))]
-    public class AnalyticsManager : MonoBehaviourSingleton<AnalyticsManager>
+    public class AnalyticsManager : MonoBehaviour, IAnalyticsManager
     {
         //STATIC
         [Serializable]
@@ -67,7 +66,7 @@ namespace SCore.Analytics
                     }
                     catch (Exception e)
                     {
-                        Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                        Debug.Log("AnalyticsManager Exception", gameObject);
                         Debug.Log(e.ToString());
                         throw;
                     }
@@ -83,7 +82,7 @@ namespace SCore.Analytics
         {
             if (!isInitComplete)
             {
-                Debug.Log("AnalyticsManager:init", Instance.gameObject);
+                Debug.Log("AnalyticsManager:init", gameObject);
                 if (_asystems != null && _asystems.Length > 0)
                 {
                     asystems = _asystems;
@@ -103,13 +102,13 @@ namespace SCore.Analytics
                 }
                 else
                 {
-                    Debug.LogWarning("AnalyticsManager NOT ENABLED", Instance.gameObject);
-                    Instance.OnInitActions?.Invoke();
+                    Debug.LogWarning("AnalyticsManager NOT ENABLED", gameObject);
+                    OnInitActions?.Invoke();
                 }
             }
             else
             {
-                Debug.LogError("AnalyticsManager:Repeating static class Init!", Instance.gameObject);
+                Debug.LogError("AnalyticsManager:Repeating static class Init!", gameObject);
             }
         }
 
@@ -123,14 +122,14 @@ namespace SCore.Analytics
 
         public void OnSystemInitErrorEvent(IAnalyticSystem asystem, string message)
         {
-            Debug.Log("AnalyticsManager.OnSystemInitErrorEvent: " + message, Instance.gameObject);
+            Debug.Log("AnalyticsManager.OnSystemInitErrorEvent: " + message, gameObject);
             systemInitedCount++;
             CheckInitCompleted();
         }
 
         private void CheckInitCompleted()
         {
-            Debug.Log("AnalyticsManager.CheckInitCompleted", Instance.gameObject);
+            Debug.Log("AnalyticsManager.CheckInitCompleted", gameObject);
             if (!isInitComplete)
             {
                 if (asystems == null || asystems.Length == 0 || systemInitedCount >= asystems.Length)
@@ -144,9 +143,9 @@ namespace SCore.Analytics
         {
             if (!isInitComplete)
             {
-                Debug.Log("AnalyticsManager.InitCompleted", Instance.gameObject);
+                Debug.Log("AnalyticsManager.InitCompleted", gameObject);
                 isInitComplete = true;
-                Instance.OnInitActions?.Invoke();
+                OnInitActions?.Invoke();
             }
         }
 
@@ -155,7 +154,7 @@ namespace SCore.Analytics
         /// </summary>
         public void SocialSignUp()
         {
-            Debug.Log("AnalyticsManager.SocialSignUp", Instance.gameObject);
+            Debug.Log("AnalyticsManager.SocialSignUp", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -167,7 +166,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -179,7 +178,7 @@ namespace SCore.Analytics
         /// </summary>
         public void OpenLevel(int _level, string _type)
         {
-            Debug.Log("AnalyticsManager.OpenMission", Instance.gameObject);
+            Debug.Log("AnalyticsManager.OpenMission", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -191,7 +190,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -203,7 +202,7 @@ namespace SCore.Analytics
         /// </summary>
         public void StartLevel(int _level, string _type)
         {
-            Debug.Log("AnalyticsManager.StartMission", Instance.gameObject);
+            Debug.Log("AnalyticsManager.StartMission", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -215,7 +214,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -227,7 +226,7 @@ namespace SCore.Analytics
         /// </summary>
         public void FailLevel(int _level, string _type, int _score)
         {
-            Debug.Log("AnalyticsManager.FailMission", Instance.gameObject);
+            Debug.Log("AnalyticsManager.FailMission", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -239,7 +238,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -251,7 +250,7 @@ namespace SCore.Analytics
         /// </summary>
         public void CompleteLevel(int _level, string _type, int _score)
         {
-            Debug.Log("AnalyticsManager.CompleteMission", Instance.gameObject);
+            Debug.Log("AnalyticsManager.CompleteMission", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -263,7 +262,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -275,7 +274,7 @@ namespace SCore.Analytics
         /// </summary>
         public void NewScore(int _level, int _score)
         {
-            Debug.Log("AnalyticsManager.PostScore", Instance.gameObject);
+            Debug.Log("AnalyticsManager.PostScore", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -287,7 +286,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -299,7 +298,7 @@ namespace SCore.Analytics
         /// </summary>
         public void AchievenemntUnlocked(string _achievementID)
         {
-            Debug.Log("AnalyticsManager.AchievenemntUnlocked", Instance.gameObject);
+            Debug.Log("AnalyticsManager.AchievenemntUnlocked", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -311,7 +310,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -323,7 +322,7 @@ namespace SCore.Analytics
         /// </summary>
         public void TutorialStart()
         {
-            Debug.Log("AnalyticsManager.TutorialStart", Instance.gameObject);
+            Debug.Log("AnalyticsManager.TutorialStart", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -335,7 +334,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -347,7 +346,7 @@ namespace SCore.Analytics
         /// </summary>
         public void TutorialCompleted()
         {
-            Debug.Log("AnalyticsManager.TutorialCompleted", Instance.gameObject);
+            Debug.Log("AnalyticsManager.TutorialCompleted", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -359,7 +358,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -371,7 +370,7 @@ namespace SCore.Analytics
         /// </summary>
         public void PaymentInfoTry(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("AnalyticsManager.PaymentInfoTry", Instance.gameObject);
+            Debug.Log("AnalyticsManager.PaymentInfoTry", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -383,7 +382,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -395,7 +394,7 @@ namespace SCore.Analytics
         /// </summary>
         public void PaymentInfoSuccess(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("AnalyticsManager.PaymentInfoSuccess", Instance.gameObject);
+            Debug.Log("AnalyticsManager.PaymentInfoSuccess", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -407,7 +406,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -419,7 +418,7 @@ namespace SCore.Analytics
         /// </summary>
         public void PaymentReal(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("AnalyticsManager.PaymentReal", Instance.gameObject);
+            Debug.Log("AnalyticsManager.PaymentReal", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -431,7 +430,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -443,7 +442,7 @@ namespace SCore.Analytics
         /// </summary>
         public void ResourceAdd(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("AnalyticsManager.ResourceAdd", Instance.gameObject);
+            Debug.Log("AnalyticsManager.ResourceAdd", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -455,7 +454,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -467,7 +466,7 @@ namespace SCore.Analytics
         /// </summary>
         public void ResourceRemove(string _currency, int _amount, string _itemID, string _itemType, string _area)
         {
-            Debug.Log("AnalyticsManager.ResourceRemove", Instance.gameObject);
+            Debug.Log("AnalyticsManager.ResourceRemove", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -479,7 +478,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -491,7 +490,7 @@ namespace SCore.Analytics
         /// </summary>
         public void InviteTry(string _area)
         {
-            Debug.Log("AnalyticsManager.InviteTry", Instance.gameObject);
+            Debug.Log("AnalyticsManager.InviteTry", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -503,7 +502,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -515,7 +514,7 @@ namespace SCore.Analytics
         /// </summary>
         public void ShareTry(string _id, string _area)
         {
-            Debug.Log("AnalyticsManager.ShareTry", Instance.gameObject);
+            Debug.Log("AnalyticsManager.ShareTry", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -527,7 +526,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -539,7 +538,7 @@ namespace SCore.Analytics
         /// </summary>
         public void ShareSuccess(string _id, string _area)
         {
-            Debug.Log("AnalyticsManager.ShareSuccess", Instance.gameObject);
+            Debug.Log("AnalyticsManager.ShareSuccess", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -551,7 +550,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -563,7 +562,7 @@ namespace SCore.Analytics
         /// </summary>
         public void RequestTry(string _type, string _area)
         {
-            Debug.Log("AnalyticsManager.RequestTry", Instance.gameObject);
+            Debug.Log("AnalyticsManager.RequestTry", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -575,7 +574,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -587,7 +586,7 @@ namespace SCore.Analytics
         /// </summary>
         public void RequestSuccess(string _type, string _area)
         {
-            Debug.Log("AnalyticsManager.RequestSuccess", Instance.gameObject);
+            Debug.Log("AnalyticsManager.RequestSuccess", gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -599,7 +598,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -611,7 +610,7 @@ namespace SCore.Analytics
         /// </summary>
         public void DesignEvent(string _id, int _amount, Dictionary<string, object> parameters = null)
         {
-            Debug.Log("AnalyticsManager.DesignEvent " + _id + " " + _amount.ToString(), Instance.gameObject);
+            Debug.Log("AnalyticsManager.DesignEvent " + _id + " " + _amount.ToString(), gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -623,7 +622,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -635,7 +634,7 @@ namespace SCore.Analytics
         /// </summary>
         public void SetUserStringProperty(string _id, string _value)
         {
-            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
+            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -647,7 +646,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }
@@ -659,7 +658,7 @@ namespace SCore.Analytics
         /// </summary>
         public void SetUserIntProperty(string _id, int _value)
         {
-            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, Instance.gameObject);
+            Debug.Log("AnalyticsManager.SetUserStringProperty " + _id + " " + _value, gameObject);
             foreach (IAnalyticSystem asystem in asystems)
             {
                 try
@@ -671,7 +670,7 @@ namespace SCore.Analytics
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("AnalyticsManager Exception", Instance.gameObject);
+                    Debug.Log("AnalyticsManager Exception", gameObject);
                     Debug.Log(e.ToString());
                     throw;
                 }

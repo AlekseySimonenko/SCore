@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 namespace SCore.Loading
 {
@@ -12,6 +13,9 @@ namespace SCore.Loading
     public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
     {
         //DEPENDENCIES
+
+        [Inject] private DiContainer _container;
+
         //STATIC
         //EVENTS
         //EDITOR VARIABLES
@@ -82,7 +86,7 @@ namespace SCore.Loading
             {
                 Debug.Log("ServiceLoader: NextSyncLoadingStep: " + syncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + syncLoadingSteps[syncLoadingStep].gameObject.name, gameObject);
                 //Run next step
-                IServiceLoadingStep serviceStep = Instantiate(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
+                IServiceLoadingStep serviceStep = _container.InstantiatePrefab(syncLoadingSteps[syncLoadingStep].gameObject, gameObject.transform).GetComponent<IServiceLoadingStep>();
                 serviceStep.OnCompleted += OnSyncLoadingStepCompleted;
             }
             else
@@ -114,7 +118,8 @@ namespace SCore.Loading
             if (asyncLoadingStep < asyncLoadingSteps.Length)
             {
                 Debug.Log("ServiceLoader: Loading: " + asyncLoadingStep + " on " + (stopwatch.ElapsedMilliseconds / 1000f) + " " + asyncLoadingSteps[asyncLoadingStep].gameObject.name, gameObject);
-                Instantiate(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
+
+                _container.InstantiatePrefab(asyncLoadingSteps[asyncLoadingStep], gameObject.transform);
                 //Run next step
                 if (!forceLoading)
                     asyncLoadingStepReady = true;

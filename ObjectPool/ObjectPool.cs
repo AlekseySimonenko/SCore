@@ -1,6 +1,8 @@
-﻿using NikaCoreGame.SceneLoading;
+﻿using SCore.Framework;
+using SCore.SceneLoading;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace SCore.ObjectPool
 {
@@ -9,7 +11,7 @@ namespace SCore.ObjectPool
     /// Extend GameObjects methods
     /// When we return object in pool we need reinit all components with ILoadableContent Clear realisation
     /// </summary>
-    public sealed class ObjectPool : MonoBehaviour
+    public sealed class ObjectPool : MonoBehaviourSingleton<ObjectPool>
     {
         [System.Serializable]
         public class StartupPool
@@ -17,6 +19,10 @@ namespace SCore.ObjectPool
             public int size;
             public GameObject prefab;
         }
+
+        //DEPENDENCIES
+
+        [Inject] private DiContainer _container;
 
         //PUBLIC STATIC
         public enum StartupPoolMode { Awake, Start, CallManually };
@@ -101,7 +107,7 @@ namespace SCore.ObjectPool
                     Transform parent = instance.transform;
                     while (list.Count < initialPoolSize)
                     {
-                        var obj = (GameObject)Object.Instantiate(prefab);
+                        GameObject obj = Instance._container.InstantiatePrefab(prefab);
                         obj.transform.SetParent(parent, false);
                         list.Add(obj);
                     }
@@ -192,7 +198,7 @@ namespace SCore.ObjectPool
 
             if (prefab != null)
             {
-                obj = (GameObject)Object.Instantiate(prefab);
+                obj = Instance._container.InstantiatePrefab(prefab);
                 trans = obj.transform;
                 trans.SetParent(parent, false);
                 trans.localPosition = position;

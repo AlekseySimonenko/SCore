@@ -1,7 +1,4 @@
-﻿using SCore.Ads;
-using System;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
 namespace SCore.Templates
 {
@@ -12,25 +9,15 @@ namespace SCore.Templates
     {
         //DEPENDENCIES
 
-        [Inject]
-        private IAdsManager _adsManager;
-
         //EVENTS
 
-        public event Action Completed;
+        //PUBLIC VARIABLES
 
         //STATIC
 
-        private int _staticCounter;
-
         //EDITOR VARIABLES
 
-        [SerializeField]
-        private bool _editorVariable;
-
         //PRIVATE VARIABLES
-
-        private bool _privateVariable;
 
         // Use this for initialization
         private void Start()
@@ -41,5 +28,9 @@ namespace SCore.Templates
         private void Update()
         {
         }
+
+        //PUBLIC METHODS
+
+        //PRIVATE METHODS
     }
 }
