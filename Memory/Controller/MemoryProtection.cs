@@ -5,37 +5,37 @@ namespace SCore.Memory
     /// <summary>
     /// Protected variables by key offset
     /// </summary>
-    public class MemoryProtection
+    public class MemoryProtection : IMemoryProtection
     {
-        private static int key = 0;
+        private int key = 0;
 
-        public static void GenerateKey()
+        private void GenerateKey()
         {
             if (key == 0)
                 key = Random.Range(2, 8);
         }
 
-        public static int ProtectInt(int _value)
+        public int ProtectInt(int _value)
         {
             GenerateKey();
             int value = (_value * key) + key;
             return value;
         }
 
-        public static int UnProtectInt(int _value)
+        public int UnProtectInt(int _value)
         {
             int value = (_value - key) / key;
             return value;
         }
 
-        public static float ProtectFloat(float _value)
+        public float ProtectFloat(float _value)
         {
             GenerateKey();
             float value = (_value * key) + key;
             return value;
         }
 
-        public static float UnProtectFloat(float _value)
+        public float UnProtectFloat(float _value)
         {
             float value = (_value - key) / key;
             return value;

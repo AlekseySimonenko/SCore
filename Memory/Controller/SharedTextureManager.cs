@@ -9,17 +9,8 @@ namespace SCore.Memory
     /// control for textures usage & destroy
     /// Recomennded usage only for shared textures with async parallel destroy
     /// </summary>
-    public class SharedTextureManager : MonoBehaviourSingleton<SharedTextureManager>
+    public class SharedTextureManager : MonoBehaviour, ISharedTextureManager
     {
-        //PUBLIC STATIC
-
-        //PUBLIC EVENTS
-
-        //PUBLIC VARIABLES
-
-        //PRIVATE STATIC
-
-        //PRIVATE VARIABLES
         private class SharedTextureVariables
         {
             public List<object> Refferences = new List<object>();
@@ -33,7 +24,7 @@ namespace SCore.Memory
         /// </summary>
         private void Start()
         {
-            Debug.Log("SharedTextureManager:" + "Start", Instance.gameObject);
+            Debug.Log("SharedTextureManager:" + "Start", gameObject);
         }
 
         /// <summary>
@@ -63,7 +54,7 @@ namespace SCore.Memory
             if (sharedTextures.ContainsKey(_texture))
                 sharedTextures[_texture].Refferences.Remove(_reference);
             else
-                Debug.LogWarning("SharedTextureManager:DecreaseTextureRef " + "Shared texture not found", Instance.gameObject);
+                Debug.LogWarning("SharedTextureManager:DecreaseTextureRef " + "Shared texture not found", gameObject);
             TryDestroyTextures();
         }
 
