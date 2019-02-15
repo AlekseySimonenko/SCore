@@ -13,6 +13,7 @@ namespace SCore.Social
     /// </summary>
     public class SocialManager : MonoBehaviourSingleton<SocialManager>
     {
+        //TODO replace singletone by zenject
         public ISocialPlatform platformAutoInit;
         public UnityEvent OnInitActions;
 

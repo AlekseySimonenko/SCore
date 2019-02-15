@@ -13,6 +13,7 @@ namespace SCore.ObjectPool
     /// </summary>
     public sealed class ObjectPool : MonoBehaviourSingleton<ObjectPool>
     {
+        //TODO replace singletone by zenject
         [System.Serializable]
         public class StartupPool
         {
