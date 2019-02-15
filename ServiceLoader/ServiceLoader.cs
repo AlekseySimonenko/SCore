@@ -1,5 +1,4 @@
-﻿using SCore.Framework;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -10,7 +9,7 @@ namespace SCore.Loading
     /// Control loading of any services on game start
     /// Contains loaded service's GameObjects as trasform childs
     /// </summary>
-    public class ServiceLoader : MonoBehaviourSingleton<ServiceLoader>
+    public class ServiceLoader : MonoBehaviour, IServiceLoader
     {
         //DEPENDENCIES
 

@@ -4,6 +4,7 @@ using SCore.Web;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace SCore.Saves
 {
@@ -12,11 +13,9 @@ namespace SCore.Saves
     /// </summary>
     public class SaveBackendStorage : MonoBehaviourSingleton<SaveBackendStorage>
     {
-        /// PUBLIC VARIABLES
+        //DEPENDENCIES
 
-        /// PUBLIC CONSTANTS
-
-        /// PRIVATE CONSTANTS
+        [Inject] private IWebRequestManager _webRequestManager;
 
         /// PRIVATE VARIABLES
         private string app_id;
@@ -61,7 +60,7 @@ namespace SCore.Saves
                 requestURL += "?";
                 requestURL += "auth=" + auth_key;
                 requestURL += "&uid=" + user_id;
-                WebRequestManager.Request(requestURL, Loaded, LoadError, timeLimitSeconds);
+                _webRequestManager.Request(requestURL, Loaded, LoadError, timeLimitSeconds);
                 gameLoadSuccessCallbackFunction = successCallbackFunction;
                 gameLoadFailCallbackFunction = failCallbackFunction;
             }
@@ -176,7 +175,7 @@ namespace SCore.Saves
             gameSaveFailCallbackFunction = failCallbackFunction;
 
             //Send request
-            WebRequestManager.Request(requestURL, SaveSuccess, SaveError, timeLimitSeconds);
+            _webRequestManager.Request(requestURL, SaveSuccess, SaveError, timeLimitSeconds);
         }
 
         /// <summary>

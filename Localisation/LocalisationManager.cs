@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 namespace SCore.Localisation
 {
@@ -15,12 +16,11 @@ namespace SCore.Localisation
     /// 2. Local config - xml file downloaded from server to device
     /// 3. Build config - xml file included in build
     /// </summary>
-    [RequireComponent(typeof(IServiceLoadingStep))]
     public class LocalisationManager : MonoBehaviour, ILocalisationManager
     {
-        //STATIC VARIABLES
+        //DEPENDENCIES
 
-        //EVENTS
+        [Inject] private IWebRequestManager _webRequestManager;
 
         //EDITOR VARIABLES
         [Header("Remote/Local version updater")]
@@ -35,8 +35,6 @@ namespace SCore.Localisation
 
         [Header("Debug")]
         public string languageManual;
-
-        //PRIVATE VARIABLES
 
         //PRIVATE STATIC
         private const string LOCAL_CONFIG_VERSION = "sCore_language_local_v";
@@ -271,7 +269,7 @@ namespace SCore.Localisation
             string configUrl = remoteUrl + _language + ".xml" + "?v=" + remoteConfigVersion;
             Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl, gameObject);
 
-            WebRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, remoteUrlTimelimit);
+            _webRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, remoteUrlTimelimit);
         }
 
         private void OnLoadRemoteCompleted(object remoteObject)

@@ -23,6 +23,7 @@ namespace SCore.ObjectPool
         //DEPENDENCIES
 
         [Inject] private DiContainer _container;
+        [Inject] private ISceneLoadingHandler _sceneLoadingHandler;
 
         //PUBLIC STATIC
         public enum StartupPoolMode { Awake, Start, CallManually };
@@ -57,8 +58,8 @@ namespace SCore.ObjectPool
         {
             if (startupPoolMode == StartupPoolMode.Start)
                 CreateStartupPools();
-            if (SceneLoadingHandler.IsNotNull())
-                SceneLoadingHandler.Instance.LoadBeginEvent += OnLoadingSceneBegin;
+            if (_sceneLoadingHandler != null )
+                _sceneLoadingHandler.LoadBeginEvent += OnLoadingSceneBegin;
         }
 
         private void OnLoadingSceneBegin()

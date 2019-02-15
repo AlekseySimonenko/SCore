@@ -11,7 +11,6 @@ namespace SCore.Social
     /// Static class choise and control social platforms
     /// Only one social platform can be inited at one time!
     /// </summary>
-    [RequireComponent(typeof(IServiceLoadingStep))]
     public class SocialManager : MonoBehaviourSingleton<SocialManager>
     {
         public ISocialPlatform platformAutoInit;

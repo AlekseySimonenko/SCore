@@ -1,5 +1,4 @@
-﻿using SCore.Framework;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,29 +9,27 @@ namespace SCore.SceneLoading
     /// <summary>
     /// Controlls scene loading process
     /// </summary>
-    public class SceneLoadingHandler : MonoBehaviourSingleton<SceneLoadingHandler>
+    public class SceneLoadingHandler : MonoBehaviour, ISceneLoadingHandler
     {
-        //PUBLIC STATIC
 
         //PUBLIC EVENTS
+
         public event Action LoadBeginEvent;
 
         public event Action LoadCompletedEvent;
 
         //PUBLIC VARIABLES
-        public CanvasGroup loaderCanvasGroup;
 
+        public CanvasGroup loaderCanvasGroup;
         public float fadeTime = 0.25F;
         public Image processbar;
         public bool hideOnStart = true;
 
-        //PRIVATE STATIC
-
         //PRIVATE VARIABLES
-        private string loadingScene = "";
 
-        private bool loadingFade = false;
-        private bool loadingStarted = false;
+        private string _loadingScene = "";
+        private bool _loadingFade = false;
+        private bool _loadingStarted = false;
 
         private void Start()
         {
@@ -42,23 +39,23 @@ namespace SCore.SceneLoading
         public void LoadScene(string sceneName, bool fadeOverlay = true)
         {
             Debug.Log("SceneLoadingHandler: LoadScene " + sceneName);
-            Instance.loadingScene = sceneName;
-            Instance.LoadBeginEvent?.Invoke();
+            _loadingScene = sceneName;
+            LoadBeginEvent?.Invoke();
             if (fadeOverlay)
             {
-                Instance.loadingFade = true;
-                if (Instance.loaderCanvasGroup != null)
-                    Instance.loaderCanvasGroup.gameObject.SetActive(true);
+                _loadingFade = true;
+                if (loaderCanvasGroup != null)
+                    loaderCanvasGroup.gameObject.SetActive(true);
             }
             else
             {
-                Instance.StartLoading();
+                StartLoading();
             }
         }
 
         private void Update()
         {
-            if (loadingFade)
+            if (_loadingFade)
             {
                 //Fade IN
                 if (loaderCanvasGroup != null)
@@ -80,7 +77,7 @@ namespace SCore.SceneLoading
             else
             {
                 //Fade OUT
-                if (loaderCanvasGroup != null && !loadingStarted && hideOnStart)
+                if (loaderCanvasGroup != null && !_loadingStarted && hideOnStart)
                     if (loaderCanvasGroup.alpha > 0F)
                     {
                         loaderCanvasGroup.alpha = Mathf.Clamp(loaderCanvasGroup.alpha - (Time.unscaledDeltaTime / fadeTime), 0F, 1F);
@@ -92,11 +89,11 @@ namespace SCore.SceneLoading
 
         private void StartLoading()
         {
-            if (!loadingStarted)
+            if (!_loadingStarted)
             {
                 Debug.Log("SceneLoadingHandler: StartLoading");
-                loadingStarted = true;
-                Instance.StartCoroutine(Instance.HandleLoading(loadingScene));
+                _loadingStarted = true;
+                StartCoroutine(HandleLoading(_loadingScene));
             }
         }
 
@@ -130,7 +127,7 @@ namespace SCore.SceneLoading
         public void OnSceneChanged(Scene previosScene, Scene newScene)
         {
             Debug.Log("SceneLoadingHandler: OnSceneChanged");
-            if (Instance.loaderCanvasGroup != null)
+            if (loaderCanvasGroup != null)
             {
                 loaderCanvasGroup.gameObject.SetActive(!hideOnStart);
                 Canvas loaderCanvas = loaderCanvasGroup.GetComponent<Canvas>();
@@ -138,9 +135,9 @@ namespace SCore.SceneLoading
                     loaderCanvas.worldCamera = Camera.main;
             }
             hideOnStart = true;
-            loadingFade = false;
-            loadingStarted = false;
-            Instance.LoadCompletedEvent?.Invoke();
+            _loadingFade = false;
+            _loadingStarted = false;
+            LoadCompletedEvent?.Invoke();
         }
     }
 }

@@ -10,7 +10,6 @@ namespace SCore.Analytics
     /// Controlling analytic system choosing.
     /// AnalyticsManager it's a bridge between Analytic Systems and events from App.
     /// </summary>
-    [RequireComponent(typeof(IServiceLoadingStep))]
     public class AnalyticsManager : MonoBehaviour, IAnalyticsManager
     {
         //STATIC

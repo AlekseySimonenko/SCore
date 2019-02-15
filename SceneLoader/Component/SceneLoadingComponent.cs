@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace SCore.SceneLoading
 {
@@ -7,6 +8,10 @@ namespace SCore.SceneLoading
     /// </summary>
     public class SceneLoadingComponent : MonoBehaviour
     {
+        //DEPENDENCIES
+
+        [Inject] private ISceneLoadingHandler _sceneLoadingHandler;
+
         public string sceneLoading;
         public bool fade = false;
 
@@ -16,7 +21,7 @@ namespace SCore.SceneLoading
 
         public void LoadScene()
         {
-            SceneLoadingHandler.Instance.LoadScene(sceneLoading, fade);
+            _sceneLoadingHandler.LoadScene(sceneLoading, fade);
         }
     }
 }

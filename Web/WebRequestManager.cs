@@ -4,24 +4,24 @@ using UnityEngine;
 namespace SCore.Web
 {
     /// <summary>
-    /// Singletone static web requests manager
+    /// Web requests manager
     /// </summary>
-    public class WebRequestManager
+    public class WebRequestManager : MonoBehaviour, IWebRequestManager
     {
         /// <summary>
         /// Static method for web request processing
         /// </summary>
-        public static void Request(string _url,
+        public void Request(string _url,
             Action<object> successCallbackFunction = null,
             Action<object> failCallbackFunction = null,
             float timeLimitSeconds = 10.0F,
             [System.Runtime.CompilerServices.CallerMemberName] string callerName = "")
         {
-            Debug.LogFormat("WebRequestManager.Request url:{0} caller{1}", _url, callerName);
+            Debug.LogFormat("_webRequestManager.Request url:{0} caller{1}", _url, callerName);
 
             //Construct new gameobject for corountine usage
             GameObject requestObject = new GameObject();
-            GameObject.DontDestroyOnLoad(requestObject);
+            DontDestroyOnLoad(requestObject);
 
             //Construct new gameobject for corountine usage
             WebRequest request = requestObject.AddComponent<WebRequest>();

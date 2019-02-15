@@ -7,10 +7,8 @@ namespace SCore.Music
     /// <summary>
     /// Music mixer and control
     /// </summary>
-    public class MusicManager : MonoBehaviourSingleton<MusicManager>
+    public class MusicManager : MonoBehaviour, IMusicManager
     {
-        //PUBLIC EVENTS
-
         //PUBLIC VARIABLES
         public MusicPlaylist[] playlists;
 
