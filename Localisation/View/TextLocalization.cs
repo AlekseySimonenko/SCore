@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 #if MESHPRO
 
@@ -14,6 +15,11 @@ namespace SCore.Localisation
     /// </summary>
     public class TextLocalization : MonoBehaviour
     {
+        //DEPENDENCIES
+
+        [Inject]
+        private ILocalisationManager _localisationManager;
+
         public string idLocaleVar;
         public TextMesh textMesh;
 #if MESHPRO
@@ -27,14 +33,14 @@ namespace SCore.Localisation
             if (textMesh == null)
                 textMesh = GetComponent<TextMesh>();
             if (textMesh != null)
-                textMesh.text = LanguageManager.Instance.Get(idLocaleVar);
+                textMesh.text = _localisationManager.Get(idLocaleVar);
             if (textUI == null)
                 textUI = GetComponent<Text>();
             if (textUI != null)
-                textUI.text = LanguageManager.Instance.Get(idLocaleVar);
+                textUI.text = _localisationManager.Get(idLocaleVar);
 #if MESHPRO
             if (textMeshProUGUI != null)
-                textMeshProUGUI.text = LanguageManager.Instance.Get(idLocaleVar);
+                textMeshProUGUI.text = _localisationManager.Get(idLocaleVar);
 #endif
         }
 

@@ -1,4 +1,3 @@
-using SCore.Framework;
 using SCore.Loading;
 using SCore.Utils;
 using SCore.Web;
@@ -11,22 +10,19 @@ using UnityEngine.Events;
 namespace SCore.Localisation
 {
     /// <summary>
-    /// Singletone language and texts manager
+    /// Locaslization manager
     /// 1. Remote config - xml file on server
     /// 2. Local config - xml file downloaded from server to device
     /// 3. Build config - xml file included in build
     /// </summary>
     [RequireComponent(typeof(IServiceLoadingStep))]
-    public class LanguageManager : MonoBehaviourSingleton<LanguageManager>
+    public class LocalisationManager : MonoBehaviour, ILocalisationManager
     {
         //STATIC VARIABLES
 
         //EVENTS
 
-        //PUBLIC VARIABLES
-        [HideInInspector]
-        public string language;
-
+        //EDITOR VARIABLES
         [Header("Remote/Local version updater")]
         public int buildConfigVersion = 0;
 
@@ -45,17 +41,18 @@ namespace SCore.Localisation
         //PRIVATE STATIC
         private const string LOCAL_CONFIG_VERSION = "sCore_language_local_v";
 
-        private TextAsset xmlAsset;
-        private SmallXmlParser xmlParser = new SmallXmlParser();
-        private Handler xmlDoc = new Handler();
+        //PRIVATE VARIABLES
+        private string _language;
 
-        private XmlDocument remoteXmlDocument;
+        private int _localConfigVersion = 0;
+
+        private TextAsset _xmlAsset;
+        private SmallXmlParser _xmlParser = new SmallXmlParser();
+        private Handler _xmlDoc = new Handler();
+        private XmlDocument _remoteXmlDocument;
 
         // Only one init calling protect variables
-        private bool isInitComplete = false;
-
-        //PRIVATE VARIABLES
-        private int localConfigVersion = 0;
+        private bool _isInitComplete = false;
 
         private void Start()
         {
@@ -64,115 +61,141 @@ namespace SCore.Localisation
 
         public void Init()
         {
-            if (!isInitComplete)
+            if (!_isInitComplete)
             {
-                Debug.Log("LanguageManager:init", Instance.gameObject);
+                Debug.Log("LanguageManager:init", gameObject);
 
                 if (Application.isEditor || Debug.isDebugBuild)
                 {
                     string language_debug = PlayerPrefs.GetString("Language_debug");
                     if (!string.IsNullOrEmpty(language_debug))
-                        language = language_debug;
+                        _language = language_debug;
                     else
-                        language = Instance.languageManual;
+                        _language = languageManual;
                 }
 
                 // Spcial for Hindi
-                if (GetLanguage() == "hi")
-                    language = "hi";
+                if (GetDeviceLanguage() == "hi")
+                    _language = "hi";
 
                 //Auto system language choise
-                if (string.IsNullOrEmpty(language))
+                if (string.IsNullOrEmpty(_language))
                 {
-                    language = "en";
+                    _language = "en";
                     if (Application.systemLanguage == SystemLanguage.Russian || Application.systemLanguage == SystemLanguage.Ukrainian || Application.systemLanguage == SystemLanguage.Belarusian || Application.systemLanguage == SystemLanguage.Bulgarian)
-                        language = "ru";
+                        _language = "ru";
                     if (Application.systemLanguage == SystemLanguage.German)
-                        language = "de";
+                        _language = "de";
                     if (Application.systemLanguage == SystemLanguage.French)
-                        language = "fr";
+                        _language = "fr";
                     if (Application.systemLanguage == SystemLanguage.Portuguese)
-                        language = "pt";
+                        _language = "pt";
                     if (Application.systemLanguage == SystemLanguage.Turkish)
-                        language = "tr";
+                        _language = "tr";
                     if (Application.systemLanguage == SystemLanguage.Japanese)
-                        language = "ja";
+                        _language = "ja";
                     if (Application.systemLanguage == SystemLanguage.Korean)
-                        language = "ko";
+                        _language = "ko";
                     if (Application.systemLanguage == SystemLanguage.ChineseSimplified)
-                        language = "zh-CN";
+                        _language = "zh-CN";
                     if (Application.systemLanguage == SystemLanguage.ChineseTraditional)
-                        language = "tc";
+                        _language = "tc";
                     if (Application.systemLanguage == SystemLanguage.Arabic)
-                        language = "ar";
+                        _language = "ar";
                     if (Application.systemLanguage == SystemLanguage.Dutch)
-                        language = "nl";
+                        _language = "nl";
                     if (Application.systemLanguage == SystemLanguage.Thai)
-                        language = "th";
+                        _language = "th";
                     if (Application.systemLanguage == SystemLanguage.Indonesian)
-                        language = "id";
+                        _language = "id";
                     if (Application.systemLanguage == SystemLanguage.Italian)
-                        language = "it";
+                        _language = "it";
                     if (Application.systemLanguage == SystemLanguage.Spanish)
-                        language = "es-419";
+                        _language = "es-419";
                 }
-                Debug.Log("LanguageManager:language " + language, Instance.gameObject);
+                Debug.Log("LanguageManager:language " + _language, gameObject);
 
-                if (language == "max")
+                if (_language == "max")
                     if (LoadLocalMax()) return;
 
                 //Localisation version updater
                 if (PlayerPrefs.HasKey(LOCAL_CONFIG_VERSION))
-                    Instance.localConfigVersion = PlayerPrefs.GetInt(LOCAL_CONFIG_VERSION);
+                    _localConfigVersion = PlayerPrefs.GetInt(LOCAL_CONFIG_VERSION);
 
                 //Try to load actual version
-                if (Instance.buildConfigVersion == Instance.remoteConfigVersion)
+                if (buildConfigVersion == remoteConfigVersion)
                     LoadBuildVersion();
-                else if (Instance.localConfigVersion == Instance.remoteConfigVersion)
+                else if (_localConfigVersion == remoteConfigVersion)
                     LoadLocalVersion();
                 else
                     LoadRemoteVersion();
             }
             else
             {
-                Debug.LogError("LanguageManager:Repeating static class Init!", Instance.gameObject);
+                Debug.LogError("LanguageManager:Repeating class Init!", gameObject);
             }
         }
 
-        public void InitCompleted()
+        public string GetLanguage()
         {
-            if (!isInitComplete)
+            return _language;
+        }
+
+        public bool ContainsKey(string id)
+        {
+            return _xmlDoc.ContainsKey(id);
+        }
+
+        public string Get(string id, params string[] args)
+        {
+            if (_xmlDoc.ContainsKey(id) == true)
             {
-                Debug.Log("LanguageManager:Init completed", Instance.gameObject);
-                isInitComplete = true;
-                Instance.OnInitActions?.Invoke();
+                string _text = _xmlDoc.SelectKey(id);
+                if (args != null)
+                    _text = Replace(_text, args);
+                return _text;
             }
             else
             {
-                Debug.LogError("LanguageManager:Repeating static class Init Completed!", Instance.gameObject);
+                Debug.LogError("LanguageManager: return " + "!none on id: " + id, gameObject);
+                return "!none";
+            }
+        }
+
+        private void InitCompleted()
+        {
+            if (!_isInitComplete)
+            {
+                Debug.Log("LanguageManager:Init completed", gameObject);
+                _isInitComplete = true;
+                OnInitActions?.Invoke();
+            }
+            else
+            {
+                Debug.LogError("LanguageManager:Repeating class Init Completed!", gameObject);
             }
         }
 
         private void LoadBuildVersion()
         {
-            Debug.Log("LanguageManager: LoadBuildVersion " + language, Instance.gameObject);
-            if (!LoadResource(language))
+            Debug.Log("LanguageManager: LoadBuildVersion " + _language, gameObject);
+            if (!LoadResource(_language))
             {
-                Debug.LogWarning("LanguageManager: Language xml not found " + language, Instance.gameObject);
-                language = "en";
-                if (!LoadResource(language))
+                Debug.LogWarning("LanguageManager: Language xml not found " + _language, gameObject);
+                _language = "en";
+                if (!LoadResource(_language))
                 {
-                    Debug.LogError("LanguageManager: Default Language xml not found " + language, Instance.gameObject);
+                    Debug.LogError("LanguageManager: Default Language xml not found " + _language, gameObject);
                 }
             }
         }
 
-        private bool LoadResource(string _name)
+        private bool LoadResource(string name)
         {
-            xmlAsset = Resources.Load(language) as TextAsset;
-            if (xmlAsset)
+            _xmlAsset = Resources.Load(_language) as TextAsset;
+            if (_xmlAsset)
             {
-                LoadFromString(xmlAsset.text);
+                LoadFromString(_xmlAsset.text);
                 //Complete init of language manager
                 InitCompleted();
                 return true;
@@ -188,9 +211,9 @@ namespace SCore.Localisation
 
             try
             {
-                xmlAsset = Resources.Load(defaultLang) as TextAsset;
-                TextReader textReader = new StreamReader(GenerateStreamFromString(xmlAsset.text));
-                xmlParser.Parse(textReader, xmlDoc);
+                _xmlAsset = Resources.Load(defaultLang) as TextAsset;
+                TextReader textReader = new StreamReader(GenerateStreamFromString(_xmlAsset.text));
+                _xmlParser.Parse(textReader, _xmlDoc);
 
                 foreach (string lang in langs)
                 {
@@ -198,19 +221,19 @@ namespace SCore.Localisation
                     using (TextReader reader = new StreamReader(GenerateStreamFromString(langAsset.text)))
                     {
                         Handler langDoc = new Handler();
-                        xmlParser.Parse(reader, langDoc);
+                        _xmlParser.Parse(reader, langDoc);
 
                         List<string> keys = new List<string>();
-                        foreach (KeyValuePair<string, string> kvp in xmlDoc.content)
+                        foreach (KeyValuePair<string, string> kvp in _xmlDoc.content)
                             keys.Add(kvp.Key);
 
                         foreach (string key in keys)
                         {
                             if (langDoc.ContainsKey(key))
                             {
-                                if (xmlDoc.content[key].Length < langDoc.content[key].Length)
+                                if (_xmlDoc.content[key].Length < langDoc.content[key].Length)
                                 {
-                                    xmlDoc.content[key] = langDoc.content[key];
+                                    _xmlDoc.content[key] = langDoc.content[key];
                                 }
                             }
                         }
@@ -219,7 +242,7 @@ namespace SCore.Localisation
             }
             catch (System.Exception e)
             {
-                Debug.Log("Unable to get lang max!: " + e.Message, Instance.gameObject);
+                Debug.Log("Unable to get lang max!: " + e.Message, gameObject);
                 return false;
             }
 
@@ -229,127 +252,96 @@ namespace SCore.Localisation
 
         private void LoadLocalVersion()
         {
-            Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(language), Instance.gameObject);
-            if (File.Exists(GetLocalConfigName(language)))
+            Debug.Log("LanguageManager: LoadLocalVersion " + GetLocalConfigName(_language), gameObject);
+            if (File.Exists(GetLocalConfigName(_language)))
             {
-                LoadFromFile(GetLocalConfigName(language));
+                LoadFromFile(GetLocalConfigName(_language));
                 //Complete init of language manager
                 InitCompleted();
             }
             else
             {
-                Debug.LogWarning("LanguageManager: Local language xml not found " + language, Instance.gameObject);
+                Debug.LogWarning("LanguageManager: Local language xml not found " + _language, gameObject);
                 LoadBuildVersion();
             }
         }
 
         private void LoadRemoteVersion()
         {
-            string configUrl = Instance.remoteUrl + language + ".xml" + "?v=" + Instance.remoteConfigVersion;
-            Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl, Instance.gameObject);
+            string configUrl = remoteUrl + _language + ".xml" + "?v=" + remoteConfigVersion;
+            Debug.Log("LanguageManager: LoadRemoteVersion " + configUrl, gameObject);
 
-            WebRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, Instance.remoteUrlTimelimit);
-
-            /*
-            System.Net.HttpWebRequest req = (System.Net.HttpWebRequest) System.Net.WebRequest.Create(configUrl);
-            req.Timeout = 1000 * 60 * 5; // milliseconds
-            System.Net.WebResponse res = req.GetResponse();
-            Stream responseStream = res.GetResponseStream();
-            remoteXmlDocument = new XmlDocument();
-            remoteXmlDocument.Load(responseStream);
-            responseStream.Close();
-            */
+            WebRequestManager.Request(configUrl, OnLoadRemoteCompleted, OnLoadRemoteError, remoteUrlTimelimit);
         }
 
-        private void OnLoadRemoteCompleted(object _object)
+        private void OnLoadRemoteCompleted(object remoteObject)
         {
-            Debug.Log("LanguageManager: OnLoadRemoteCompleted", Instance.gameObject);
+            Debug.Log("LanguageManager: OnLoadRemoteCompleted", gameObject);
 
-            if (_object == null)
+            if (remoteObject == null)
             {
-                Debug.LogWarning("LanguageManager: ERROR null request response", Instance.gameObject);
+                Debug.LogWarning("LanguageManager: ERROR null request response", gameObject);
                 return;
             }
 
-            WWW www = _object as WWW;
+            WWW www = remoteObject as WWW;
             string data = www.text;
             if (data == "")
             {
-                Debug.LogWarning("LanguageManager: ERROR zero request response", Instance.gameObject);
+                Debug.LogWarning("LanguageManager: ERROR zero request response", gameObject);
                 return;
             }
 
             //Parse localisation config
             LoadFromString(data);
             //Backup loaded config
-            SaveLocalConfig(data, language);
-            Instance.localConfigVersion = Instance.remoteConfigVersion;
-            PlayerPrefs.SetInt(LOCAL_CONFIG_VERSION, Instance.localConfigVersion);
+            SaveLocalConfig(data, _language);
+            _localConfigVersion = remoteConfigVersion;
+            PlayerPrefs.SetInt(LOCAL_CONFIG_VERSION, _localConfigVersion);
             //Complete init of language manager
             InitCompleted();
         }
 
         private void OnLoadRemoteError(object data)
         {
-            Debug.LogWarning("LanguageManager: OnLoadRemoteError", Instance.gameObject);
+            Debug.LogWarning("LanguageManager: OnLoadRemoteError", gameObject);
             LoadLocalVersion();
         }
 
-        private void LoadFromFile(string _file)
+        private void LoadFromFile(string file)
         {
-            TextReader textReader = File.OpenText(_file);
-            xmlParser.Parse(textReader, xmlDoc);
+            TextReader textReader = File.OpenText(file);
+            _xmlParser.Parse(textReader, _xmlDoc);
         }
 
-        private void LoadFromString(string _data)
+        private void LoadFromString(string data)
         {
-            TextReader textReader = new StreamReader(GenerateStreamFromString(_data));
-            xmlParser.Parse(textReader, xmlDoc);
+            TextReader textReader = new StreamReader(GenerateStreamFromString(data));
+            _xmlParser.Parse(textReader, _xmlDoc);
         }
 
-        private void SaveLocalConfig(string _data, string _language)
+        private void SaveLocalConfig(string data, string language)
         {
-            string path = GetLocalConfigName(_language);
-            File.WriteAllText(path, _data);
+            string path = GetLocalConfigName(language);
+            File.WriteAllText(path, data);
         }
 
-        private string GetLocalConfigName(string _language)
+        private string GetLocalConfigName(string language)
         {
-            return Application.persistentDataPath + "/" + _language + ".xml";
+            return Application.persistentDataPath + "/" + language + ".xml";
         }
 
-        public string Get(string _id, params string[] args)
-        {
-            if (xmlDoc.ContainsKey(_id) == true)
-            {
-                string _text = xmlDoc.SelectKey(_id);
-                if (args != null)
-                    _text = Replace(_text, args);
-                return _text;
-            }
-            else
-            {
-                Debug.LogError("LanguageManager: return " + "!none on id: " + _id, Instance.gameObject);
-                return "!none";
-            }
-        }
-
-        public string Replace(string _text, string[] args)
+        private string Replace(string text, string[] args)
         {
             if (args != null)
                 for (int i = 0; i < args.Length; i++)
                 {
-                    _text = _text.Replace("{" + i.ToString() + "}", args[i]);
+                    text = text.Replace("{" + i.ToString() + "}", args[i]);
                 }
-            return _text;
+            return text;
         }
 
-        public bool ContainsKey(string _id)
-        {
-            return xmlDoc.ContainsKey(_id);
-        }
-
-        public Stream GenerateStreamFromString(string s)
+        private Stream GenerateStreamFromString(string s)
         {
             MemoryStream stream = new MemoryStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -360,7 +352,7 @@ namespace SCore.Localisation
         }
 
         // Returns system language from java enviroment (Android only)
-        public string GetLanguage()
+        private string GetDeviceLanguage()
         {
 #if UNITY_ANDROID
             if (!Application.isEditor)
