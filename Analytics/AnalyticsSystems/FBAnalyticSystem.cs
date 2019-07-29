@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Facebook.Unity.Settings;
 
 #if CORE_FB
 
@@ -25,6 +26,7 @@ namespace SCore.Analytics
         //PUBLIC VARIABLES
 
         //PRIVATE STATIC
+        private const string APP_INSTALL = "fb_mobile_first_app_launch";
 
         //PRIVATE VARIABLES
         private string targetGameKey;
@@ -44,13 +46,29 @@ namespace SCore.Analytics
             {
                 //Init events
                 if (!FB.IsInitialized)
-                    FB.Init();
+                    FB.Init(OnSdkInit, null, null);
+                else
+                    OnSdkInit();
                 Debug.Log("FBAnalytics InitComplete ", gameObject);
                 InitCompletedEvent?.Invoke(this);
             }
             catch (Exception e)
             {
                 InitErrorEvent?.Invoke(this, e.Message);
+            }
+        }
+
+        private void OnSdkInit()
+        {
+            // log app install and app launch manually
+            if (!FacebookSettings.AutoLogAppEventsEnabled)
+            {
+                if (!PlayerPrefs.HasKey(APP_INSTALL))
+                {
+                    PlayerPrefs.SetInt(APP_INSTALL, 1);
+                    FB.LogAppEvent(APP_INSTALL);
+                }
+                FB.ActivateApp();
             }
         }
 
