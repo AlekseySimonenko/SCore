@@ -36,7 +36,7 @@ namespace SCore.Music
 
         private void Update()
         {
-            if (playlistID > -1 && pause == false && audioSource.isPlaying == false)
+            if (playlistID > -1 &&  playlists[playlistID].playlist.Length > 0 && pause == false && audioSource.isPlaying == false)
             {
                 playtrack++;
                 if (playtrack >= playlists[playlistID].playlist.Length)
@@ -71,7 +71,7 @@ namespace SCore.Music
 
         private void PlayTrack()
         {
-            if (playlistID > -1)
+            if (playlistID > -1 && playlists.Length > 0 && playlists[playlistID].tracks.Length > 0)
             {
                 audioSource.clip = playlists[playlistID].tracks[playlists[playlistID].playlist[playtrack]];
                 Play();
