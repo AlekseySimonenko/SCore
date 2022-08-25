@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using SCore.Utils;
 
-#if CORE_FIREBASE
+#if CORE_FIREBASE_ANALYTICS
 
 using Firebase.Analytics;
 
@@ -34,7 +34,7 @@ namespace SCore.Analytics
 
         private string targetSecretKey;
 
-#if CORE_FIREBASE
+#if CORE_FIREBASE_ANALYTICS
 
         /// <summary>
         /// Constructor
